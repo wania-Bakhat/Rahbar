@@ -4,6 +4,16 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
+from typing import Literal
+
+FailureMode = Literal[
+    "off", "no_ocr", "chunks_100", "top_k_1", "no_context_instruction",
+    "no_superseded_filter", "temperature_1_2",
+]
+FAILURE_MODES = (
+    "off", "no_ocr", "chunks_100", "top_k_1", "no_context_instruction",
+    "no_superseded_filter", "temperature_1_2",
+)
 
 
 @dataclass(frozen=True)
@@ -21,9 +31,16 @@ class IndexerSettings:
     redis_db: int = 0
     redis_password: str = ""
     redis_cache_prefix: str = "rahbar:cache:"
+    failure_mode: FailureMode = "off"
 
 
 def get_settings() -> IndexerSettings:
+    failure_mode = os.environ.get("FAILURE_MODE", "off")
+    if failure_mode not in FAILURE_MODES:
+        raise ValueError(
+            f"invalid indexer FAILURE_MODE {failure_mode!r}; choose exactly one of: "
+            + ", ".join(FAILURE_MODES)
+        )
     return IndexerSettings(
         embed_model=os.environ.get("EMBED_MODEL", "nomic-embed-text"),
         chroma_host=os.environ.get("CHROMA_HOST", "chroma"),
@@ -38,4 +55,5 @@ def get_settings() -> IndexerSettings:
         redis_db=int(os.environ.get("REDIS_DB", 0)),
         redis_password=os.environ.get("REDIS_PASSWORD", ""),
         redis_cache_prefix=os.environ.get("REDIS_CACHE_PREFIX", "rahbar:cache:"),
+        failure_mode=failure_mode,  # type: ignore[arg-type]
     )

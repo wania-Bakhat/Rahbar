@@ -9,6 +9,16 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass, field
+from typing import Literal
+
+FailureMode = Literal[
+    "off", "no_ocr", "chunks_100", "top_k_1", "no_context_instruction",
+    "no_superseded_filter", "temperature_1_2",
+]
+FAILURE_MODES: tuple[str, ...] = (
+    "off", "no_ocr", "chunks_100", "top_k_1", "no_context_instruction",
+    "no_superseded_filter", "temperature_1_2",
+)
 
 
 def _int(name: str, default: int) -> int:
@@ -36,6 +46,7 @@ class Settings:
     # Retrieval and generation
     top_k: int = 5
     relevance_floor: float = 0.25
+    failure_mode: FailureMode = "off"
     cache_threshold: float = 0.95
     cache_ttl_seconds: int = 86400
     redis_host: str = "redis"
@@ -53,6 +64,12 @@ class Settings:
 
 
 def get_settings() -> Settings:
+    failure_mode = os.environ.get("FAILURE_MODE", "off")
+    if failure_mode not in FAILURE_MODES:
+        raise ValueError(
+            f"invalid FAILURE_MODE {failure_mode!r}; choose exactly one of: "
+            + ", ".join(FAILURE_MODES)
+        )
     return Settings(
         retriever=os.environ.get("RETRIEVER", "stub"),
         llm_provider=os.environ.get("LLM_PROVIDER", "stub"),
@@ -62,6 +79,7 @@ def get_settings() -> Settings:
         collection=os.environ.get("CHROMA_COLLECTION", "rahbar"),
         top_k=_int("TOP_K", 5),
         relevance_floor=_float("RELEVANCE_FLOOR", 0.25),
+        failure_mode=failure_mode,  # type: ignore[arg-type]
         cache_threshold=_float("CACHE_THRESHOLD", 0.95),
         cache_ttl_seconds=_int("CACHE_TTL_SECONDS", 86400),
         redis_host=os.environ.get("REDIS_HOST", "redis"),

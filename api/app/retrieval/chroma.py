@@ -51,7 +51,10 @@ class ChromaRetriever:
             question, self.settings
         )
         collection = self.client.get_collection(name=self.settings.collection)
-        include_superseded = _asks_for_older_version(question)
+        include_superseded = (
+            _asks_for_older_version(question)
+            or self.settings.failure_mode == "no_superseded_filter"
+        )
         query_embeddings = cast(list[Sequence[float] | Sequence[int]], [query_vector])
         if include_superseded:
             result = collection.query(

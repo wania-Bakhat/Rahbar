@@ -28,7 +28,7 @@ def answer_question(
     if observation is not None:
         observation["cache_hit"] = False
         observation["follow_up"] = follow_up
-    if cache is not None and not follow_up:
+    if cache is not None and not follow_up and settings.failure_mode == "off":
         try:
             embedding_started = time.perf_counter()
             query_embedding = cache.embed_question(question)
@@ -51,10 +51,11 @@ def answer_question(
                 observation["cache_error"] = type(exc).__name__
 
     retrieval_started = time.perf_counter()
+    effective_top_k = 1 if settings.failure_mode == "top_k_1" else settings.top_k
     if query_embedding is None:
-        retrieved = retriever.retrieve(question, k=settings.top_k)
+        retrieved = retriever.retrieve(question, k=effective_top_k)
     else:
-        retrieved = retriever.retrieve(question, k=settings.top_k,
+        retrieved = retriever.retrieve(question, k=effective_top_k,
                                        query_embedding=query_embedding)
     retrieval_elapsed = embedding_elapsed + time.perf_counter() - retrieval_started
     RETRIEVAL_LATENCY.observe(retrieval_elapsed)
@@ -107,7 +108,8 @@ def answer_question(
         observation.update({
             "retriever": retriever.name,
             "provider": provider.name,
-            "top_k": settings.top_k,
+            "top_k": effective_top_k,
+            "failure_mode": settings.failure_mode,
             "chunk_ids": [p.chunk_id for p in passages],
             "scores": [round(p.score, 4) for p in passages],
             "answered_from_context": answer.answered_from_context,
@@ -137,6 +139,7 @@ def answer_question(
         provider=provider.name,
     )
     if (cache is not None and query_embedding is not None and not follow_up
+            and settings.failure_mode == "off"
             and not used_fallback and answer.answered_from_context):
         try:
             cache.store(question, query_embedding, response)

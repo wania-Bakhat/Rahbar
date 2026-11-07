@@ -41,7 +41,8 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     log.info(
         "api started",
         extra={"retriever": settings.retriever, "llm_provider": settings.llm_provider,
-               "embed_model": settings.embed_model, "top_k": settings.top_k},
+               "embed_model": settings.embed_model, "top_k": settings.top_k,
+               "failure_mode": settings.failure_mode},
     )
     yield
 

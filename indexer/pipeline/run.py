@@ -75,8 +75,13 @@ def run_pipeline(settings: IndexerSettings) -> int:
         raise SystemExit(f"no documents found in {settings.corpus_dir}")
     all_chunks: list[Chunk] = []
     for path, doc_version, superseded in documents:
-        doc = clean(extract(str(path), doc_version, superseded))
-        pieces = chunk(doc, settings.chunk_size, settings.chunk_overlap)
+        doc = clean(extract(str(path), doc_version, superseded,
+                            failure_mode=settings.failure_mode))
+        if settings.failure_mode == "chunks_100":
+            size, overlap = 100, 0
+        else:
+            size, overlap = settings.chunk_size, settings.chunk_overlap
+        pieces = chunk(doc, size, overlap)
         log("chunked", source=path.name, chunks=len(pieces))
         all_chunks.extend(pieces)
     vectors = embed([c.text for c in all_chunks], settings)
@@ -89,6 +94,7 @@ def main() -> int:
     args = parser.parse_args()
     settings = get_settings()
     log("indexer starting", dummy=args.dummy, embed_model=settings.embed_model,
+        failure_mode=settings.failure_mode,
         collection=settings.collection, chroma=f"{settings.chroma_host}:{settings.chroma_port}",
         pod=os.environ.get("HOSTNAME", "-"))
     started = time.perf_counter()

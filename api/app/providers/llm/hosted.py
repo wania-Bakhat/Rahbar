@@ -10,7 +10,7 @@ import httpx
 
 from ...config import Settings
 from ...schemas import Answer, Passage
-from ._common import build_messages, parse_answer
+from ._common import build_messages, effective_temperature, parse_answer
 
 
 class HostedProvider:
@@ -29,8 +29,8 @@ class HostedProvider:
                     else f"{base_url}/chat/completions")
         payload = {
             "model": self.settings.llm_model,
-            "messages": build_messages(question, passages),
-            "temperature": self.settings.temperature,
+            "messages": build_messages(question, passages, self.settings.failure_mode),
+            "temperature": effective_temperature(self.settings),
             "response_format": {"type": "json_object"},
         }
         headers = {"Authorization": f"Bearer {self.settings.llm_api_key}"}

@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -27,6 +28,10 @@ HERE = Path(__file__).resolve().parent
 # The gate from section 5.4. Change these only with a reason written in docs/PIPELINE.md.
 MAX_RECALL5_DROP = 0.05        # recall@5 may fall at most 5 points below the baseline
 MIN_CITATION_VALIDITY = 0.95   # at least 95% of citations must match retrieved passages
+FAILURE_MODES = (
+    "off", "no_ocr", "chunks_100", "top_k_1", "no_context_instruction",
+    "no_superseded_filter", "temperature_1_2",
+)
 
 
 def load_golden(path: Path) -> list[dict]:
@@ -190,10 +195,19 @@ def main() -> int:
     parser.add_argument("--host", help="Host header, when your Ingress rule names a host")
     parser.add_argument("--golden", type=Path, default=HERE / "golden.yaml")
     parser.add_argument("--baseline", type=Path, default=HERE / "baseline.json")
-    parser.add_argument("--out", type=Path, default=HERE / "results.json")
+    parser.add_argument("--out", type=Path,
+                        help="results path (default: separate failure-results/<mode>.json per mode)")
+    parser.add_argument("--failure-mode", choices=FAILURE_MODES,
+                        default=os.environ.get("FAILURE_MODE", "off"),
+                        help="label the active API failure mode and save it separately")
     parser.add_argument("--update-baseline", action="store_true",
                         help="write these results as the new baseline")
     args = parser.parse_args()
+
+    if args.failure_mode not in FAILURE_MODES:
+        parser.error(f"FAILURE_MODE must be one of: {', '.join(FAILURE_MODES)}")
+    if args.update_baseline and args.failure_mode != "off":
+        parser.error("failure-mode runs cannot update the healthy baseline")
 
     questions = load_golden(args.golden)
     rows = []
@@ -217,9 +231,14 @@ def main() -> int:
     failures = gate(results, baseline)
     results["golden"] = str(args.golden)
     results["questions"] = len(rows)
-    args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(json.dumps(results, indent=2), encoding="utf-8")
-    print(f"\nresults written to {args.out}")
+    results["failure_mode"] = args.failure_mode
+    output_path = args.out or (
+        HERE / "results.json" if args.failure_mode == "off"
+        else HERE / "failure-results" / f"{args.failure_mode}.json"
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(results, indent=2), encoding="utf-8")
+    print(f"\nresults written to {output_path}")
     if args.update_baseline:
         args.baseline.parent.mkdir(parents=True, exist_ok=True)
         args.baseline.write_text(json.dumps(results, indent=2), encoding="utf-8")

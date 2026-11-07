@@ -38,10 +38,13 @@ class _HTMLText(HTMLParser):
             self.parts.append(data)
 
 
-def extract(path: str, doc_version: str, superseded: bool) -> Document:
+def extract(
+    path: str, doc_version: str, superseded: bool, failure_mode: str = "off"
+) -> Document:
     """Return the document's text page by page.
 
-    Detect pages with no text layer and OCR them; mark those pages ocr=True.
+    Detect pages with no text layer and OCR them unless `failure_mode="no_ocr"`;
+    mark OCR-processed pages ocr=True.
     The OCR libraries need system packages in your Dockerfile (tesseract-ocr,
     poppler-utils), not only pip packages.
     """
@@ -58,8 +61,9 @@ def extract(path: str, doc_version: str, superseded: bool) -> Document:
         with pdfplumber.open(source) as pdf:
             for number, pdf_page in enumerate(pdf.pages, start=1):
                 text = pdf_page.extract_text() or ""
-                ocr_used = not text.strip()
-                if ocr_used:
+                needs_ocr = not text.strip()
+                ocr_used = False
+                if needs_ocr and failure_mode != "no_ocr":
                     try:
                         from pdf2image import convert_from_path
                         import pytesseract
@@ -73,6 +77,7 @@ def extract(path: str, doc_version: str, superseded: bool) -> Document:
                             str(source), first_page=number, last_page=number, dpi=300
                         )[0]
                         text = pytesseract.image_to_string(image)
+                        ocr_used = True
                     except Exception as exc:
                         raise RuntimeError(f"OCR failed on {source.name} page {number}: {exc}") from exc
                 doc.pages.append(Page(source.name, number, text, ocr=ocr_used))

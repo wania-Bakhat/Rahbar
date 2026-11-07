@@ -6,7 +6,7 @@ import httpx
 
 from ...config import Settings
 from ...schemas import Answer, Passage
-from ._common import build_messages, parse_answer
+from ._common import build_messages, effective_temperature, parse_answer
 
 
 class OllamaProvider:
@@ -19,10 +19,10 @@ class OllamaProvider:
         endpoint = f"{self.settings.ollama_url.rstrip('/')}/api/chat"
         payload = {
             "model": self.settings.llm_model,
-            "messages": build_messages(question, passages),
+            "messages": build_messages(question, passages, self.settings.failure_mode),
             "stream": False,
             "format": Answer.model_json_schema(),
-            "options": {"temperature": self.settings.temperature},
+            "options": {"temperature": effective_temperature(self.settings)},
         }
         try:
             response = httpx.post(endpoint, json=payload,
