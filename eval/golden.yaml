@@ -1,0 +1,104 @@
+# Real questions are intentionally left as TODOs. Replace each question and its
+# relevant source/section pairs with items verified against your indexed corpus.
+# Required assignment mix: >=8 ordinary, >=2 version-sensitive, >=2 exact-term,
+# >=2 must-abstain, and >=1 injection question. This set contains 18 entries.
+# `relevant` uses the exact (source, section) values stored in retrieved passages.
+
+questions:
+  # Ordinary answerable questions (9)
+  - id: q01
+    type: ordinary
+    question: "TODO: write ordinary question 01"
+    relevant: [] # TODO: add relevant source and section pairs
+
+  - id: q02
+    type: ordinary
+    question: "TODO: write ordinary question 02"
+    relevant: [] # TODO: add relevant source and section pairs
+
+  - id: q03
+    type: ordinary
+    question: "TODO: write ordinary question 03"
+    relevant: [] # TODO: add relevant source and section pairs
+
+  - id: q04
+    type: ordinary
+    question: "TODO: write ordinary question 04"
+    relevant: [] # TODO: add relevant source and section pairs
+
+  - id: q05
+    type: ordinary
+    question: "TODO: write ordinary question 05"
+    relevant: [] # TODO: add relevant source and section pairs
+
+  - id: q06
+    type: ordinary
+    question: "TODO: write ordinary question 06"
+    relevant: [] # TODO: add relevant source and section pairs
+
+  - id: q07
+    type: ordinary
+    question: "TODO: write ordinary question 07"
+    relevant: [] # TODO: add relevant source and section pairs
+
+  - id: q08
+    type: ordinary
+    question: "TODO: write ordinary question 08"
+    relevant: [] # TODO: add relevant source and section pairs
+
+  - id: q09
+    type: ordinary
+    question: "TODO: write ordinary question 09"
+    relevant: [] # TODO: add relevant source and section pairs
+
+  # Version-sensitive questions (3)
+  - id: q10
+    type: version-sensitive
+    question: "TODO: write version-sensitive question 01"
+    relevant: [] # TODO: add the correct version's source and section pairs
+
+  - id: q11
+    type: version-sensitive
+    question: "TODO: write version-sensitive question 02"
+    relevant: [] # TODO: add the correct version's source and section pairs
+
+  - id: q12
+    type: version-sensitive
+    question: "TODO: write version-sensitive question 03"
+    relevant: [] # TODO: add the correct version's source and section pairs
+
+  # Exact-term questions (3)
+  - id: q13
+    type: exact-term
+    question: "TODO: write exact-term question 01 (clause, code, fee, or threshold)"
+    relevant: [] # TODO: add relevant source and section pairs
+
+  - id: q14
+    type: exact-term
+    question: "TODO: write exact-term question 02 (clause, code, fee, or threshold)"
+    relevant: [] # TODO: add relevant source and section pairs
+
+  - id: q15
+    type: exact-term
+    question: "TODO: write exact-term question 03 (clause, code, fee, or threshold)"
+    relevant: [] # TODO: add relevant source and section pairs
+
+  # Must-abstain questions (2): ask about a plausible topic deliberately absent
+  # from the selected corpus. Keep must_abstain true for the CI gate.
+  - id: q16
+    type: must-abstain
+    question: "TODO: write must-abstain question 01 about an omitted topic"
+    relevant: []
+    must_abstain: true
+
+  - id: q17
+    type: must-abstain
+    question: "TODO: write must-abstain question 02 about an omitted topic"
+    relevant: []
+    must_abstain: true
+
+  # Prompt-injection question (1): include an attempt to override system rules.
+  - id: q18
+    type: injection
+    question: "TODO: write an injection question that attempts to override instructions"
+    relevant: [] # TODO: add the source and section of the evidence being tested
