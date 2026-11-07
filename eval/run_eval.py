@@ -27,7 +27,6 @@ HERE = Path(__file__).resolve().parent
 # The gate from section 5.4. Change these only with a reason written in docs/PIPELINE.md.
 MAX_RECALL5_DROP = 0.05        # recall@5 may fall at most 5 points below the baseline
 MIN_CITATION_VALIDITY = 0.95   # at least 95% of citations must match retrieved passages
-REQUIRED_ABSTENTION = 1.0      # every must-abstain question must be declined
 
 
 def load_golden(path: Path) -> list[dict]:
@@ -48,28 +47,141 @@ def ask(client: httpx.Client, api: str, question: str) -> dict:
 def recall_at_k(relevant: list[dict], retrieved: list[dict], k: int) -> float | None:
     """Fraction of the relevant (source, section) pairs found in the top k retrieved.
     Return None when the question has no relevant passages (must-abstain questions)."""
-    # STARTER-TODO(5.2): implement. Decide how you match sections and say so in PIPELINE.md.
-    raise NotImplementedError("recall_at_k: see STARTER-TODO(5.2)")
+    relevant_pairs = {
+        (str(item.get("source", "")), str(item.get("section", "")))
+        for item in relevant
+        if item.get("source") is not None and item.get("section") is not None
+    }
+    if not relevant_pairs:
+        return None
+    retrieved_pairs = {
+        (str(item.get("source", "")), str(item.get("section", "")))
+        for item in retrieved[:max(0, k)]
+        if item.get("source") is not None and item.get("section") is not None
+    }
+    return len(relevant_pairs & retrieved_pairs) / len(relevant_pairs)
 
 
 def citation_validity(response: dict) -> float | None:
     """Fraction of the response's citations that match a passage in response['retrieved'].
     Return None when there are no citations."""
-    # STARTER-TODO(5.3): implement.
-    raise NotImplementedError("citation_validity: see STARTER-TODO(5.3)")
+    valid, total = citation_counts(response)
+    if not total:
+        return None
+    return valid / total
+
+
+def citation_counts(response: dict) -> tuple[int, int]:
+    """Count citations matching a retrieved source, section, and page exactly."""
+    retrieved = {
+        (str(item.get("source", "")), str(item.get("section", "")), item.get("page"))
+        for item in response.get("retrieved", [])
+    }
+    citations = response.get("citations", [])
+    valid = sum(
+        (str(citation.get("source", "")), str(citation.get("section", "")),
+         citation.get("page")) in retrieved
+        for citation in citations
+    )
+    return valid, len(citations)
 
 
 def summarise(rows: list[dict]) -> dict:
     """Overall recall@3, recall@5, citation validity and abstention correctness, plus
     recall@5 broken down by question type. This dict becomes results.json."""
-    # STARTER-TODO(5.2, 5.3): implement.
-    raise NotImplementedError("summarise: see STARTER-TODO(5.2, 5.3)")
+    recall3_values: list[float] = []
+    recall5_values: list[float] = []
+    citation_valid = 0
+    citation_total = 0
+    abstention_total = 0
+    abstention_correct = 0
+    must_abstain_failures: list[str] = []
+    by_type: dict[str, list[dict]] = {}
+
+    for row in rows:
+        response = row.get("response") or {}
+        relevant = row.get("relevant") or []
+        retrieved = response.get("retrieved") or []
+        row["recall_at_3"] = recall_at_k(relevant, retrieved, 3)
+        row["recall_at_5"] = recall_at_k(relevant, retrieved, 5)
+        if row["recall_at_3"] is not None:
+            recall3_values.append(row["recall_at_3"])
+        if row["recall_at_5"] is not None:
+            recall5_values.append(row["recall_at_5"])
+        kind = str(row.get("type", "ordinary"))
+        by_type.setdefault(kind, []).append(row)
+
+        valid_count, total_count = citation_counts(response)
+        citation_valid += valid_count
+        citation_total += total_count
+
+        if row.get("must_abstain", False):
+            abstention_total += 1
+            if response.get("answered_from_context") is False:
+                abstention_correct += 1
+            else:
+                must_abstain_failures.append(str(row.get("id", "unknown")))
+
+    type_results: dict[str, dict[str, float | int | None]] = {}
+    for kind, type_rows in sorted(by_type.items()):
+        type_recall3 = [row["recall_at_3"] for row in type_rows
+                        if row["recall_at_3"] is not None]
+        type_recall5 = [row["recall_at_5"] for row in type_rows
+                        if row["recall_at_5"] is not None]
+        type_results[kind] = {
+            "questions": len(type_rows),
+            "answerable_questions": len(type_recall5),
+            "recall_at_3": sum(type_recall3) / len(type_recall3) if type_recall3 else None,
+            "recall_at_5": sum(type_recall5) / len(type_recall5) if type_recall5 else None,
+        }
+
+    return {
+        "recall_at_3": sum(recall3_values) / len(recall3_values) if recall3_values else None,
+        "recall_at_5": sum(recall5_values) / len(recall5_values) if recall5_values else None,
+        "by_type": type_results,
+        "citation_validity": citation_valid / citation_total if citation_total else None,
+        "citation_valid": citation_valid,
+        "citation_total": citation_total,
+        "abstention_correctness": (
+            abstention_correct / abstention_total if abstention_total else None
+        ),
+        "must_abstain_correct": abstention_correct,
+        "must_abstain_total": abstention_total,
+        "must_abstain_failures": must_abstain_failures,
+    }
 
 
 def gate(results: dict, baseline: dict | None) -> list[str]:
     """Return one message per failed gate (section 5.4); an empty list means pass."""
-    # STARTER-TODO(5.4): implement, using the three constants at the top of this file.
-    raise NotImplementedError("gate: see STARTER-TODO(5.4)")
+    failures: list[str] = []
+    current_recall5 = results.get("recall_at_5")
+    baseline_recall5 = baseline.get("recall_at_5") if baseline else None
+    if baseline_recall5 is not None:
+        if current_recall5 is None:
+            failures.append("recall@5 is unavailable while a baseline value exists")
+        elif float(current_recall5) < float(baseline_recall5) - MAX_RECALL5_DROP:
+            failures.append(
+                f"recall@5 dropped from baseline {float(baseline_recall5):.3f} to "
+                f"{float(current_recall5):.3f} (more than {MAX_RECALL5_DROP:.0%})"
+            )
+
+    abstain_failures = results.get("must_abstain_failures") or []
+    if abstain_failures:
+        failures.append(
+            "must-abstain questions answered from context: " + ", ".join(abstain_failures)
+        )
+
+    citation_validity_value = results.get("citation_validity")
+    if (citation_validity_value is None
+            or float(citation_validity_value) < MIN_CITATION_VALIDITY):
+        actual = (
+            "unavailable" if citation_validity_value is None
+            else f"{float(citation_validity_value):.1%}"
+        )
+        failures.append(
+            f"citation validity {actual} is below the required {MIN_CITATION_VALIDITY:.0%}"
+        )
+    return failures
 
 
 def main() -> int:
@@ -100,19 +212,16 @@ def main() -> int:
             })
             print(f"  {q['id']:<5} {rows[-1]['seconds']:>6.2f}s  {q['question'][:60]}")
 
-    try:
-        results = summarise(rows)
-        baseline = json.loads(args.baseline.read_text()) if args.baseline.exists() else None
-        failures = gate(results, baseline)
-    except NotImplementedError as exc:
-        print(f"\nnot implemented yet: {exc}")
-        return 2
-
+    results = summarise(rows)
+    baseline = json.loads(args.baseline.read_text()) if args.baseline.exists() else None
+    failures = gate(results, baseline)
     results["golden"] = str(args.golden)
     results["questions"] = len(rows)
+    args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(results, indent=2), encoding="utf-8")
     print(f"\nresults written to {args.out}")
     if args.update_baseline:
+        args.baseline.parent.mkdir(parents=True, exist_ok=True)
         args.baseline.write_text(json.dumps(results, indent=2), encoding="utf-8")
         print(f"baseline updated: {args.baseline}")
 
