@@ -1,0 +1,9 @@
+# Existing curated corpus plus live PDF discovery from the requested FAST-NUCES pages.
+# Every discovered PDF is downloaded to corpus/raw/ and recorded by URL and SHA-256.
+documents: []
+
+pages:
+  - https://nu.edu.pk/Downloads
+  - https://nu.edu.pk/Admissions/Prospectus
+  - https://nu.edu.pk/Oric/Policies
+  - https://nu.edu.pk/IQAE/Downloads
