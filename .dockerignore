@@ -1,0 +1,15 @@
+.git
+.venv*
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.DS_Store
+corpus/raw/
+.env*
+kubeconfig
+eval/failure-results/
+eval/results.json
+eval/baseline.json
