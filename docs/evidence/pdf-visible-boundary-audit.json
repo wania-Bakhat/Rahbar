@@ -1,0 +1,566 @@
+[
+  {
+    "source": "academic-rules-handbook-2026.pdf",
+    "pages": 58,
+    "out_of_bounds_pages": [
+      {
+        "page": 4,
+        "outside_chars": 989,
+        "total_chars": 1908,
+        "sample": "  T a b l e   o f   C o n t e n t s     1 .     M e d i u m   o f   I n s t r u c t i o n          "
+      },
+      {
+        "page": 5,
+        "outside_chars": 815,
+        "total_chars": 1909,
+        "sample": "  V I S I O N   T o   p r o d u c e   w o r l d - c l a s s   p r o f e s s i o n a l s ,   w h o  "
+      },
+      {
+        "page": 6,
+        "outside_chars": 842,
+        "total_chars": 1858,
+        "sample": "  1 .   M e d i u m   o f   I n s t r u c t i o n   1 .   I n t r o d u c t i o n   1 . 1   T h e  "
+      },
+      {
+        "page": 7,
+        "outside_chars": 912,
+        "total_chars": 1857,
+        "sample": "    A c a d e m i c   W a r n i n g / P r o b a t i o n   1 8     R e p e a t i n g   a   C o u r s"
+      },
+      {
+        "page": 8,
+        "outside_chars": 1200,
+        "total_chars": 2338,
+        "sample": "  d )   F o r   p r e - p l a n n e d   a c t i v i t i e s   ( c o n f e r e n c e s ,   e t c . )"
+      },
+      {
+        "page": 9,
+        "outside_chars": 1035,
+        "total_chars": 2338,
+        "sample": "  1 . 9     A   t h e o r y   c o u r s e   i s   n o r m a l l y   a s s i g n e d   2   t o   4  "
+      },
+      {
+        "page": 11,
+        "outside_chars": 1026,
+        "total_chars": 1898,
+        "sample": "  A t t e n d a n c e   R e q u i r e m e n t s   1 . 2 1     S t u d e n t s   a r e   r e q u i r"
+      },
+      {
+        "page": 13,
+        "outside_chars": 732,
+        "total_chars": 1455,
+        "sample": "  G r a d e   P o i n t s   2 . 3     T h e   p o i n t s   f o r   e a c h   l e t t e r   g r a d"
+      },
+      {
+        "page": 15,
+        "outside_chars": 1105,
+        "total_chars": 2418,
+        "sample": "  3 .   A d m i s s i o n   P o l i c y   N e w   A d m i s s i o n s   3 . 1   A d m i s s i o n  "
+      },
+      {
+        "page": 17,
+        "outside_chars": 1045,
+        "total_chars": 2227,
+        "sample": "  3 . 1 8   O n l y   c r e d i t s   o f   r e l e v a n t   c o u r s e s ,   w h i c h   h a v e"
+      },
+      {
+        "page": 19,
+        "outside_chars": 233,
+        "total_chars": 1295,
+        "sample": "  3 . 3 2   A   n e w   a d m i s s i o n   i s   c l o s e d   i f   a n   a w a i t e d   r e s u"
+      },
+      {
+        "page": 21,
+        "outside_chars": 1151,
+        "total_chars": 2335,
+        "sample": "  a c a d e m i c   p e r f o r m a n c e   o f   t h e   s t u d e n t .   e )   S t u d e n t s  "
+      },
+      {
+        "page": 23,
+        "outside_chars": 1161,
+        "total_chars": 1991,
+        "sample": "  F r e e z i n g   o f   S e m e s t e r   4 . 1 8   A   s t u d e n t   m a y   r e q u e s t   f"
+      },
+      {
+        "page": 25,
+        "outside_chars": 1112,
+        "total_chars": 2601,
+        "sample": "  5 .   A c a d e m i c   A s s e s s m e n t   5 . 1   T h e   p e r f o r m a n c e   o f   s t u"
+      },
+      {
+        "page": 27,
+        "outside_chars": 1101,
+        "total_chars": 2113,
+        "sample": "  i n   t h e   l a t e   e x a m i n a t i o n .     5 . 1 4   T h e   s t a n d i n g   o f   a  "
+      },
+      {
+        "page": 29,
+        "outside_chars": 1022,
+        "total_chars": 1805,
+        "sample": "  6 .   R u l e s   f o r   S u m m e r   S e m e s t e r   6 . 1   S u m m e r   s e m e s t e r  "
+      },
+      {
+        "page": 31,
+        "outside_chars": 903,
+        "total_chars": 2163,
+        "sample": "  7 .   G r a d u a t i o n   A w a r d s   7 .   A w a r d s   a n d   t h e   H o n o r   S y s t"
+      },
+      {
+        "page": 33,
+        "outside_chars": 881,
+        "total_chars": 2208,
+        "sample": "  a )   S t u d e n t   m u s t   h a v e   p a s s e d   t h e   s t a n d a r d   c o u r s e s  "
+      },
+      {
+        "page": 35,
+        "outside_chars": 1437,
+        "total_chars": 2787,
+        "sample": "  8 . 6   D e c e p t i o n   o r   p r o v i d i n g   f a l s e   i n f o r m a t i o n   t o   a"
+      },
+      {
+        "page": 37,
+        "outside_chars": 172,
+        "total_chars": 1012,
+        "sample": "  8 . 1 8     A   s t u d e n t   w h o   i s   f o u n d   g u i l t y   o f   a n   a c a d e m i"
+      },
+      {
+        "page": 39,
+        "outside_chars": 956,
+        "total_chars": 1296,
+        "sample": "  R e t a k e   e x a m i n a t i o n   a p p l i c a t i o n s   w i l l   n o t   b e   c o n s i"
+      },
+      {
+        "page": 41,
+        "outside_chars": 1598,
+        "total_chars": 3186,
+        "sample": "  1 0 .   P o l i c y   o n   G e n e r a t i v e     A I   B a s e d   T o o l s   1 .   I n t r o"
+      },
+      {
+        "page": 43,
+        "outside_chars": 1528,
+        "total_chars": 3287,
+        "sample": "  4 )   T h e   U n i v e r s i t y   w i l l   e n s u r e   a c a d e m i c   r i g o r   a n d  "
+      },
+      {
+        "page": 45,
+        "outside_chars": 1380,
+        "total_chars": 3126,
+        "sample": "  2 )   I d e n t i f y i n g / s u m m a r i z i n g   c o r e   c o n c e p t s   o r   v i e w p"
+      },
+      {
+        "page": 47,
+        "outside_chars": 1396,
+        "total_chars": 2952,
+        "sample": "  c i t a t i o n   o f   t h e   s o u r c e ( s ) .   3 )   U s i n g   t o o l s   w h i c h   p"
+      },
+      {
+        "page": 49,
+        "outside_chars": 1417,
+        "total_chars": 2648,
+        "sample": "  6 .   G e n e r a t i v e   A I   a n d   A s s e s s m e n t s   B y   f o c u s i n g   o n   t"
+      },
+      {
+        "page": 51,
+        "outside_chars": 1247,
+        "total_chars": 2577,
+        "sample": "  5 )   S t u d e n t s   s h o u l d   b e   e n c o u r a g e d   t o   s u b m i t   t h e   p r"
+      },
+      {
+        "page": 53,
+        "outside_chars": 1602,
+        "total_chars": 3382,
+        "sample": "  3 )   S t u d e n t s   s h o u l d   a d d   s c r e e n s h o t s   o f   t h e   p r o m p t s"
+      },
+      {
+        "page": 54,
+        "outside_chars": 1464,
+        "total_chars": 2958,
+        "sample": "  r e g a r d i n g   t h e   u s e   o f   G e n e r a t i v e   A I   t o o l s   a t   F A S T -"
+      }
+    ]
+  },
+  {
+    "source": "annual-report-2019-20.pdf",
+    "pages": 33,
+    "out_of_bounds_pages": []
+  },
+  {
+    "source": "annual-report-2023-24.pdf",
+    "pages": 85,
+    "out_of_bounds_pages": []
+  },
+  {
+    "source": "faculty-entrepreneurship-and-technical-start-ups-policy.pdf",
+    "pages": 8,
+    "out_of_bounds_pages": []
+  },
+  {
+    "source": "prospectus-academic-rules-2026.pdf",
+    "pages": 5,
+    "out_of_bounds_pages": []
+  },
+  {
+    "source": "prospectus-fee-information-2026.pdf",
+    "pages": 1,
+    "out_of_bounds_pages": []
+  },
+  {
+    "source": "student-handbook-2026.pdf",
+    "pages": 64,
+    "out_of_bounds_pages": [
+      {
+        "page": 4,
+        "outside_chars": 1767,
+        "total_chars": 2661,
+        "sample": "    F O R E W O R D   T h e   N a t i o n a l   U n i v e r s i t y   o f   C o m p u t e r   a n d"
+      },
+      {
+        "page": 5,
+        "outside_chars": 817,
+        "total_chars": 2662,
+        "sample": "    V I S I O N   T o   p r o d u c e   w o r l d - c l a s s   p r o f e s s i o n a l s ,   w h o"
+      },
+      {
+        "page": 6,
+        "outside_chars": 1335,
+        "total_chars": 1756,
+        "sample": "    T A B L E   O F   C O N T E N T S   C O D E   O F   C O N D U C T . . . . . . . . . . . . . . ."
+      },
+      {
+        "page": 7,
+        "outside_chars": 327,
+        "total_chars": 1736,
+        "sample": "a n d   f o r   g u i d a n c e ,   w h e n e v e r   a n d   w h e r e v e r   y o u n e e d   t o"
+      },
+      {
+        "page": 8,
+        "outside_chars": 1621,
+        "total_chars": 1701,
+        "sample": "    C O D E   O F   C O N D U C T   N a t i o n a l   U n i v e r s i t y   o f   C o m p u t e r  "
+      },
+      {
+        "page": 9,
+        "outside_chars": 4,
+        "total_chars": 1700,
+        "sample": "       "
+      },
+      {
+        "page": 10,
+        "outside_chars": 1590,
+        "total_chars": 3325,
+        "sample": "    1 1 .   T h e   s t u d e n t s   a r e   a d v i s e d   t o   r e f r a i n   f r o m   a n y"
+      },
+      {
+        "page": 11,
+        "outside_chars": 1660,
+        "total_chars": 3325,
+        "sample": "    c o n d u c t   t h a t   m a y   l e a d   t o   t h e   d i s r u p t i o n   o f   a n y   a"
+      },
+      {
+        "page": 12,
+        "outside_chars": 1150,
+        "total_chars": 2434,
+        "sample": "    s t u d e n t ;   a n d   t h e   u n a u t h o r i z e d   u s e   o f   s t u d y   a i d s ,"
+      },
+      {
+        "page": 13,
+        "outside_chars": 1209,
+        "total_chars": 2434,
+        "sample": "    1 9 .   L a t e   s u b m i s s i o n s   i n   a s s e s s m e n t   a r e   n o t   a c c e p"
+      },
+      {
+        "page": 14,
+        "outside_chars": 1261,
+        "total_chars": 2577,
+        "sample": "    2 2 .   S o c i a l   M e d i a   E t i q u e t t e s   a .   Y o u r   p o s t i n g s   s h o"
+      },
+      {
+        "page": 15,
+        "outside_chars": 1241,
+        "total_chars": 2577,
+        "sample": "    c o m m i t t e e   m e m b e r s   w h o   a c t e d   a s   j u d g e s   d u r i n g   t h a"
+      },
+      {
+        "page": 16,
+        "outside_chars": 511,
+        "total_chars": 788,
+        "sample": "    I   -   A C A D E M I C   R U L E S   a n d   R E G U L A T I O N S   A c a d e m i c   r u l e"
+      },
+      {
+        "page": 17,
+        "outside_chars": 202,
+        "total_chars": 788,
+        "sample": "    o n   s o c i a l   m e d i a ,   i n c l u d i n g   p o s t i n g   o f   o b j e c t i o n a"
+      },
+      {
+        "page": 18,
+        "outside_chars": 1453,
+        "total_chars": 3056,
+        "sample": "    S t u d e n t s \u2019   S e r v i c e s   T h e   U n i v e r s i t y   m a y   u t i l i z e   t h"
+      },
+      {
+        "page": 19,
+        "outside_chars": 1527,
+        "total_chars": 3056,
+        "sample": "    I I   -   F I N A N C I A L   R U L E S   F e e   S t r u c t u r e   a n d   M o d e   o f   P"
+      },
+      {
+        "page": 20,
+        "outside_chars": 1692,
+        "total_chars": 3073,
+        "sample": "    S c h o l a r s h i p   c o v e r s   f u l l   t u i t i o n   f e e   f o r   e n t i r e   d"
+      },
+      {
+        "page": 21,
+        "outside_chars": 1305,
+        "total_chars": 3073,
+        "sample": "    C o n t i n u a t i o n   o f   m e r i t   s c h o l a r s h i p   i s   s u b j e c t   t o  "
+      },
+      {
+        "page": 22,
+        "outside_chars": 1281,
+        "total_chars": 2649,
+        "sample": "    I I I   -   D I S C I P L I N A R Y   C O N D U C T   D i s c i p l i n e   S t u d e n t s   a"
+      },
+      {
+        "page": 23,
+        "outside_chars": 1292,
+        "total_chars": 2649,
+        "sample": "    d e g r e e s   a t   t h i s   u n i v e r s i t y .   T h e   s c h o l a r s h i p   c o v e"
+      },
+      {
+        "page": 24,
+        "outside_chars": 848,
+        "total_chars": 1698,
+        "sample": "    I V   -   M I G R A T I O N   M i g r a t i o n   f r o m   N U   t o   o t h e r   U n i v e r"
+      },
+      {
+        "page": 25,
+        "outside_chars": 774,
+        "total_chars": 1698,
+        "sample": "    A c a d e m i c   D i s h o n e s t y   T h e   m i n i m u m   p u n i s h m e n t   f o r   u"
+      },
+      {
+        "page": 26,
+        "outside_chars": 1019,
+        "total_chars": 2295,
+        "sample": "    1 0 .   D u r i n g   e x a m i n a t i o n ,   d o   n o t   t a l k   o r   w h i s p e r ,  "
+      },
+      {
+        "page": 27,
+        "outside_chars": 1200,
+        "total_chars": 2295,
+        "sample": "    V   -   E X A M I N A T I O N   R U L E S   S t u d e n t s   a r e   n o t   a l l o w e d   t"
+      },
+      {
+        "page": 28,
+        "outside_chars": 1498,
+        "total_chars": 1908,
+        "sample": "    V I   \u2013   S E M E S T E R   R U L E S   1 .   D a t e s / w e e k   o f   s e s s i o n a l   e"
+      },
+      {
+        "page": 29,
+        "outside_chars": 334,
+        "total_chars": 1908,
+        "sample": "    1 4 .   I n   c a s e   o f   a b s e n c e   f r o m   a n   e x a m   ( e . g .   d u e   t o"
+      },
+      {
+        "page": 30,
+        "outside_chars": 1449,
+        "total_chars": 2425,
+        "sample": "    V I I   -   L I B R A R Y   S E R V I C E S   A N D   R U L E S   1 .   S i l e n c e   m u s t"
+      },
+      {
+        "page": 31,
+        "outside_chars": 900,
+        "total_chars": 2425,
+        "sample": "    7 .   S t u d e n t s   w h o   h a v e   m i s s e d   c l a s s e s   d u e   t o   a n y   u"
+      },
+      {
+        "page": 32,
+        "outside_chars": 1079,
+        "total_chars": 2560,
+        "sample": "    L i b r a r y   m a t e r i a l   i s   i s s u e d   f o r   t h e   f o l l o w i n g   d u r"
+      },
+      {
+        "page": 33,
+        "outside_chars": 1405,
+        "total_chars": 2560,
+        "sample": "    1 0 .   P e r s o n a l   b e l o n g i n g s   ( s u c h   a s   f i l e   c o v e r s ,   b r"
+      },
+      {
+        "page": 34,
+        "outside_chars": 1060,
+        "total_chars": 2563,
+        "sample": "    d a t e   i n   a d d i t i o n   t o   a c c e s s   o f   t h e i r   p r o f i l e s   f o r"
+      },
+      {
+        "page": 35,
+        "outside_chars": 1427,
+        "total_chars": 2563,
+        "sample": "    V i o l a t i o n   o f   a n y   o f   t h e   a b o v e   r u l e s   m a y   r e s u l t   i"
+      },
+      {
+        "page": 36,
+        "outside_chars": 1260,
+        "total_chars": 1720,
+        "sample": "    V I I I   -   C O M P U T E R   L A B   R U L E S   S t u d e n t s   m u s t   c o o p e r a t"
+      },
+      {
+        "page": 37,
+        "outside_chars": 384,
+        "total_chars": 1720,
+        "sample": "    T u r n i t i n   R e p o r t s   L i b r a r y   p r e p a r e   t h e   T u r n i t i n   r e"
+      },
+      {
+        "page": 38,
+        "outside_chars": 683,
+        "total_chars": 1840,
+        "sample": "    I X .   S T U D E N T   S O C I E T I E S   O N   C A M P U S E S   C h i n i o t - F a i s a l"
+      },
+      {
+        "page": 39,
+        "outside_chars": 1081,
+        "total_chars": 1840,
+        "sample": "    1 1 .   S t u d e n t s   s h o u l d   b e   s e a t e d   p r o p e r l y   w h i l e   u s i"
+      },
+      {
+        "page": 40,
+        "outside_chars": 618,
+        "total_chars": 1294,
+        "sample": "    \u2022   F A S T   D a t a   S c i e n c e   S o c i e t y   \u2022   F u l l   S e n d   S o c i e t y  "
+      },
+      {
+        "page": 41,
+        "outside_chars": 600,
+        "total_chars": 1294,
+        "sample": "    \u2022   F A S T   E n g l i s h   C l u b     \u2022   F A S T   C a r e   S o c i e t y   \u2022   F A S T  "
+      },
+      {
+        "page": 42,
+        "outside_chars": 627,
+        "total_chars": 1323,
+        "sample": "    \u2022   F A S T   C r e a t o r s   C r e w   L a h o r e   C a m p u s   \u2022   N U C E S   A C M   ("
+      },
+      {
+        "page": 43,
+        "outside_chars": 620,
+        "total_chars": 1323,
+        "sample": "    \u2022   F A S T   S o f t w a r e   E n g i n e e r i n g   S o c i e t y   \u2022   F A S T   W o m e n"
+      },
+      {
+        "page": 44,
+        "outside_chars": 428,
+        "total_chars": 1019,
+        "sample": "    X .   S T U D E N T   F A C I L I T I E S   A T   C A M P U S E S   A l l   c a m p u s e s   o"
+      },
+      {
+        "page": 45,
+        "outside_chars": 515,
+        "total_chars": 1019,
+        "sample": "    P e s h a w a r   C a m p u s   \u2022   N U C E S   A C M   S t u d e n t   C h a p t e r   \u2022   N U"
+      },
+      {
+        "page": 46,
+        "outside_chars": 897,
+        "total_chars": 2010,
+        "sample": "    3 .   S t u d e n t s   s u f f e r i n g   f r o m   C o u g h s   a n d   C o l d s ;     7 ."
+      },
+      {
+        "page": 47,
+        "outside_chars": 1037,
+        "total_chars": 2010,
+        "sample": "    X I .   P o l i c y   o n   R e t a k e   E x a m i n a t i o n   R e t a k e   e x a m i n a t"
+      },
+      {
+        "page": 48,
+        "outside_chars": 1619,
+        "total_chars": 3584,
+        "sample": "    T o   o p t i m i z e   t h e   a d v a n t a g e s   o f   G e n e r a t i v e   A I   w h i l"
+      },
+      {
+        "page": 49,
+        "outside_chars": 1889,
+        "total_chars": 3584,
+        "sample": "    X I I .   P o l i c y   o n   G e n e r a t i v e   A I   B a s e d   T o o l s   1 .   I n t r"
+      },
+      {
+        "page": 50,
+        "outside_chars": 1657,
+        "total_chars": 3503,
+        "sample": "    o f t e n   d o ,   r e p r o d u c e   i n h e r e n t   b i a s e s   i n   p r o v i s i o n"
+      },
+      {
+        "page": 51,
+        "outside_chars": 1770,
+        "total_chars": 3503,
+        "sample": "    k n o w l e d g e   a n d   e x p e r i e n c e s .   6 )   P r o m o t i n g   i n n o v a t i"
+      },
+      {
+        "page": 52,
+        "outside_chars": 1590,
+        "total_chars": 3411,
+        "sample": "    c i t e   i t ,   r e f e r e n c e   i t   o r   r e f l e c t   o n   i t s   o u t p u t s  "
+      },
+      {
+        "page": 53,
+        "outside_chars": 1745,
+        "total_chars": 3411,
+        "sample": "    u s e d   a s   s h o r t   q u o t a t i o n s   f o r   a   s p e c i f i c   p u r p o s e ."
+      },
+      {
+        "page": 54,
+        "outside_chars": 1657,
+        "total_chars": 3186,
+        "sample": "    s p e c i f i c   s o u r c e s   a l l o w s   s t u d e n t s   t o   d e v e l o p   t h e i"
+      },
+      {
+        "page": 55,
+        "outside_chars": 1453,
+        "total_chars": 3186,
+        "sample": "    7 )   U p l o a d i n g   a n y   d a t a   g e n e r a t e d   f r o m   e m p i r i c a l   r"
+      },
+      {
+        "page": 56,
+        "outside_chars": 1499,
+        "total_chars": 2876,
+        "sample": "    e x a m s .   5 )   S t u d e n t s   s h o u l d   b e   e n c o u r a g e d   t o   s u b m i"
+      },
+      {
+        "page": 57,
+        "outside_chars": 1301,
+        "total_chars": 2876,
+        "sample": "    i n c l u d e   d i f f e r e n t   e x a m p l e s .   T h e   t h r e e   c a t e g o r i e s"
+      },
+      {
+        "page": 58,
+        "outside_chars": 1963,
+        "total_chars": 3485,
+        "sample": "    8 .   R e f e r e n c i n g   G e n e r a t i v e   A I   T o o l s   U s i n g   G e n e r a t"
+      },
+      {
+        "page": 59,
+        "outside_chars": 1446,
+        "total_chars": 3485,
+        "sample": "    2 )   R e s e a r c h e r s   a n d   s t u d e n t s   i n t e n d i n g   t o   u s e   g e n"
+      },
+      {
+        "page": 60,
+        "outside_chars": 1702,
+        "total_chars": 3485,
+        "sample": "    s u p p o r t .   4 )   T e c h n i c a l   A s s i s t a n c e :   D e d i c a t e d   t e c h"
+      },
+      {
+        "page": 61,
+        "outside_chars": 1707,
+        "total_chars": 3485,
+        "sample": "    e n s u r i n g   a c c u r a c y   a n d   i n t e g r i t y   o f   i n f o r m a t i o n   i"
+      }
+    ]
+  },
+  {
+    "source": "undergraduate-academic-rules-2023.pdf",
+    "pages": 26,
+    "out_of_bounds_pages": []
+  }
+]

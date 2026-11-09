@@ -1,0 +1,51 @@
+{
+  "request_id": "5e9041eca84746e3aa91ac416a7ade0c",
+  "answer": "U ndergraduate Academic Rules and Regulations 2026 3 Table row: U ndergraduate Academic Rules and Regulations 2026 | 3 Attendance Requirements [academic-rules-handbook-2026.pdf / 1.20 A student can only register for courses for which he/she has]",
+  "citations": [
+    {
+      "source": "academic-rules-handbook-2026.pdf",
+      "section": "1.20 A student can only register for courses for which he/she has",
+      "page": 9
+    }
+  ],
+  "answered_from_context": true,
+  "confidence": "medium",
+  "retrieved": [
+    {
+      "chunk_id": "608a0397e8-00155-41c97e4bda43671b",
+      "source": "academic-rules-handbook-2026.pdf",
+      "section": "6.7 80% attendance rule shall apply to summer courses/labs.",
+      "page": 28,
+      "score": 0.82925057
+    },
+    {
+      "chunk_id": "608a0397e8-00036-9935834006da3d1f",
+      "source": "academic-rules-handbook-2026.pdf",
+      "section": "1.21 Students are required to maintain 100% attendance in",
+      "page": 10,
+      "score": 0.77451932
+    },
+    {
+      "chunk_id": "608a0397e8-00035-d96bdd5faf752c52",
+      "source": "academic-rules-handbook-2026.pdf",
+      "section": "1.20 A student can only register for courses for which he/she has",
+      "page": 9,
+      "score": 0.77205765
+    },
+    {
+      "chunk_id": "608a0397e8-00098-f655b1376790bf7b",
+      "source": "academic-rules-handbook-2026.pdf",
+      "section": "4.11 A student must have passed all courses shown in the study",
+      "page": 20,
+      "score": 0.73488802
+    },
+    {
+      "chunk_id": "608a0397e8-00077-0ebb0ccacfcd1c73",
+      "source": "academic-rules-handbook-2026.pdf",
+      "section": "1 0",
+      "page": 16,
+      "score": 0.7263447000000001
+    }
+  ],
+  "provider": "ollama"
+}

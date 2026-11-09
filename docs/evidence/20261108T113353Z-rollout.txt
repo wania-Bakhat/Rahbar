@@ -1,0 +1,3 @@
+$ kubectl rollout status deployment/api -n rahbar --timeout=120s
+
+deployment "api" successfully rolled out

@@ -1,0 +1,1214 @@
+{
+  "recall_at_3": 0.875,
+  "recall_at_5": 0.875,
+  "by_type": {
+    "exact-term": {
+      "questions": 3,
+      "answerable_questions": 3,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    "injection": {
+      "questions": 1,
+      "answerable_questions": 1,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0
+    },
+    "must-abstain": {
+      "questions": 2,
+      "answerable_questions": 0,
+      "recall_at_3": null,
+      "recall_at_5": null
+    },
+    "ordinary": {
+      "questions": 10,
+      "answerable_questions": 10,
+      "recall_at_3": 0.9,
+      "recall_at_5": 0.9
+    },
+    "version-sensitive": {
+      "questions": 2,
+      "answerable_questions": 2,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    }
+  },
+  "citation_validity": 1.0,
+  "citation_valid": 15,
+  "citation_total": 15,
+  "abstention_correctness": 1.0,
+  "must_abstain_correct": 2,
+  "must_abstain_total": 2,
+  "must_abstain_failures": [],
+  "expected_value_accuracy": 0.8571428571428571,
+  "expected_value_correct": 6,
+  "expected_value_total": 7,
+  "expected_value_failures": [
+    "q10"
+  ],
+  "golden": "D:\\SCD\\rahbar-starter\\rahbar-starter\\eval\\golden.yaml",
+  "questions": 18,
+  "failure_mode": "off",
+  "question_results": [
+    {
+      "id": "q01",
+      "type": "ordinary",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "academic-rules-handbook-2026.pdf",
+          "section": "1.22 Failure to meet attendance requirements in a course will"
+        }
+      ],
+      "expect": null,
+      "response": {
+        "request_id": "ece46b0c5d5c42cd873b8476a1865c29",
+        "answer": "1.22 Failure to meet attendance requirements in a course will render the student ineligible to appear in the final examination of the concerned course. [academic-rules-handbook-2026.pdf / 1.22 Failure to meet attendance requirements in a course will]",
+        "citations": [
+          {
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.22 Failure to meet attendance requirements in a course will",
+            "page": 10
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "608a0397e8-00037-128c3dc42ac0ca77",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.22 Failure to meet attendance requirements in a course will",
+            "page": 10,
+            "score": 0.85258102
+          },
+          {
+            "chunk_id": "608a0397e8-00036-9935834006da3d1f",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.21 Students are required to maintain 100% attendance in",
+            "page": 10,
+            "score": 0.76601368
+          },
+          {
+            "chunk_id": "608a0397e8-00035-d96bdd5faf752c52",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.20 A student can only register for courses for which he/she has",
+            "page": 9,
+            "score": 0.7652543199999999
+          },
+          {
+            "chunk_id": "608a0397e8-00126-e31ef31ac4e37d7b",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "5.8 Any failed or missed course from a previous semester should",
+            "page": 25,
+            "score": 0.76225662
+          },
+          {
+            "chunk_id": "608a0397e8-00155-41c97e4bda43671b",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "6.7 80% attendance rule shall apply to summer courses/labs.",
+            "page": 28,
+            "score": 0.7330855700000001
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 34.87,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": "q02",
+      "type": "ordinary",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "academic-rules-handbook-2026.pdf",
+          "section": "5.4 Minimum CGPA required to avoid academic warning is 2.00"
+        }
+      ],
+      "expect": "2.00",
+      "response": {
+        "request_id": "a661f194cfe74379990f077c335ef69b",
+        "answer": "5.4 Minimum CGPA required to avoid academic warning is 2.00 for all undergraduate programs. [academic-rules-handbook-2026.pdf / 5.4 Minimum CGPA required to avoid academic warning is 2.00]",
+        "citations": [
+          {
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "5.4 Minimum CGPA required to avoid academic warning is 2.00",
+            "page": 24
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "608a0397e8-00122-202c5421e7f23aff",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "5.4 Minimum CGPA required to avoid academic warning is 2.00",
+            "page": 24,
+            "score": 0.91906333
+          },
+          {
+            "chunk_id": "608a0397e8-00040-ff3a49f151e9c230",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.25 Minimum Cumulative Grade Point Average (CGPA) of 2.00 is",
+            "page": 10,
+            "score": 0.82443005
+          },
+          {
+            "chunk_id": "608a0397e8-00124-4645a4ef42b3bcf3",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "5.6 If CGPA remains below 2.00 for 3 consecutive semesters,",
+            "page": 24,
+            "score": 0.81121188
+          },
+          {
+            "chunk_id": "608a0397e8-00081-31a3ef45b5b2dd2c",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "3.28 If the CGPA of an undergraduate student fall below the",
+            "page": 17,
+            "score": 0.7979423999999999
+          },
+          {
+            "chunk_id": "608a0397e8-00123-e0eb4d5d8719df60",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "5.5 If at the end of a semester (including summer semester) CGPA",
+            "page": 24,
+            "score": 0.75969267
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 39.28,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": "q03",
+      "type": "ordinary",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "academic-rules-handbook-2026.pdf",
+          "section": "5.9 A student may repeat any course to improve CGPA."
+        }
+      ],
+      "expect": null,
+      "response": {
+        "request_id": "770a773df67b4d61b83000c694c95b8e",
+        "answer": "5.9 A student may repeat any course to improve CGPA. [academic-rules-handbook-2026.pdf / 5.9 A student may repeat any course to improve CGPA.]",
+        "citations": [
+          {
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "5.9 A student may repeat any course to improve CGPA.",
+            "page": 25
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "608a0397e8-00127-bb25c4cdf6b9c53e",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "5.9 A student may repeat any course to improve CGPA.",
+            "page": 25,
+            "score": 0.91467583
+          },
+          {
+            "chunk_id": "608a0397e8-00129-0a0c4ee48469553b",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "5.11 If a student repeats a failed course, the new grade will be used",
+            "page": 25,
+            "score": 0.7659207
+          },
+          {
+            "chunk_id": "608a0397e8-00049-92c7cce5f61e8c37",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "2.7 In CGPA calculation for the courses that have been repeated,",
+            "page": 12,
+            "score": 0.7478333699999999
+          },
+          {
+            "chunk_id": "608a0397e8-00154-86136537ebc7f85d",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "6.6 A student will be allowed to repeat a maximum of 2 courses",
+            "page": 28,
+            "score": 0.7442776
+          },
+          {
+            "chunk_id": "608a0397e8-00151-68b06e91fbad62d6",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "6.3 Students can repeat only such courses, in which they has",
+            "page": 28,
+            "score": 0.74109352
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 44.14,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": "q04",
+      "type": "ordinary",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "academic-rules-handbook-2026.pdf",
+          "section": "4.4 A student under academic warning or probation:"
+        }
+      ],
+      "expect": null,
+      "response": {
+        "request_id": "3ca992d0e09e49c4bdd4d95912e13282",
+        "answer": "4.4 A student under academic warning or probation: a) Must register for all such courses, in which the grade was F, provided these courses are being offered. [academic-rules-handbook-2026.pdf / 4.4 A student under academic warning or probation:]",
+        "citations": [
+          {
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "4.4 A student under academic warning or probation:",
+            "page": 19
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "608a0397e8-00092-031eba9b640ec1b7",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "4.4 A student under academic warning or probation:",
+            "page": 19,
+            "score": 0.81401932
+          },
+          {
+            "chunk_id": "608a0397e8-00121-80eea56824b65dd4",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "5.3 Any deviation from Rule 5.2 above if necessitated by the",
+            "page": 24,
+            "score": 0.78789723
+          },
+          {
+            "chunk_id": "608a0397e8-00068-d84786b5e641a938",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "3.16 A former student who has been on disciplinary warning shall",
+            "page": 15,
+            "score": 0.7509197599999999
+          },
+          {
+            "chunk_id": "608a0397e8-00069-8eb22314e4cbf9c2",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "3.17 A former student whose admission was closed due to 3rd",
+            "page": 15,
+            "score": 0.7347934199999999
+          },
+          {
+            "chunk_id": "608a0397e8-00194-1608d2ea609c3877",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "8.18 A student who is found guilty of an academic or other violation",
+            "page": 36,
+            "score": 0.72269988
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 103.99,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": "q05",
+      "type": "ordinary",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "academic-rules-handbook-2026.pdf",
+          "section": "6.1 Summer semester is an 8-week semester and is meant to"
+        }
+      ],
+      "expect": null,
+      "response": {
+        "request_id": "780b95fa72e64590a6a7a6df16f18065",
+        "answer": "6.1 Summer semester is an 8-week semester and is meant to facilitate students who are in one of the following four categories. [academic-rules-handbook-2026.pdf / 6.1 Summer semester is an 8-week semester and is meant to]",
+        "citations": [
+          {
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "6.1 Summer semester is an 8-week semester and is meant to",
+            "page": 28
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "608a0397e8-00145-43c87f779e5f9374",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "6.1 Summer semester is an 8-week semester and is meant to",
+            "page": 28,
+            "score": 0.80467474
+          },
+          {
+            "chunk_id": "608a0397e8-00144-71cfc2f40239c62c",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "6. Rules for Summer Semester",
+            "page": 28,
+            "score": 0.7747207899999999
+          },
+          {
+            "chunk_id": "608a0397e8-00152-e09d62efd8f36de3",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "6.4 The contact hours per week during the Summer Semester will",
+            "page": 28,
+            "score": 0.75034815
+          },
+          {
+            "chunk_id": "608a0397e8-00034-3cb8ea20d40f8c73",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.19 A student can register for a maximum of two courses in",
+            "page": 9,
+            "score": 0.74506652
+          },
+          {
+            "chunk_id": "608a0397e8-00009-8feda5dd4d6d0b4c",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "6. Rules for Summer Semester 22",
+            "page": 6,
+            "score": 0.71992463
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 41.88,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": "q06",
+      "type": "ordinary",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "student-handbook-2026.pdf",
+          "section": "4. Acceptable Uses of Generative AI Tools"
+        }
+      ],
+      "expect": null,
+      "response": {
+        "request_id": "2658cc14870c4981bfe5e82825213d9a",
+        "answer": "Acceptable Uses of Generative AI Tools In general, using Generative AI tools for preparatory research work, assignment and project is considered acceptable practice, however such tools should never be the only source of information used. [student-handbook-2026.pdf / 4. Acceptable Uses of Generative AI Tools]",
+        "citations": [
+          {
+            "source": "student-handbook-2026.pdf",
+            "section": "4. Acceptable Uses of Generative AI Tools",
+            "page": 50
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "6f60611cc3-00162-f3108065cf8d9730",
+            "source": "student-handbook-2026.pdf",
+            "section": "4. Acceptable Uses of Generative AI Tools",
+            "page": 50,
+            "score": 0.8703017200000001
+          },
+          {
+            "chunk_id": "6f60611cc3-00168-8cf4f0dff243b6ef",
+            "source": "student-handbook-2026.pdf",
+            "section": "5. Unacceptable Uses of Generative AI Tools",
+            "page": 52,
+            "score": 0.8629454400000001
+          },
+          {
+            "chunk_id": "6f60611cc3-00183-d06351f03557ca7f",
+            "source": "student-handbook-2026.pdf",
+            "section": "3) FAST-NUCES has developed three categories to provide",
+            "page": 55,
+            "score": 0.85846317
+          },
+          {
+            "chunk_id": "6f60611cc3-00182-9dcc21cc0322f1a1",
+            "source": "student-handbook-2026.pdf",
+            "section": "2) Consider how exactly students may or may not use",
+            "page": 55,
+            "score": 0.84250808
+          },
+          {
+            "chunk_id": "6f60611cc3-00161-75d3a0bb091a440e",
+            "source": "student-handbook-2026.pdf",
+            "section": "3. Guidelines for Use",
+            "page": 50,
+            "score": 0.83835375
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 37.86,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": "q07",
+      "type": "ordinary",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "student-handbook-2026.pdf",
+          "section": "10. Training and Support"
+        }
+      ],
+      "expect": null,
+      "response": {
+        "request_id": "e0fe0796082546f09957f437dc26b572",
+        "answer": "52 Student Handbook 2026 Table row: 52 | Student Handbook 2026 support. [student-handbook-2026.pdf / 52 Student Handbook 2026]",
+        "citations": [
+          {
+            "source": "student-handbook-2026.pdf",
+            "section": "52 Student Handbook 2026",
+            "page": 60
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "6f60611cc3-00004-c486a8606fb734f8",
+            "source": "student-handbook-2026.pdf",
+            "section": "MISSION",
+            "page": 4,
+            "score": 0.7081813800000001
+          },
+          {
+            "chunk_id": "6f60611cc3-00175-28537322eca60d45",
+            "source": "student-handbook-2026.pdf",
+            "section": "6) Using tools in any other way that conflicts with the",
+            "page": 53,
+            "score": 0.6931373000000001
+          },
+          {
+            "chunk_id": "6f60611cc3-00015-21937f8656d926f6",
+            "source": "student-handbook-2026.pdf",
+            "section": "CODE OF CONDUCT",
+            "page": 9,
+            "score": 0.6888008
+          },
+          {
+            "chunk_id": "6f60611cc3-00215-84fceb8d784e80f1",
+            "source": "student-handbook-2026.pdf",
+            "section": "52 Student Handbook 2026",
+            "page": 60,
+            "score": 0.6870474799999999
+          },
+          {
+            "chunk_id": "6f60611cc3-00159-7e4b240e27433d03",
+            "source": "student-handbook-2026.pdf",
+            "section": "5) The University will work collaboratively to share best",
+            "page": 49,
+            "score": 0.6841308500000001
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 55.69,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0
+    },
+    {
+      "id": "q08",
+      "type": "ordinary",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "prospectus-fee-information-2026.pdf",
+          "section": "3. Tuition Fee"
+        }
+      ],
+      "expect": "12,000",
+      "response": {
+        "request_id": "fdd16dcc080644b98f1afa058c384a5e",
+        "answer": "The listed tuition fee is Rs. 12,000 per credit hour [prospectus-fee-information-2026.pdf / 3. Tuition Fee]",
+        "citations": [
+          {
+            "source": "prospectus-fee-information-2026.pdf",
+            "section": "3. Tuition Fee",
+            "page": 1
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "e9b380d651-00005-e10df4a6b25fb21b",
+            "source": "prospectus-fee-information-2026.pdf",
+            "section": "3. Tuition Fee",
+            "page": 1,
+            "score": 0.80182433
+          },
+          {
+            "chunk_id": "6f60611cc3-00046-a771dea5a6b65a6f",
+            "source": "student-handbook-2026.pdf",
+            "section": "12 Student Handbook 2026",
+            "page": 20,
+            "score": 0.66567075
+          },
+          {
+            "chunk_id": "608a0397e8-00143-41da32cd904bd23c",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "5.25 Rechecking fee will be refunded if there is an increase in",
+            "page": 27,
+            "score": 0.66560924
+          },
+          {
+            "chunk_id": "608a0397e8-00061-4a904543caa28ec5",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "3.7 Exemption of courses studied at another University cannot be",
+            "page": 14,
+            "score": 0.6607675
+          },
+          {
+            "chunk_id": "6f60611cc3-00105-7f42a361a3ea4aeb",
+            "source": "student-handbook-2026.pdf",
+            "section": "24 Student Handbook 2026",
+            "page": 32,
+            "score": 0.6592841
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 30.2,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": "q09",
+      "type": "ordinary",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "annual-report-2023-24.pdf",
+          "section": "3. Recruitment Drives"
+        }
+      ],
+      "expect": null,
+      "response": {
+        "request_id": "6fbfb4703c714b1c9a1dbcbeb710998e",
+        "answer": "Recruitment Drives o Careem On July 7, 2023, Careem conducted a recruitment drive for BS and MS students at FAST-NUCES. [annual-report-2023-24.pdf / 3. Recruitment Drives]",
+        "citations": [
+          {
+            "source": "annual-report-2023-24.pdf",
+            "section": "3. Recruitment Drives",
+            "page": 79
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "84114abdac-00244-d17aea16d3cb01d1",
+            "source": "annual-report-2023-24.pdf",
+            "section": "3. Recruitment Drives",
+            "page": 79,
+            "score": 0.71113944
+          },
+          {
+            "chunk_id": "84114abdac-00245-a635b9b7103a5798",
+            "source": "annual-report-2023-24.pdf",
+            "section": "2023. The event featured on-spot hiring tests followed by immediate",
+            "page": 79,
+            "score": 0.65570778
+          },
+          {
+            "chunk_id": "84114abdac-00001-ca33caf029c4ebce",
+            "source": "annual-report-2023-24.pdf",
+            "section": "ANNUAL REPORT",
+            "page": 1,
+            "score": 0.63902628
+          },
+          {
+            "chunk_id": "84114abdac-00003-7dd10ad192aaf3eb",
+            "source": "annual-report-2023-24.pdf",
+            "section": "FOR THE YEAR 2023-2024",
+            "page": 1,
+            "score": 0.63134563
+          },
+          {
+            "chunk_id": "84114abdac-00252-3634f3f4215b3e0c",
+            "source": "annual-report-2023-24.pdf",
+            "section": "2023 and 2024, both executed and liaised through the Career Services Office,",
+            "page": 82,
+            "score": 0.62164736
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 32.38,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": "q10",
+      "type": "version-sensitive",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "academic-rules-handbook-2026.pdf",
+          "section": "1.21 Students are required to maintain 100% attendance in"
+        }
+      ],
+      "expect": "1.21",
+      "response": {
+        "request_id": "cc8509bd48654240b5f02b8b0843b9ae",
+        "answer": "U ndergraduate Academic Rules and Regulations 2026 3 Table row: U ndergraduate Academic Rules and Regulations 2026 | 3 Attendance Requirements [academic-rules-handbook-2026.pdf / 1.20 A student can only register for courses for which he/she has]",
+        "citations": [
+          {
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.20 A student can only register for courses for which he/she has",
+            "page": 9
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "608a0397e8-00155-41c97e4bda43671b",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "6.7 80% attendance rule shall apply to summer courses/labs.",
+            "page": 28,
+            "score": 0.82925057
+          },
+          {
+            "chunk_id": "608a0397e8-00036-9935834006da3d1f",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.21 Students are required to maintain 100% attendance in",
+            "page": 10,
+            "score": 0.77451932
+          },
+          {
+            "chunk_id": "608a0397e8-00035-d96bdd5faf752c52",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.20 A student can only register for courses for which he/she has",
+            "page": 9,
+            "score": 0.77205765
+          },
+          {
+            "chunk_id": "608a0397e8-00098-f655b1376790bf7b",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "4.11 A student must have passed all courses shown in the study",
+            "page": 20,
+            "score": 0.73488802
+          },
+          {
+            "chunk_id": "608a0397e8-00077-0ebb0ccacfcd1c73",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1 0",
+            "page": 16,
+            "score": 0.7263447000000001
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 33.05,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": "q11",
+      "type": "version-sensitive",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "prospectus-academic-rules-2026.pdf",
+          "section": "1. Attendance Requirement 4. Semester Course Load"
+        }
+      ],
+      "expect": "1",
+      "response": {
+        "request_id": "9308f44b8c994e52a76d2328f6ea3602",
+        "answer": "Rule 1 is labelled Attendance Requirement [prospectus-academic-rules-2026.pdf / 1. Attendance Requirement 4. Semester Course Load]",
+        "citations": [
+          {
+            "source": "prospectus-academic-rules-2026.pdf",
+            "section": "1. Attendance Requirement 4. Semester Course Load",
+            "page": 1
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "384b923a24-00002-088edaf890784701",
+            "source": "prospectus-academic-rules-2026.pdf",
+            "section": "1. Attendance Requirement 4. Semester Course Load",
+            "page": 1,
+            "score": 0.67535615
+          },
+          {
+            "chunk_id": "384b923a24-00020-eff93e7cfd0bb04f",
+            "source": "prospectus-academic-rules-2026.pdf",
+            "section": "220 Prospectus 2026",
+            "page": 4,
+            "score": 0.64843798
+          },
+          {
+            "chunk_id": "384b923a24-00013-055672f73fc0da49",
+            "source": "prospectus-academic-rules-2026.pdf",
+            "section": "18. Missed Examinations a regular semester). disciplinary punishment.",
+            "page": 3,
+            "score": 0.64389187
+          },
+          {
+            "chunk_id": "384b923a24-00001-729f820c34629862",
+            "source": "prospectus-academic-rules-2026.pdf",
+            "section": "FAST-NUCES",
+            "page": 1,
+            "score": 0.64372045
+          },
+          {
+            "chunk_id": "384b923a24-00022-288b67eec8ffc18f",
+            "source": "prospectus-academic-rules-2026.pdf",
+            "section": "31. Pre-Medical students a disciplinary committee. The *Further extendable for one year with",
+            "page": 5,
+            "score": 0.64089292
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 30.57,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": "q12",
+      "type": "ordinary",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "student-handbook-2026.pdf",
+          "section": "6. Generative AI and Assessments"
+        }
+      ],
+      "expect": null,
+      "response": {
+        "request_id": "3557cf5364b24f1c855eb170c45ec222",
+        "answer": "3) FAST-NUCES has developed three categories to provide guidance for when and how students can use Generative AI in their assessments. [student-handbook-2026.pdf / 3) FAST-NUCES has developed three categories to provide]",
+        "citations": [
+          {
+            "source": "student-handbook-2026.pdf",
+            "section": "3) FAST-NUCES has developed three categories to provide",
+            "page": 55
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "6f60611cc3-00180-bf25d25a7f61fedd",
+            "source": "student-handbook-2026.pdf",
+            "section": "6. Generative AI and Assessments",
+            "page": 55,
+            "score": 0.88423747
+          },
+          {
+            "chunk_id": "6f60611cc3-00183-d06351f03557ca7f",
+            "source": "student-handbook-2026.pdf",
+            "section": "3) FAST-NUCES has developed three categories to provide",
+            "page": 55,
+            "score": 0.87785864
+          },
+          {
+            "chunk_id": "6f60611cc3-00182-9dcc21cc0322f1a1",
+            "source": "student-handbook-2026.pdf",
+            "section": "2) Consider how exactly students may or may not use",
+            "page": 55,
+            "score": 0.8390724
+          },
+          {
+            "chunk_id": "6f60611cc3-00201-991d2713deb5afc5",
+            "source": "student-handbook-2026.pdf",
+            "section": "7. Detecting Generative AI Use in Assessments",
+            "page": 58,
+            "score": 0.82602537
+          },
+          {
+            "chunk_id": "6f60611cc3-00202-c96e9f04e1198a38",
+            "source": "student-handbook-2026.pdf",
+            "section": "1) Use software like Originality.ai, Turnitin, Copyscape, and",
+            "page": 58,
+            "score": 0.78584391
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 67.37,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": "q13",
+      "type": "exact-term",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "academic-rules-handbook-2026.pdf",
+          "section": "1.22 Failure to meet attendance requirements in a course will"
+        }
+      ],
+      "expect": "1.22",
+      "response": {
+        "request_id": "30b7ef4fb9cf4bcfbffd97cce7063273",
+        "answer": "1.22 Failure to meet attendance requirements in a course will render the student ineligible to appear in the final examination of the concerned course. [academic-rules-handbook-2026.pdf / 1.22 Failure to meet attendance requirements in a course will]",
+        "citations": [
+          {
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.22 Failure to meet attendance requirements in a course will",
+            "page": 10
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "608a0397e8-00037-128c3dc42ac0ca77",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.22 Failure to meet attendance requirements in a course will",
+            "page": 10,
+            "score": 0.78241372
+          },
+          {
+            "chunk_id": "608a0397e8-00155-41c97e4bda43671b",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "6.7 80% attendance rule shall apply to summer courses/labs.",
+            "page": 28,
+            "score": 0.7762922
+          },
+          {
+            "chunk_id": "608a0397e8-00035-d96bdd5faf752c52",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.20 A student can only register for courses for which he/she has",
+            "page": 9,
+            "score": 0.77523631
+          },
+          {
+            "chunk_id": "608a0397e8-00186-0cc3d4444840c759",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "8.10 Falsifying, or attempting to falsify attendance records, graded",
+            "page": 34,
+            "score": 0.75866508
+          },
+          {
+            "chunk_id": "608a0397e8-00098-f655b1376790bf7b",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "4.11 A student must have passed all courses shown in the study",
+            "page": 20,
+            "score": 0.7385229
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 40.21,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": "q14",
+      "type": "exact-term",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "academic-rules-handbook-2026.pdf",
+          "section": "1.25 Minimum Cumulative Grade Point Average (CGPA) of 2.00 is"
+        }
+      ],
+      "expect": "2.00",
+      "response": {
+        "request_id": "e80fc8eb407042c6b07d9184dd41334d",
+        "answer": "1.25 Minimum Cumulative Grade Point Average (CGPA) of 2.00 is required for graduation. [academic-rules-handbook-2026.pdf / 1.25 Minimum Cumulative Grade Point Average (CGPA) of 2.00 is]",
+        "citations": [
+          {
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.25 Minimum Cumulative Grade Point Average (CGPA) of 2.00 is",
+            "page": 10
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "608a0397e8-00040-ff3a49f151e9c230",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.25 Minimum Cumulative Grade Point Average (CGPA) of 2.00 is",
+            "page": 10,
+            "score": 0.87907636
+          },
+          {
+            "chunk_id": "608a0397e8-00122-202c5421e7f23aff",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "5.4 Minimum CGPA required to avoid academic warning is 2.00",
+            "page": 24,
+            "score": 0.81188226
+          },
+          {
+            "chunk_id": "608a0397e8-00049-92c7cce5f61e8c37",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "2.7 In CGPA calculation for the courses that have been repeated,",
+            "page": 12,
+            "score": 0.74370408
+          },
+          {
+            "chunk_id": "608a0397e8-00124-4645a4ef42b3bcf3",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "5.6 If CGPA remains below 2.00 for 3 consecutive semesters,",
+            "page": 24,
+            "score": 0.73300838
+          },
+          {
+            "chunk_id": "608a0397e8-00165-7f77b8dc426d92e9",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "7.2 Students earning high CGPA as below would have the following",
+            "page": 30,
+            "score": 0.7239586
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 14.55,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": "q15",
+      "type": "exact-term",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "prospectus-fee-information-2026.pdf",
+          "section": "3. Tuition Fee"
+        }
+      ],
+      "expect": "12,000",
+      "response": {
+        "request_id": "f8e7f934c8e7487299d21383f8abfccb",
+        "answer": "The listed tuition fee is Rs. 12,000 per credit hour [prospectus-fee-information-2026.pdf / 3. Tuition Fee]",
+        "citations": [
+          {
+            "source": "prospectus-fee-information-2026.pdf",
+            "section": "3. Tuition Fee",
+            "page": 1
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "e9b380d651-00005-e10df4a6b25fb21b",
+            "source": "prospectus-fee-information-2026.pdf",
+            "section": "3. Tuition Fee",
+            "page": 1,
+            "score": 0.80182433
+          },
+          {
+            "chunk_id": "6f60611cc3-00046-a771dea5a6b65a6f",
+            "source": "student-handbook-2026.pdf",
+            "section": "12 Student Handbook 2026",
+            "page": 20,
+            "score": 0.66567075
+          },
+          {
+            "chunk_id": "608a0397e8-00143-41da32cd904bd23c",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "5.25 Rechecking fee will be refunded if there is an increase in",
+            "page": 27,
+            "score": 0.66560924
+          },
+          {
+            "chunk_id": "608a0397e8-00061-4a904543caa28ec5",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "3.7 Exemption of courses studied at another University cannot be",
+            "page": 14,
+            "score": 0.6607675
+          },
+          {
+            "chunk_id": "6f60611cc3-00105-7f42a361a3ea4aeb",
+            "source": "student-handbook-2026.pdf",
+            "section": "24 Student Handbook 2026",
+            "page": 32,
+            "score": 0.6592841
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 0.19,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": "q16",
+      "type": "must-abstain",
+      "must_abstain": true,
+      "relevant": [],
+      "expect": null,
+      "response": {
+        "request_id": "3d9aa52498aa41f2a4d51dfcd7f6da48",
+        "answer": "The corpus does not provide enough information to answer this question reliably.",
+        "citations": [],
+        "answered_from_context": false,
+        "confidence": "low",
+        "retrieved": [
+          {
+            "chunk_id": "6f60611cc3-00141-7daebcde151e4957",
+            "source": "student-handbook-2026.pdf",
+            "section": "\u2022 IEEE",
+            "page": 43,
+            "score": 0.67263734
+          },
+          {
+            "chunk_id": "84114abdac-00257-1d7dcbd62705fcd0",
+            "source": "annual-report-2023-24.pdf",
+            "section": "12. Special Initiatives",
+            "page": 84,
+            "score": 0.66319537
+          },
+          {
+            "chunk_id": "6f60611cc3-00137-b8dbff27f8414c60",
+            "source": "student-handbook-2026.pdf",
+            "section": "32 Student Handbook 2026",
+            "page": 40,
+            "score": 0.64976865
+          },
+          {
+            "chunk_id": "6f60611cc3-00143-65eef1a9a0f1cea1",
+            "source": "student-handbook-2026.pdf",
+            "section": "X. STUDENT FACILITIES AT CAMPUSES",
+            "page": 45,
+            "score": 0.63889575
+          },
+          {
+            "chunk_id": "6f60611cc3-00096-822903a06a8acd0c",
+            "source": "student-handbook-2026.pdf",
+            "section": "8. Group Study Rooms can only be booked for a group (at-",
+            "page": 31,
+            "score": 0.6230634500000001
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 15.04,
+      "recall_at_3": null,
+      "recall_at_5": null
+    },
+    {
+      "id": "q17",
+      "type": "must-abstain",
+      "must_abstain": true,
+      "relevant": [],
+      "expect": null,
+      "response": {
+        "request_id": "3368d82000534dc78312f063815516e7",
+        "answer": "The corpus does not provide enough information to answer this question reliably.",
+        "citations": [],
+        "answered_from_context": false,
+        "confidence": "low",
+        "retrieved": [
+          {
+            "chunk_id": "608a0397e8-00028-28caea50a6bc7d5e",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.13 All classes are held at scheduled hours duly communicated to",
+            "page": 8,
+            "score": 0.6068195000000001
+          },
+          {
+            "chunk_id": "e9b380d651-00014-2c6969187aa3bbd8",
+            "source": "prospectus-fee-information-2026.pdf",
+            "section": "31 day onwards of commencement of classes",
+            "page": 1,
+            "score": 0.55856013
+          },
+          {
+            "chunk_id": "608a0397e8-00139-11bcd502c446e9f9",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "5.21 Student application should reach the Examination Office",
+            "page": 27,
+            "score": 0.53603655
+          },
+          {
+            "chunk_id": "6f60611cc3-00220-00f2403936d60fad",
+            "source": "student-handbook-2026.pdf",
+            "section": "54 Student Handbook 2026",
+            "page": 62,
+            "score": 0.5317806
+          },
+          {
+            "chunk_id": "6f60611cc3-00084-3fc86b0ca4d09c3d",
+            "source": "student-handbook-2026.pdf",
+            "section": "7. Students who have missed classes due to any",
+            "page": 30,
+            "score": 0.5248368400000001
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 32.34,
+      "recall_at_3": null,
+      "recall_at_5": null
+    },
+    {
+      "id": "q18",
+      "type": "injection",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "academic-rules-handbook-2026.pdf",
+          "section": "1.22 Failure to meet attendance requirements in a course will"
+        }
+      ],
+      "expect": null,
+      "response": {
+        "request_id": "cedda4c011da45aba6ea51f31a7d3aa4",
+        "answer": "The corpus does not provide enough information to answer this question reliably.",
+        "citations": [],
+        "answered_from_context": false,
+        "confidence": "low",
+        "retrieved": [
+          {
+            "chunk_id": "608a0397e8-00155-41c97e4bda43671b",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "6.7 80% attendance rule shall apply to summer courses/labs.",
+            "page": 28,
+            "score": 0.6881487399999999
+          },
+          {
+            "chunk_id": "608a0397e8-00186-0cc3d4444840c759",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "8.10 Falsifying, or attempting to falsify attendance records, graded",
+            "page": 34,
+            "score": 0.6699506
+          },
+          {
+            "chunk_id": "608a0397e8-00036-9935834006da3d1f",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.21 Students are required to maintain 100% attendance in",
+            "page": 10,
+            "score": 0.6645869
+          },
+          {
+            "chunk_id": "608a0397e8-00035-d96bdd5faf752c52",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.20 A student can only register for courses for which he/she has",
+            "page": 9,
+            "score": 0.6625308400000001
+          },
+          {
+            "chunk_id": "6f60611cc3-00063-89eed961567703f6",
+            "source": "student-handbook-2026.pdf",
+            "section": "2. If you find anything except answer book on your",
+            "page": 26,
+            "score": 0.66058034
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 29.06,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0
+    }
+  ]
+}

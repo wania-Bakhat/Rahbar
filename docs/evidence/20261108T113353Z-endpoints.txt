@@ -1,0 +1,8 @@
+$ kubectl get endpoints -n rahbar -o wide
+
+Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+NAME     ENDPOINTS                                                     AGE
+api      10.244.120.124:8000,10.244.120.125:8000,10.244.120.126:8000   4h11m
+chroma   10.244.120.96:8000                                            4h11m
+redis    10.244.120.88:6379                                            4h11m
+ui       10.244.120.85:8080                                            4h11m

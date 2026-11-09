@@ -1,0 +1,27 @@
+=== deploy tested tuition and historical-rule answer repairs ===
+deployment.apps/api image updated
+Waiting for deployment "api" rollout to finish: 1 out of 3 new replicas have been updated...
+Waiting for deployment "api" rollout to finish: 1 out of 3 new replicas have been updated...
+Waiting for deployment "api" rollout to finish: 1 out of 3 new replicas have been updated...
+Waiting for deployment "api" rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment "api" rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment "api" rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment "api" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "api" rollout to finish: 1 old replicas are pending termination...
+deployment "api" successfully rolled out
+{
+  "status": "ready",
+  "checks": {
+    "chroma": "reachable",
+    "collection": {
+      "name": "rahbar",
+      "count": 1148
+    },
+    "embedding_model": {
+      "expected": "nomic-embed-text",
+      "actual": "nomic-embed-text"
+    },
+    "redis": "reachable"
+  },
+  "failures": []
+}

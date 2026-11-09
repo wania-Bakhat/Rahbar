@@ -1,0 +1,28 @@
+# Labeled by intended answer equivalence, not by lexical similarity.
+# The positive pair should safely reuse a response; each negative pair asks for a
+# different policy/value despite sharing topic words likely to produce a close vector.
+pairs:
+  - id: cgpa-warning-paraphrase
+    same_answer: true
+    question_a: "What minimum CGPA must an undergraduate maintain to avoid academic warning?"
+    question_b: "What CGPA is needed for an undergraduate to stay clear of academic warning?"
+  - id: cgpa-graduation-paraphrase
+    same_answer: true
+    question_a: "What minimum CGPA is required for graduation?"
+    question_b: "What cumulative grade average must I earn to graduate?"
+  - id: regular-vs-summer-attendance
+    same_answer: false
+    question_a: "What attendance percentage is required for a regular semester course?"
+    question_b: "What attendance percentage is required for a summer semester course?"
+  - id: cgpa-warning-vs-graduation
+    same_answer: false
+    question_a: "What minimum CGPA is required to avoid academic warning?"
+    question_b: "What minimum CGPA is required for graduation?"
+  - id: tuition-vs-freeze-fee
+    same_answer: false
+    question_a: "What is the tuition fee per credit hour?"
+    question_b: "What is the semester freeze fee?"
+  - id: attendance-rule-vs-failure-consequence
+    same_answer: false
+    question_a: "What attendance percentage is required in a course?"
+    question_b: "What happens when a student fails the course attendance requirement?"

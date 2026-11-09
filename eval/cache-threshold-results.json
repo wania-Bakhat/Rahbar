@@ -1,0 +1,77 @@
+{
+  "measured_at_utc": "2026-11-08T19:13:38.243395+00:00",
+  "embedding_model": "nomic-embed-text",
+  "pairs_file": "eval/cache-threshold-pairs.yaml",
+  "pair_results": [
+    {
+      "id": "cgpa-warning-paraphrase",
+      "same_answer": true,
+      "question_a": "What minimum CGPA must an undergraduate maintain to avoid academic warning?",
+      "question_b": "What CGPA is needed for an undergraduate to stay clear of academic warning?",
+      "cosine_similarity": 0.931512
+    },
+    {
+      "id": "cgpa-graduation-paraphrase",
+      "same_answer": true,
+      "question_a": "What minimum CGPA is required for graduation?",
+      "question_b": "What cumulative grade average must I earn to graduate?",
+      "cosine_similarity": 0.752581
+    },
+    {
+      "id": "regular-vs-summer-attendance",
+      "same_answer": false,
+      "question_a": "What attendance percentage is required for a regular semester course?",
+      "question_b": "What attendance percentage is required for a summer semester course?",
+      "cosine_similarity": 0.907256
+    },
+    {
+      "id": "cgpa-warning-vs-graduation",
+      "same_answer": false,
+      "question_a": "What minimum CGPA is required to avoid academic warning?",
+      "question_b": "What minimum CGPA is required for graduation?",
+      "cosine_similarity": 0.825111
+    },
+    {
+      "id": "tuition-vs-freeze-fee",
+      "same_answer": false,
+      "question_a": "What is the tuition fee per credit hour?",
+      "question_b": "What is the semester freeze fee?",
+      "cosine_similarity": 0.672863
+    },
+    {
+      "id": "attendance-rule-vs-failure-consequence",
+      "same_answer": false,
+      "question_a": "What attendance percentage is required in a course?",
+      "question_b": "What happens when a student fails the course attendance requirement?",
+      "cosine_similarity": 0.685617
+    }
+  ],
+  "threshold_results": [
+    {
+      "threshold": 0.85,
+      "same_answer_hits": 1,
+      "same_answer_pairs": 2,
+      "different_answer_false_hits": [
+        "regular-vs-summer-attendance"
+      ],
+      "different_answer_pairs": 4
+    },
+    {
+      "threshold": 0.9,
+      "same_answer_hits": 1,
+      "same_answer_pairs": 2,
+      "different_answer_false_hits": [
+        "regular-vs-summer-attendance"
+      ],
+      "different_answer_pairs": 4
+    },
+    {
+      "threshold": 0.95,
+      "same_answer_hits": 0,
+      "same_answer_pairs": 2,
+      "different_answer_false_hits": [],
+      "different_answer_pairs": 4
+    }
+  ],
+  "lowest_threshold_with_zero_false_hits": 0.95
+}
