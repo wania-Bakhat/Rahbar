@@ -1,0 +1,106 @@
+name: CD
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-python@v5.6.0
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -r api/requirements-dev.txt -r indexer/requirements-dev.txt
+      - name: API tests with required coverage
+        working-directory: api
+        run: python -m pytest -q --cov=app --cov-report=term-missing --cov-fail-under=60
+      - name: Indexer tests
+        working-directory: indexer
+        run: python -m pytest -q
+
+  build-push:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: docker/setup-buildx-action@v3.8.0
+      - uses: docker/login-action@v3.3.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: docker/build-push-action@v6.13.0
+        with:
+          context: ./api
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/rahbar-api:${{ github.sha }}
+      - uses: docker/build-push-action@v6.13.0
+        with:
+          context: .
+          file: ./indexer/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/rahbar-indexer:${{ github.sha }}
+      - uses: docker/build-push-action@v6.13.0
+        with:
+          context: ./ui
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/rahbar-ui:${{ github.sha }}
+
+  deploy:
+    needs: build-push
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: helm/kind-action@v1.10.0
+        with:
+          cluster_name: rahbar-cd
+      - name: Install cluster storage and ingress
+        run: |
+          kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.31/deploy/local-path-storage.yaml
+          kubectl wait --namespace local-path-storage --for=condition=Available deployment/local-path-provisioner --timeout=120s
+          kubectl patch storageclass local-path -p '{"metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.2/deploy/static/provider/kind/deploy.yaml
+          kubectl wait --namespace ingress-nginx --for=condition=Available deployment/ingress-nginx-controller --timeout=180s
+      - name: Install kustomize
+        run: |
+          curl -fsSLo kustomize.tar.gz https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.6.0/kustomize_v5.6.0_linux_amd64.tar.gz
+          tar -xzf kustomize.tar.gz kustomize
+          sudo install kustomize /usr/local/bin/kustomize
+      - name: Deploy commit-tagged images and fixture corpus
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          kubectl create namespace rahbar
+          kubectl create configmap rahbar-fixtures -n rahbar --from-file=eval/fixtures/academic-rules-2023.md --from-file=eval/fixtures/academic-rules-2026.md --from-file=eval/fixtures/fees-2026.md
+          cd k8s/overlays/cd
+          kustomize edit set image "rahbar-api=${DOCKERHUB_USERNAME}/rahbar-api:${IMAGE_TAG}"
+          kustomize edit set image "rahbar-indexer=${DOCKERHUB_USERNAME}/rahbar-indexer:${IMAGE_TAG}"
+          kustomize edit set image "rahbar-ui=${DOCKERHUB_USERNAME}/rahbar-ui:${IMAGE_TAG}"
+          cd ../../..
+          kubectl apply -k k8s/overlays/cd
+      - name: Wait for Job and Deployment rollouts
+        run: |
+          kubectl wait -n rahbar --for=condition=complete job/indexer --timeout=10m
+          kubectl rollout status -n rahbar deployment/api --timeout=5m
+          kubectl rollout status -n rahbar deployment/ui --timeout=5m
+      - name: Smoke test through Ingress
+        run: |
+          kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8080:80 >/tmp/rahbar-ingress-forward.log 2>&1 &
+          PORT_FORWARD_PID=$!
+          trap 'kill "$PORT_FORWARD_PID" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl -fsS -H 'Host: rahbar.local' http://127.0.0.1:8080/ >/dev/null; then break; fi
+            sleep 2
+          done
+          curl --fail --show-error -H 'Host: rahbar.local' -H 'Content-Type: application/json' \
+            -d '{"question":"When is a student placed on academic warning?"}' \
+            http://127.0.0.1:8080/api/ask

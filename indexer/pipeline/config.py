@@ -26,11 +26,6 @@ class IndexerSettings:
     chunk_size: int
     chunk_overlap: int
     ollama_url: str
-    redis_host: str = "redis"
-    redis_port: int = 6379
-    redis_db: int = 0
-    redis_password: str = ""
-    redis_cache_prefix: str = "rahbar:cache:"
     failure_mode: FailureMode = "off"
 
 
@@ -50,10 +45,5 @@ def get_settings() -> IndexerSettings:
         chunk_size=int(os.environ.get("CHUNK_SIZE", 400)),
         chunk_overlap=int(os.environ.get("CHUNK_OVERLAP", 50)),
         ollama_url=os.environ.get("OLLAMA_URL", "http://host.minikube.internal:11434"),
-        redis_host=os.environ.get("REDIS_HOST", "redis"),
-        redis_port=int(os.environ.get("REDIS_PORT", 6379)),
-        redis_db=int(os.environ.get("REDIS_DB", 0)),
-        redis_password=os.environ.get("REDIS_PASSWORD", ""),
-        redis_cache_prefix=os.environ.get("REDIS_CACHE_PREFIX", "rahbar:cache:"),
         failure_mode=failure_mode,  # type: ignore[arg-type]
     )

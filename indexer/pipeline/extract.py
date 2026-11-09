@@ -9,6 +9,33 @@ from .models import Document
 from .models import Page
 
 
+_TWO_COLUMN_PDF_SPLITS = {
+    # The prospectus fee page has policy prose on the left and two tables on the
+    # right. Full-page reading order interleaves those columns and associates the
+    # wrong fee with the tuition sentence. Keep this exception source-specific.
+    "prospectus-fee-information-2026.pdf": 0.36,
+}
+
+
+def _extract_pdf_page_text(pdf_page, source_name: str) -> str:
+    """Extract visible page text, separating the known fee-prospectus columns."""
+    split_fraction = _TWO_COLUMN_PDF_SPLITS.get(source_name)
+    if not hasattr(pdf_page, "width") or not hasattr(pdf_page, "height"):
+        return pdf_page.extract_text() or ""
+
+    if split_fraction is not None:
+        split_x = pdf_page.width * split_fraction
+        left = pdf_page.crop((0, 0, split_x, pdf_page.height)).extract_text() or ""
+        right = pdf_page.crop((split_x, 0, pdf_page.width, pdf_page.height)).extract_text() or ""
+        return "\n\n".join(column.strip() for column in (left, right) if column.strip())
+
+    # Some PDFs contain duplicate or clipped text-layer characters outside the
+    # visible page. pdfplumber.extract_text() includes them, which can attach a
+    # visible clause to a heading that is only present off-page.
+    visible_page = pdf_page.crop((0, 0, pdf_page.width, pdf_page.height))
+    return visible_page.extract_text() or ""
+
+
 class _HTMLText(HTMLParser):
     """Small standard-library HTML text extractor that keeps block boundaries."""
 
@@ -38,6 +65,33 @@ class _HTMLText(HTMLParser):
             self.parts.append(data)
 
 
+def _structured_table_rows(pdf_page, source_name: str) -> list[str]:
+    """Flatten bounded PDF table rows while preserving cell boundaries and headings."""
+    rows: list[str] = []
+    seen: set[str] = set()
+    for table in pdf_page.extract_tables() or []:
+        table_rows = table or []
+        if table_rows and source_name == "prospectus-fee-information-2026.pdf":
+            header = {" ".join(str(cell or "").split()).casefold()
+                      for cell in (table_rows[0] or []) if cell}
+            if {"description", "fee"}.issubset(header):
+                rows.append("5. Miscellaneous Fees")
+            elif {"timeline", "percentage of fee"}.issubset(header):
+                rows.append("B. Fee Refund Policy")
+        for row in table_rows:
+            cells = [" ".join(str(cell).split()) for cell in (row or []) if cell]
+            if len(cells) < 2:
+                continue
+            rendered = " | ".join(cells)
+            # pdfplumber can identify a whole multi-column page as one giant table;
+            # omit those pseudo-rows and keep actual row-shaped content.
+            if len(rendered) > 600 or rendered in seen:
+                continue
+            seen.add(rendered)
+            rows.append(f"Table row: {rendered}")
+    return rows
+
+
 def extract(
     path: str, doc_version: str, superseded: bool, failure_mode: str = "off"
 ) -> Document:
@@ -60,8 +114,9 @@ def extract(
 
         with pdfplumber.open(source) as pdf:
             for number, pdf_page in enumerate(pdf.pages, start=1):
-                text = pdf_page.extract_text() or ""
+                text = _extract_pdf_page_text(pdf_page, source.name)
                 needs_ocr = not text.strip()
+                table_rows = _structured_table_rows(pdf_page, source.name)
                 ocr_used = False
                 if needs_ocr and failure_mode != "no_ocr":
                     try:
@@ -80,6 +135,8 @@ def extract(
                         ocr_used = True
                     except Exception as exc:
                         raise RuntimeError(f"OCR failed on {source.name} page {number}: {exc}") from exc
+                if table_rows:
+                    text = f"{text.rstrip()}\n\n" + "\n".join(table_rows)
                 doc.pages.append(Page(source.name, number, text, ocr=ocr_used))
         return doc
 

@@ -1,0 +1,11 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: indexer
+spec:
+  template:
+    spec:
+      volumes:
+        - name: corpus
+          configMap:
+            name: rahbar-fixtures

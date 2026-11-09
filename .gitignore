@@ -20,8 +20,10 @@ venv/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.coverage*
 
 # Local scratch
 *.log
+eval/*.partial
 .DS_Store
 .vscode/

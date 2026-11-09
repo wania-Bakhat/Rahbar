@@ -31,7 +31,11 @@ def readyz(request: Request, response: Response) -> dict[str, object]:
         checks["embedding_model"] = "not checked"
     else:
         try:
-            collection = chroma_client.get_collection(name=settings.collection)
+            active_collection = getattr(retriever, "active_collection", None)
+            if callable(active_collection):
+                collection = active_collection()
+            else:
+                collection = chroma_client.get_collection(name=settings.collection)
             checks["chroma"] = "reachable"
             count = int(collection.count())
             checks["collection"] = {"name": settings.collection, "count": count}

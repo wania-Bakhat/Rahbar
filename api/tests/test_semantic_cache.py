@@ -66,3 +66,26 @@ def test_follow_up_detector_catches_referential_questions() -> None:
     assert is_follow_up("What about that?")
     assert is_follow_up("It also has a fee?")
     assert not is_follow_up("What is the attendance policy?")
+
+
+def test_new_index_generation_switches_cache_namespace(monkeypatch) -> None:
+    client: FakeRedis | None = None
+
+    def create_client(**kwargs: Any) -> FakeRedis:
+        nonlocal client
+        client = FakeRedis(**kwargs)
+        return client
+
+    monkeypatch.setattr("redis.Redis", create_client)
+    cache = SemanticCache(Settings(cache_threshold=0.9))
+    cache.invalidate_for_generation("generation-a")
+    cache.store("Attendance rule?", [1.0, 0.0], _response())
+    assert client is not None
+    old_key = next(iter(client.values))
+    assert old_key.startswith("rahbar:cache:generation-a:")
+
+    cache.invalidate_for_generation("generation-b")
+    assert cache.lookup([1.0, 0.0]) is None
+    cache.store("Attendance rule?", [1.0, 0.0], _response())
+    new_key = next(key for key in client.values if key != old_key)
+    assert new_key.startswith("rahbar:cache:generation-b:")

@@ -8,6 +8,7 @@ import re
 from .models import Chunk, Document
 
 _NUMBERED_HEADING = re.compile(r"^(?:\d+(?:\.\d+)*[.)]?\s+|section\s+\d+|chapter\s+\d+)", re.I)
+_LETTERED_HEADING = re.compile(r"^[A-Z][.)]\s+")
 _MARKDOWN_HEADING = re.compile(r"^#{1,6}\s+(.+?)\s*#*\s*$")
 
 
@@ -18,7 +19,7 @@ def _heading(line: str) -> str | None:
     value = line.strip()
     if not value or len(value) > 110 or len(value.split()) > 14:
         return None
-    if _NUMBERED_HEADING.match(value):
+    if _NUMBERED_HEADING.match(value) or _LETTERED_HEADING.match(value):
         return value
     letters = [char for char in value if char.isalpha()]
     if len(letters) >= 4 and sum(char.isupper() for char in letters) / len(letters) >= 0.85:
@@ -28,8 +29,9 @@ def _heading(line: str) -> str | None:
 
 def chunk(doc: Document, size: int, overlap: int) -> list[Chunk]:
     """Split on sections, then paragraphs, then sentences, keeping each chunk under
-    `size` tokens, with `overlap` tokens shared between neighbours. Every chunk keeps
-    the section heading it sits under, its page, doc_version and superseded."""
+    `size` whitespace-delimited tokens (`str.split()` units), with `overlap` tokens
+    shared between neighbours. This explicit tokenizer is not the model's subword
+    tokenizer. Every chunk keeps the section heading, page, doc_version and superseded."""
     if size < 1:
         raise ValueError("chunk size must be at least 1")
     if overlap < 0 or overlap >= size:
@@ -44,8 +46,11 @@ def chunk(doc: Document, size: int, overlap: int) -> list[Chunk]:
         if not buffer:
             return
         if chunks and len(buffer) <= overlap:
-            buffer = []
-            return
+            buffered_tokens = [token for token, _ in buffer]
+            previous_tail = chunks[-1].text.split()[-len(buffer):]
+            if buffered_tokens == previous_tail:
+                buffer = []
+                return
         text = " ".join(token for token, _ in buffer).strip()
         if text:
             ordinal = len(chunks) + 1

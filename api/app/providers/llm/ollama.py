@@ -6,6 +6,7 @@ import httpx
 
 from ...config import Settings
 from ...schemas import Answer, Passage
+from ...telemetry import record_token_usage
 from ._common import build_messages, effective_temperature, parse_answer
 
 
@@ -22,7 +23,13 @@ class OllamaProvider:
             "messages": build_messages(question, passages, self.settings.failure_mode),
             "stream": False,
             "format": Answer.model_json_schema(),
-            "options": {"temperature": effective_temperature(self.settings)},
+            # RAHBAR's schema calls for concise answers. A hard generation bound keeps
+            # small local models from spending minutes producing verbose reasoning and
+            # makes the evaluator's per-question timeout predictable.
+            "options": {
+                "temperature": effective_temperature(self.settings),
+                "num_predict": 192,
+            },
         }
         try:
             response = httpx.post(endpoint, json=payload,
@@ -31,6 +38,8 @@ class OllamaProvider:
             body = response.json()
         except (httpx.HTTPError, ValueError) as exc:
             raise RuntimeError(f"Ollama chat request failed: {exc}") from exc
+
+        record_token_usage(body.get("prompt_eval_count"), body.get("eval_count"))
 
         message = body.get("message") or {}
         content = message.get("content")

@@ -6,8 +6,11 @@ from __future__ import annotations
 import math
 from pathlib import Path
 
+from pipeline.clean import clean
+from pipeline.chunk import chunk
 from pipeline.config import get_settings
 from pipeline.dummy import DUMMY_DIM, DUMMY_MODEL, fake_vector, write_dummy_index
+from pipeline.models import Document, Page
 from pipeline.run import discover
 
 
@@ -65,3 +68,34 @@ def test_discover_reads_fixture_front_matter() -> None:
     found = {p.name: (version, old) for p, version, old in discover(str(fixtures))}
     assert found["academic-rules-2023.md"] == ("2023", True)
     assert found["academic-rules-2026.md"] == ("2026", False)
+
+
+def test_clean_keeps_numbered_clause_even_when_it_repeats_at_page_edges() -> None:
+    doc = Document("rules.pdf", "2026", False, pages=[
+        Page("rules.pdf", 1, "Header\nAttendance Requirements\n"
+             "1.21 Students must attend all scheduled classes.\nPage 1"),
+        Page("rules.pdf", 2, "Header\nAttendance Requirements\n"
+             "1.21 Students must attend all scheduled classes.\nPage 2"),
+    ])
+
+    clean(doc)
+
+    assert "1.21 Students must attend all scheduled classes." in doc.pages[0].text
+    assert "Attendance Requirements" not in doc.pages[0].text
+
+
+def test_chunk_keeps_short_clause_content_that_is_no_longer_only_overlap() -> None:
+    document = Document("rules.pdf", "2026", False, pages=[Page(
+        "rules.pdf", 1,
+        "Attendance Requirements\n"
+        "1.21 Students are required to maintain 100% attendance in lectures and labs.\n"
+        "Absence of a maximum of 20% may be condoned for genuine reasons.\n"
+        "1.22 Failure to meet attendance renders a student ineligible for the final exam.\n"
+        "The student will be assigned an F/A grade.",
+    )])
+
+    chunks = chunk(document, size=100, overlap=50)
+
+    clause_121 = [item for item in chunks if item.section.startswith("1.21")]
+    assert clause_121
+    assert any("100% attendance" in item.text for item in clause_121)

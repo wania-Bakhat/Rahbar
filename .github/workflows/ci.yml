@@ -1,0 +1,149 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [dev]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-python@v5.6.0
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -r api/requirements-dev.txt -r indexer/requirements-dev.txt
+      - run: ruff check api indexer eval corpus
+      - run: cd api && mypy app
+      - run: cd indexer && mypy pipeline
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-python@v5.6.0
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -r api/requirements-dev.txt -r indexer/requirements-dev.txt
+      - name: API tests with required coverage
+        working-directory: api
+        run: python -m pytest -q --cov=app --cov-report=term-missing --cov-fail-under=60
+      - name: Indexer tests
+        working-directory: indexer
+        run: python -m pytest -q
+      - name: Evaluation gate unit tests
+        run: python -m pytest -q eval/tests
+
+  manifests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - name: Install kustomize
+        run: |
+          curl -fsSLo kustomize.tar.gz https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.6.0/kustomize_v5.6.0_linux_amd64.tar.gz
+          tar -xzf kustomize.tar.gz kustomize
+          sudo install kustomize /usr/local/bin/kustomize
+      - name: Install kubeconform
+        run: |
+          curl -fsSLo kubeconform.tar.gz https://github.com/yannh/kubeconform/releases/download/v0.6.7/kubeconform-linux-amd64.tar.gz
+          tar -xzf kubeconform.tar.gz kubeconform
+          sudo install kubeconform /usr/local/bin/kubeconform
+      - run: kustomize build k8s/overlays/dev | kubeconform -strict -summary
+      - run: kustomize build k8s/overlays/prod | kubeconform -strict -summary
+      - run: kustomize build k8s/overlays/ci | kubeconform -strict -summary
+      - run: kustomize build k8s/overlays/cd | kubeconform -strict -summary
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - run: docker build -t rahbar-api:ci api
+      - run: docker build -f indexer/Dockerfile -t rahbar-indexer:ci .
+      - run: docker build -t rahbar-ui:ci ui
+
+  scan:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2.3.9
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: docker build -t rahbar-api:scan api
+      - run: docker build -f indexer/Dockerfile -t rahbar-indexer:scan .
+      - run: docker build -t rahbar-ui:scan ui
+      - name: Scan API image
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: rahbar-api:scan
+          format: table
+          exit-code: "1"
+          ignore-unfixed: true
+          severity: HIGH,CRITICAL
+      - name: Scan indexer image
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: rahbar-indexer:scan
+          format: table
+          exit-code: "1"
+          ignore-unfixed: true
+          severity: HIGH,CRITICAL
+      - name: Scan UI image
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: rahbar-ui:scan
+          format: table
+          exit-code: "1"
+          ignore-unfixed: true
+          severity: HIGH,CRITICAL
+
+  e2e-eval:
+    needs: [test, manifests]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-python@v5.6.0
+        with:
+          python-version: "3.12"
+      - uses: helm/kind-action@v1.10.0
+        with:
+          cluster_name: rahbar-ci
+      - name: Install local-path storage for PVCs
+        run: |
+          kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.31/deploy/local-path-storage.yaml
+          kubectl wait --namespace local-path-storage --for=condition=Available deployment/local-path-provisioner --timeout=120s
+          kubectl patch storageclass local-path -p '{"metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+      - name: Build and load local images
+        run: |
+          docker build -t rahbar-api:dev api
+          docker build -f indexer/Dockerfile -t rahbar-indexer:dev .
+          docker build -t rahbar-ui:dev ui
+          kind load docker-image rahbar-api:dev rahbar-indexer:dev rahbar-ui:dev --name rahbar-ci
+      - name: Create fixture ConfigMap and deploy
+        run: |
+          kubectl create namespace rahbar
+          kubectl create configmap rahbar-fixtures -n rahbar --from-file=eval/fixtures/academic-rules-2023.md --from-file=eval/fixtures/academic-rules-2026.md --from-file=eval/fixtures/fees-2026.md
+          kubectl apply -k k8s/overlays/ci
+      - name: Wait for indexing and application rollout
+        run: |
+          kubectl wait -n rahbar --for=condition=complete job/indexer --timeout=10m
+          kubectl rollout status -n rahbar deployment/api --timeout=5m
+          kubectl rollout status -n rahbar deployment/ui --timeout=5m
+      - name: Run fixture evaluation gate
+        run: |
+          python -m pip install -r api/requirements.txt pyyaml==6.0.2
+          kubectl port-forward -n rahbar svc/api 8000:8000 >/tmp/rahbar-port-forward.log 2>&1 &
+          PORT_FORWARD_PID=$!
+          trap 'kill "$PORT_FORWARD_PID" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8000/readyz >/dev/null; then break; fi
+            sleep 2
+          done
+          python eval/run_eval.py --api http://127.0.0.1:8000 --golden eval/fixtures/golden.fixture.yaml --baseline /tmp/no-baseline.json --out /tmp/rahbar-ci-results.json

@@ -13,6 +13,7 @@ from __future__ import annotations
 import hashlib
 import math
 from typing import Any
+from uuid import uuid4
 
 from .config import IndexerSettings
 from .models import Chunk
@@ -50,7 +51,8 @@ def write_dummy_index(settings: IndexerSettings, client: Any) -> int:
         pass
     collection = client.create_collection(
         name=settings.collection,
-        metadata={"hnsw:space": "cosine", "embed_model": DUMMY_MODEL, "dimension": DUMMY_DIM},
+        metadata={"hnsw:space": "cosine", "embed_model": DUMMY_MODEL,
+                  "dimension": DUMMY_DIM, "index_generation": f"dummy-{uuid4().hex}"},
     )
     collection.add(
         ids=[c.id for c in DUMMY_CHUNKS],

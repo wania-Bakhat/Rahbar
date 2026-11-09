@@ -7,6 +7,8 @@ from collections import Counter
 
 from .models import Document
 
+_NUMBERED_CLAUSE = re.compile(r"^\d+(?:\.\d+)*[.)]?\s+\S+")
+
 
 def clean(doc: Document) -> Document:
     """Strip headers and footers that repeat on every page; keep headings and
@@ -18,7 +20,11 @@ def clean(doc: Document) -> Document:
     for page in doc.pages:
         lines = [re.sub(r"\s+", " ", line).strip() for line in page.text.splitlines()]
         page_lines[page.page] = lines
-        candidates = {line.casefold() for line in lines[:3] + lines[-3:] if line}
+        candidates = {
+            line.casefold()
+            for line in lines[:3] + lines[-3:]
+            if line and not _NUMBERED_CLAUSE.match(line)
+        }
         edge_counts.update(candidates)
 
     repeated_edges = {line for line, count in edge_counts.items() if count >= 2}

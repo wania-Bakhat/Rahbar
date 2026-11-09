@@ -29,6 +29,11 @@ def is_follow_up(question: str) -> bool:
     return bool(_FOLLOW_UP_START.search(normalized) or _REFERENTIAL_START.search(normalized))
 
 
+def never_cache(question: str, answered_from_context: bool = True) -> bool:
+    """Abstentions and context-dependent follow-ups must never enter or use cache."""
+    return is_follow_up(question) or not answered_from_context
+
+
 def cosine_similarity(left: list[float], right: list[float]) -> float:
     if not left or len(left) != len(right):
         return 0.0
@@ -53,6 +58,8 @@ class SemanticCache:
         if not settings.redis_cache_prefix:
             raise ValueError("REDIS_CACHE_PREFIX must not be empty")
         self.settings = settings
+        self._generation: str | None = None
+        self._active_prefix = settings.redis_cache_prefix
         self.redis = redis.Redis(
             host=settings.redis_host,
             port=settings.redis_port,
@@ -66,11 +73,22 @@ class SemanticCache:
     def embed_question(self, question: str) -> list[float]:
         return embed_text(question, self.settings)
 
+    def invalidate_for_generation(self, generation: str) -> None:
+        """Invalidate stale answers by switching namespaces after an index replacement.
+
+        Redis stays reachable only from API pods. Old-generation keys become unreachable
+        immediately and expire by TTL; the indexer publishes the generation in Chroma.
+        """
+        if not generation or generation == self._generation:
+            return
+        self._generation = generation
+        self._active_prefix = f"{self.settings.redis_cache_prefix}{generation}:"
+
     def lookup(self, embedding: list[float]) -> AskResponse | None:
         CACHE_LOOKUPS.inc()
         best_similarity = self.settings.cache_threshold
         best_response: dict[str, Any] | None = None
-        for key in self.redis.scan_iter(match=f"{self.settings.redis_cache_prefix}*", count=500):
+        for key in self.redis.scan_iter(match=f"{self._active_prefix}*", count=500):
             raw = cast(str | None, self.redis.get(key))
             if not raw:
                 continue
@@ -101,7 +119,7 @@ class SemanticCache:
             "response": response.model_dump(exclude={"request_id"}),
         }
         self.redis.setex(
-            f"{self.settings.redis_cache_prefix}{digest}",
+            f"{self._active_prefix}{digest}",
             self.settings.cache_ttl_seconds,
             json.dumps(value, ensure_ascii=False),
         )

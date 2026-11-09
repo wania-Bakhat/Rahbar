@@ -7,8 +7,8 @@
 
 Exit code 0 when every gate passes, 1 when any fails. CI relies on that exit code.
 
-Given: talking to the API, reading the golden set, writing results.json, the exit
-code. Yours: the four functions marked STARTER-TODO. They are the evaluation.
+The evaluator calls the API, reads the golden set, writes results.json and returns
+the gate status as its exit code.
 """
 
 from __future__ import annotations
@@ -16,6 +16,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 import time
 from pathlib import Path
@@ -91,6 +92,24 @@ def citation_counts(response: dict) -> tuple[int, int]:
     return valid, len(citations)
 
 
+def expected_value_present(row: dict) -> bool | None:
+    """Check a golden expected value in claim text, excluding inline citations."""
+    expected = row.get("expect")
+    if expected is None:
+        return None
+    response = row.get("response") or {}
+    answer = str(response.get("answer", ""))
+    claim_text = re.sub(r"\[[^\]]*\]", " ", answer)
+    token_pattern = r"\d+(?:[.,]\d+)*%?|[A-Za-z]+(?:['’][A-Za-z]+)?"
+    expected_tokens = [token.casefold() for token in re.findall(token_pattern, str(expected))]
+    answer_tokens = [token.casefold() for token in re.findall(token_pattern, claim_text)]
+    if not expected_tokens:
+        return False
+    width = len(expected_tokens)
+    return any(answer_tokens[index:index + width] == expected_tokens
+               for index in range(len(answer_tokens) - width + 1))
+
+
 def summarise(rows: list[dict]) -> dict:
     """Overall recall@3, recall@5, citation validity and abstention correctness, plus
     recall@5 broken down by question type. This dict becomes results.json."""
@@ -101,6 +120,9 @@ def summarise(rows: list[dict]) -> dict:
     abstention_total = 0
     abstention_correct = 0
     must_abstain_failures: list[str] = []
+    expected_total = 0
+    expected_correct = 0
+    expected_failures: list[str] = []
     by_type: dict[str, list[dict]] = {}
 
     for row in rows:
@@ -115,6 +137,14 @@ def summarise(rows: list[dict]) -> dict:
             recall5_values.append(row["recall_at_5"])
         kind = str(row.get("type", "ordinary"))
         by_type.setdefault(kind, []).append(row)
+
+        expectation = expected_value_present(row)
+        if expectation is not None:
+            expected_total += 1
+            if expectation:
+                expected_correct += 1
+            else:
+                expected_failures.append(str(row.get("id", "unknown")))
 
         valid_count, total_count = citation_counts(response)
         citation_valid += valid_count
@@ -153,6 +183,10 @@ def summarise(rows: list[dict]) -> dict:
         "must_abstain_correct": abstention_correct,
         "must_abstain_total": abstention_total,
         "must_abstain_failures": must_abstain_failures,
+        "expected_value_accuracy": expected_correct / expected_total if expected_total else None,
+        "expected_value_correct": expected_correct,
+        "expected_value_total": expected_total,
+        "expected_value_failures": expected_failures,
     }
 
 
@@ -176,6 +210,12 @@ def gate(results: dict, baseline: dict | None) -> list[str]:
             "must-abstain questions answered from context: " + ", ".join(abstain_failures)
         )
 
+    expected_failures = results.get("expected_value_failures") or []
+    if expected_failures:
+        failures.append("golden expected values missing from claim text: " + ", ".join(
+            str(value) for value in expected_failures
+        ))
+
     citation_validity_value = results.get("citation_validity")
     if (citation_validity_value is None
             or float(citation_validity_value) < MIN_CITATION_VALIDITY):
@@ -197,6 +237,10 @@ def main() -> int:
     parser.add_argument("--baseline", type=Path, default=HERE / "baseline.json")
     parser.add_argument("--out", type=Path,
                         help="results path (default: separate failure-results/<mode>.json per mode)")
+    parser.add_argument(
+        "--timeout-seconds", type=float, default=600.0,
+        help="per-request HTTP timeout (default: 600; local models may be slow)",
+    )
     parser.add_argument("--failure-mode", choices=FAILURE_MODES,
                         default=os.environ.get("FAILURE_MODE", "off"),
                         help="label the active API failure mode and save it separately")
@@ -210,9 +254,15 @@ def main() -> int:
         parser.error("failure-mode runs cannot update the healthy baseline")
 
     questions = load_golden(args.golden)
+    output_path = args.out or (
+        HERE / "results.json" if args.failure_mode == "off"
+        else HERE / "failure-results" / f"{args.failure_mode}.json"
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    checkpoint_path = output_path.with_suffix(output_path.suffix + ".partial")
     rows = []
     headers = {"Host": args.host} if args.host else {}
-    with httpx.Client(timeout=120.0, headers=headers) as client:
+    with httpx.Client(timeout=args.timeout_seconds, headers=headers) as client:
         for q in questions:
             started = time.perf_counter()
             response = ask(client, args.api, q["question"])
@@ -224,7 +274,9 @@ def main() -> int:
                 "response": response,
                 "seconds": round(time.perf_counter() - started, 2),
             })
-            print(f"  {q['id']:<5} {rows[-1]['seconds']:>6.2f}s  {q['question'][:60]}")
+            checkpoint_path.write_text(json.dumps(rows, indent=2), encoding="utf-8")
+            print(f"  {q['id']:<5} {rows[-1]['seconds']:>6.2f}s  {q['question'][:60]}",
+                  flush=True)
 
     results = summarise(rows)
     baseline = json.loads(args.baseline.read_text()) if args.baseline.exists() else None
@@ -232,16 +284,17 @@ def main() -> int:
     results["golden"] = str(args.golden)
     results["questions"] = len(rows)
     results["failure_mode"] = args.failure_mode
-    output_path = args.out or (
-        HERE / "results.json" if args.failure_mode == "off"
-        else HERE / "failure-results" / f"{args.failure_mode}.json"
-    )
-    output_path.parent.mkdir(parents=True, exist_ok=True)
+    # Preserve each response and its retrieved evidence so the generation checks in
+    # the assignment can be reviewed per question after the run, not only summarized.
+    results["question_results"] = rows
     output_path.write_text(json.dumps(results, indent=2), encoding="utf-8")
+    checkpoint_path.unlink(missing_ok=True)
     print(f"\nresults written to {output_path}")
     if args.update_baseline:
         args.baseline.parent.mkdir(parents=True, exist_ok=True)
-        args.baseline.write_text(json.dumps(results, indent=2), encoding="utf-8")
+        baseline = {key: value for key, value in results.items()
+                    if key != "question_results"}
+        args.baseline.write_text(json.dumps(baseline, indent=2), encoding="utf-8")
         print(f"baseline updated: {args.baseline}")
 
     if failures:

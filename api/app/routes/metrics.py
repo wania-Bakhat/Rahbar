@@ -1,8 +1,4 @@
-"""Prometheus metrics at /metrics (section 4.8).
-
-Request count and latency are wired up already. Add your own the same way:
-retrieval latency, generation latency, cache hits, abstentions, fallbacks, tokens.
-"""
+"""Prometheus request, retrieval, generation, cache, abstention and token metrics."""
 
 from __future__ import annotations
 
