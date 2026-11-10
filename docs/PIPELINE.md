@@ -21,19 +21,21 @@ The indexer appends bounded rows from `pdfplumber`'s separate `extract_tables()`
 
 ## Chunk configuration and measured tuning
 
-The indexer default is 400 whitespace-delimited tokens with a 50-token overlap. A token is one non-empty unit returned by Python `str.split()`; this is a documented, reproducible whitespace tokenizer, not Ollama's internal subword tokenizer. The tuning utility evaluates three configurations against the same golden relevance pairs using recall@5. Measured values and the selection rationale are recorded below and in `eval/chunk-tuning-results.json` after the live comparison.
+The indexer default is 400 whitespace-delimited tokens with a 50-token overlap. A token is one non-empty unit returned by Python `str.split()`; this is a documented, reproducible whitespace tokenizer, not Ollama's internal subword tokenizer. The tuning utility evaluates three configurations against the same 18 golden relevance pairs using recall@3 and recall@5.
 
-| Whitespace-token size | Whitespace-token overlap | Recall@5 | Measurement status |
-| ---: | ---: | ---: | --- |
-| 200 | 25 | pending | Requires live Chroma and configured embeddings |
-| 400 | 50 | pending | Current indexer default; no measured score claimed |
-| 600 | 75 | pending | Requires live Chroma and configured embeddings |
+| Whitespace-token size | Whitespace-token overlap | Recall@3 | Recall@5 | Chunks | Measurement status |
+| ---: | ---: | ---: | ---: | ---: | --- |
+| 200 | 25 | 0.875 | 0.875 | 1,172 | Measured on the full corpus and 18-question golden set |
+| 400 | 50 | 0.875 | 0.875 | 1,029 | Measured; retained as the middle-size configuration, with no recall loss or gain in this run |
+| 600 | 75 | 0.875 | 0.875 | 998 | Measured on the full corpus and 18-question golden set |
+
+All three configurations returned identical recall in this run, so these measurements do not justify claiming that one improves retrieval. We retained 400:50 as the middle-size setting; it has fewer chunks than 200:25 and avoids shrinking to the largest chunks. The Job printed all measurements, then failed while serializing JSON because `/corpus` was outside its `/workspace` repository. The exact table and failure are preserved in `docs/evidence/chunk-tuning-job-stdout.txt`; `eval/chunk-tuning-results.json` records those values and that provenance. The serializer now supports mounted paths outside the repository, with regression tests.
 
 The cleaner collapses whitespace, strips repeating edge lines (only when repeated at page edges), and drops isolated page-number lines at page edges. It protects numbered clauses from repeated-header removal, since those lines carry exact policy meaning. It intentionally does not remove arbitrary body sentences or headings. At section boundaries the chunker emits any newly added content even when it is shorter than the overlap; only a tail that exactly duplicates the previous chunk is suppressed. A page's original 1-based number is retained for citations.
 
 The embedding pin is `EMBED_MODEL=nomic-embed-text` in `k8s/base/configmap.yaml`, consumed by both the API and indexer. The successful extraction-corrected Job `indexer-clipped2` finished at 2026-11-08 15:38:58 UTC, publishing 1,029 chunks in 839.7 seconds. Its output is saved in `docs/evidence/20261108-indexer-clipped2.txt`. A real `/api/embed` request returned a 768-dimensional vector for this model. The Job reports the count; the model endpoint check reports the dimension. The lower count than the preceding 1,148-chunk index follows cropping hidden out-of-page PDF text before chunking; it does not indicate missing visible pages.
 
-Run `python eval/tune_chunking.py --help` for the supported options, then run the three-way comparison against the same corpus snapshot and golden file. From Windows, keep local Ollama at `http://localhost:11434` and port-forward Chroma with `kubectl port-forward -n rahbar svc/chroma 8002:8000`; pass `--ollama-url http://localhost:11434 --chroma-host localhost --chroma-port 8002`. Save the actual output and record corpus hash, embedding model, time and configuration. Select based on retrieval results and inspect citation page/section quality; do not choose from chunk counts alone. Each configuration is written to an isolated temporary Chroma collection so stale chunks cannot affect recall.
+Run `python eval/tune_chunking.py --help` for supported options. The cluster Job used the same corpus snapshot, Ollama embedding pin and golden file for all three isolated temporary Chroma collections. Its Job start time, corpus fingerprint and stdout provenance are in `eval/chunk-tuning-results.json` and `docs/evidence/chunk-tuning-job-stdout.txt`. Select based on retrieval results and inspect citation page/section quality; do not choose from chunk counts alone.
 
 ## Evaluation and regression gate
 

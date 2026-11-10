@@ -21,5 +21,5 @@ data:
   LLM_MODEL: llama3.2:3b
   OLLAMA_URL: http://192.168.127.254:11434
   CORPUS_DIR: /corpus
-  FAILURE_MODE: off
+  FAILURE_MODE: "off"
   LOG_LEVEL: INFO

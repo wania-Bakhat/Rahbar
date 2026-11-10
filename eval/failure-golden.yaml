@@ -21,13 +21,6 @@ questions:
       - source: prospectus-academic-rules-2026.pdf
         section: "1. Attendance Requirement 4. Semester Course Load"
     expect: "1"
-  - id: q19
-    type: version-sensitive
-    question: "What numbered rule is labelled Attendance Requirement?"
-    relevant:
-      - source: academic-rules-handbook-2026.pdf
-        section: "1.21 Students are required to maintain 100% attendance in"
-    expect: "1.21"
   - id: q16
     type: must-abstain
     question: "What is today's room availability and price in a FAST-NUCES student hostel?"

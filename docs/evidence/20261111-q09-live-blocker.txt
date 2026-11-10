@@ -1,0 +1,22 @@
+Live q09 diagnostic; API request stopped before generation.
+
+Observed API log excerpt (embedding timeout):
+httpcore.ConnectTimeout: timed out
+httpx.ConnectTimeout: timed out
+    raise RuntimeError(f"could not embed query with {settings.embed_model!r}: {exc}") from exc
+RuntimeError: could not embed query with 'nomic-embed-text': timed out
+httpcore.ConnectTimeout: timed out
+httpx.ConnectTimeout: timed out
+    raise RuntimeError(f"could not embed query with {settings.embed_model!r}: {exc}") from exc
+RuntimeError: could not embed query with 'nomic-embed-text': timed out
+
+Observed PowerShell C: drive state:
+
+Name : C
+Free : 0
+Used : 143607721984
+
+
+Minikube image loading also reported that there was not enough disk space to write its C:\Users\CE\.minikube\cache\images\amd64 image cache.
+
+This is an environment failure, not a successful q09 verification. The full q09 answer repair and final evaluation remain unverified live.

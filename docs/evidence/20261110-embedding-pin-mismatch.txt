@@ -1,0 +1,14 @@
+Embedding pin mismatch demonstration: set mismatch, query the new replica, restore.
+deployment.apps/api env updated
+Mismatch pod: api-7c787894f6-nlsmz, ready=False
+503 {"status":"not_ready","checks":{"chroma":"reachable","collection":{"name":"rahbar","count":1029},"embedding_model":{"expected":"nomic-embed-text-mismatch","actual":"nomic-embed-text"},"redis":"reachable"},"failures":["embedding model mismatch: collection has 'nomic-embed-text', API expects 'nomic-embed-text-mismatch'"]}
+
+{"ts": "2026-11-10T17:33:21Z", "level": "INFO", "logger": "rahbar.api", "msg": "request", "request_id": "067f3411c69041b69912a8875e4e8114", "path": "/readyz", "status": 503, "ms": 20.6, "readiness_failures": ["embedding model mismatch: collection has 'nomic-embed-text', API expects 'nomic-embed-text-mismatch'"], "readiness_checks": {"chroma": "reachable", "collection": {"name": "rahbar", "count": 1029}, "embedding_model": {"expected": "nomic-embed-text-mismatch", "actual": "nomic-embed-text"}, "redis": "reachable"}}
+{"ts": "2026-11-10T17:33:31Z", "level": "INFO", "logger": "rahbar.api", "msg": "request", "request_id": "f1b5164872964fec92d7a3c0c080525c", "path": "/readyz", "status": 503, "ms": 16.5, "readiness_failures": ["embedding model mismatch: collection has 'nomic-embed-text', API expects 'nomic-embed-text-mismatch'"], "readiness_checks": {"chroma": "reachable", "collection": {"name": "rahbar", "count": 1029}, "embedding_model": {"expected": "nomic-embed-text-mismatch", "actual": "nomic-embed-text"}, "redis": "reachable"}}
+{"ts": "2026-11-10T17:33:41Z", "level": "INFO", "logger": "rahbar.api", "msg": "request", "request_id": "ffcf5645c5f14c46b23b1fc71d283db2", "path": "/readyz", "status": 503, "ms": 15.8, "readiness_failures": ["embedding model mismatch: collection has 'nomic-embed-text', API expects 'nomic-embed-text-mismatch'"], "readiness_checks": {"chroma": "reachable", "collection": {"name": "rahbar", "count": 1029}, "embedding_model": {"expected": "nomic-embed-text-mismatch", "actual": "nomic-embed-text"}, "redis": "reachable"}}
+{"ts": "2026-11-10T17:33:50Z", "level": "INFO", "logger": "rahbar.api", "msg": "request", "request_id": "4b7285c09ffb456b90c0167d2dff2d7b", "path": "/readyz", "status": 503, "ms": 23.0, "readiness_failures": ["embedding model mismatch: collection has 'nomic-embed-text', API expects 'nomic-embed-text-mismatch'"], "readiness_checks": {"chroma": "reachable", "collection": {"name": "rahbar", "count": 1029}, "embedding_model": {"expected": "nomic-embed-text-mismatch", "actual": "nomic-embed-text"}, "redis": "reachable"}}
+
+--- restore ConfigMap embedding pin ---
+deployment.apps/api env updated
+deployment "api" successfully rolled out
+{"status":"ready","checks":{"chroma":"reachable","collection":{"name":"rahbar","count":1029},"embedding_model":{"expected":"nomic-embed-text","actual":"nomic-embed-text"},"redis":"reachable"},"failures":[]}

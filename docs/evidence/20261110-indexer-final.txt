@@ -1,0 +1,39 @@
+--- reindex Job ---
+NAME               STATUS     COMPLETIONS   DURATION   AGE     CONTAINERS   IMAGES                    SELECTOR
+reindex-29903160   Complete   1/1           14m        3h26m   indexer      rahbar-indexer:clipped2   batch.kubernetes.io/controller-uid=686dcd8c-49b9-4865-81ce-8a3171c08734
+--- final indexer log tail ---
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+{"ts": "2026-11-10T16:06:49Z", "logger": "rahbar.indexer", "msg": "chunked", "source": "annual-report-2023-24.pdf", "chunks": 257}
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+CropBox missing from /Page, defaulting to MediaBox
+{"ts": "2026-11-10T16:07:24Z", "logger": "rahbar.indexer", "msg": "chunked", "source": "faculty-entrepreneurship-and-technical-start-ups-policy.pdf", "chunks": 13}
+{"ts": "2026-11-10T16:07:25Z", "logger": "rahbar.indexer", "msg": "chunked", "source": "prospectus-fee-information-2026.pdf", "chunks": 17}
+{"ts": "2026-11-10T16:14:19Z", "logger": "rahbar.indexer", "msg": "index replaced", "chunks": 1029, "cache_invalidation": "API observes the new Chroma index_generation and switches Redis namespace"}
+{"ts": "2026-11-10T16:14:19Z", "logger": "rahbar.indexer", "msg": "indexer finished", "chunks": 1029, "seconds": 857.5}

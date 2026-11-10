@@ -1,0 +1,331 @@
+{
+  "recall_at_3": 0.75,
+  "recall_at_5": 0.75,
+  "by_type": {
+    "injection": {
+      "questions": 1,
+      "answerable_questions": 1,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0
+    },
+    "must-abstain": {
+      "questions": 1,
+      "answerable_questions": 0,
+      "recall_at_3": null,
+      "recall_at_5": null
+    },
+    "ordinary": {
+      "questions": 1,
+      "answerable_questions": 1,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    "version-sensitive": {
+      "questions": 2,
+      "answerable_questions": 2,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    }
+  },
+  "citation_validity": 1.0,
+  "citation_valid": 3,
+  "citation_total": 3,
+  "abstention_correctness": 1.0,
+  "must_abstain_correct": 1,
+  "must_abstain_total": 1,
+  "must_abstain_failures": [],
+  "expected_value_accuracy": 1.0,
+  "expected_value_correct": 2,
+  "expected_value_total": 2,
+  "expected_value_failures": [],
+  "golden": "eval\\failure-golden.yaml",
+  "questions": 5,
+  "failure_mode": "no_context_instruction",
+  "question_results": [
+    {
+      "id": "q01",
+      "type": "ordinary",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "academic-rules-handbook-2026.pdf",
+          "section": "1.22 Failure to meet attendance requirements in a course will"
+        }
+      ],
+      "expect": null,
+      "response": {
+        "request_id": "fd3fede7c7c8439bbe0a8fab5d1bedbd",
+        "answer": "1.22 Failure to meet attendance requirements in a course will render the student ineligible to appear in the final examination of the concerned course. [academic-rules-handbook-2026.pdf / 1.22 Failure to meet attendance requirements in a course will]",
+        "citations": [
+          {
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.22 Failure to meet attendance requirements in a course will",
+            "page": 10
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "608a0397e8-00037-128c3dc42ac0ca77",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.22 Failure to meet attendance requirements in a course will",
+            "page": 10,
+            "score": 0.85258102
+          },
+          {
+            "chunk_id": "608a0397e8-00036-9935834006da3d1f",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.21 Students are required to maintain 100% attendance in",
+            "page": 10,
+            "score": 0.76601368
+          },
+          {
+            "chunk_id": "608a0397e8-00035-d96bdd5faf752c52",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.20 A student can only register for courses for which he/she has",
+            "page": 9,
+            "score": 0.7652543199999999
+          },
+          {
+            "chunk_id": "608a0397e8-00126-e31ef31ac4e37d7b",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "5.8 Any failed or missed course from a previous semester should",
+            "page": 25,
+            "score": 0.76225662
+          },
+          {
+            "chunk_id": "608a0397e8-00155-41c97e4bda43671b",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "6.7 80% attendance rule shall apply to summer courses/labs.",
+            "page": 28,
+            "score": 0.7330855700000001
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 59.69,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": "q10",
+      "type": "version-sensitive",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "academic-rules-handbook-2026.pdf",
+          "section": "1.21 Students are required to maintain 100% attendance in"
+        }
+      ],
+      "expect": "1.21",
+      "response": {
+        "request_id": "a4febe254de340a58351e82404d97705",
+        "answer": "1.21 Students are required to maintain 100% attendance in lectures, labs, tutorials, seminars and discussions as prescribed by the course instructor. [academic-rules-handbook-2026.pdf / 1.21 Students are required to maintain 100% attendance in]",
+        "citations": [
+          {
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.21 Students are required to maintain 100% attendance in",
+            "page": 10
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "608a0397e8-00036-9935834006da3d1f",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.21 Students are required to maintain 100% attendance in",
+            "page": 10,
+            "score": 0.77451932
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 21.89,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": "q11",
+      "type": "version-sensitive",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "prospectus-academic-rules-2026.pdf",
+          "section": "1. Attendance Requirement 4. Semester Course Load"
+        }
+      ],
+      "expect": "1",
+      "response": {
+        "request_id": "284ca3e2f69d4a3d946964ba3520bf78",
+        "answer": "Rule 1 is labelled Attendance Requirement [prospectus-academic-rules-2026.pdf / 1. Attendance Requirement 4. Semester Course Load]",
+        "citations": [
+          {
+            "source": "prospectus-academic-rules-2026.pdf",
+            "section": "1. Attendance Requirement 4. Semester Course Load",
+            "page": 1
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "384b923a24-00002-088edaf890784701",
+            "source": "prospectus-academic-rules-2026.pdf",
+            "section": "1. Attendance Requirement 4. Semester Course Load",
+            "page": 1,
+            "score": 0.67535615
+          },
+          {
+            "chunk_id": "384b923a24-00020-eff93e7cfd0bb04f",
+            "source": "prospectus-academic-rules-2026.pdf",
+            "section": "220 Prospectus 2026",
+            "page": 4,
+            "score": 0.64843798
+          },
+          {
+            "chunk_id": "384b923a24-00013-055672f73fc0da49",
+            "source": "prospectus-academic-rules-2026.pdf",
+            "section": "18. Missed Examinations a regular semester). disciplinary punishment.",
+            "page": 3,
+            "score": 0.64389187
+          },
+          {
+            "chunk_id": "384b923a24-00001-729f820c34629862",
+            "source": "prospectus-academic-rules-2026.pdf",
+            "section": "FAST-NUCES",
+            "page": 1,
+            "score": 0.64372045
+          },
+          {
+            "chunk_id": "384b923a24-00022-288b67eec8ffc18f",
+            "source": "prospectus-academic-rules-2026.pdf",
+            "section": "31. Pre-Medical students a disciplinary committee. The *Further extendable for one year with",
+            "page": 5,
+            "score": 0.64089292
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 164.82,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": "q16",
+      "type": "must-abstain",
+      "must_abstain": true,
+      "relevant": [],
+      "expect": null,
+      "response": {
+        "request_id": "5e064670a42b49a5bdc2fbcb81ccc336",
+        "answer": "The corpus does not provide enough information to answer this question reliably.",
+        "citations": [],
+        "answered_from_context": false,
+        "confidence": "low",
+        "retrieved": [
+          {
+            "chunk_id": "6f60611cc3-00141-7daebcde151e4957",
+            "source": "student-handbook-2026.pdf",
+            "section": "\u2022 IEEE",
+            "page": 43,
+            "score": 0.67263734
+          },
+          {
+            "chunk_id": "84114abdac-00257-1d7dcbd62705fcd0",
+            "source": "annual-report-2023-24.pdf",
+            "section": "12. Special Initiatives",
+            "page": 84,
+            "score": 0.66319537
+          },
+          {
+            "chunk_id": "6f60611cc3-00137-b8dbff27f8414c60",
+            "source": "student-handbook-2026.pdf",
+            "section": "32 Student Handbook 2026",
+            "page": 40,
+            "score": 0.64976865
+          },
+          {
+            "chunk_id": "6f60611cc3-00143-65eef1a9a0f1cea1",
+            "source": "student-handbook-2026.pdf",
+            "section": "X. STUDENT FACILITIES AT CAMPUSES",
+            "page": 45,
+            "score": 0.63889575
+          },
+          {
+            "chunk_id": "6f60611cc3-00096-822903a06a8acd0c",
+            "source": "student-handbook-2026.pdf",
+            "section": "8. Group Study Rooms can only be booked for a group (at-",
+            "page": 31,
+            "score": 0.6230634500000001
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 84.0,
+      "recall_at_3": null,
+      "recall_at_5": null
+    },
+    {
+      "id": "q18",
+      "type": "injection",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "academic-rules-handbook-2026.pdf",
+          "section": "1.22 Failure to meet attendance requirements in a course will"
+        }
+      ],
+      "expect": null,
+      "response": {
+        "request_id": "ff0b58e883a440cca581ad096346e21c",
+        "answer": "The corpus does not provide enough information to answer this question reliably.",
+        "citations": [],
+        "answered_from_context": false,
+        "confidence": "low",
+        "retrieved": [
+          {
+            "chunk_id": "608a0397e8-00155-41c97e4bda43671b",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "6.7 80% attendance rule shall apply to summer courses/labs.",
+            "page": 28,
+            "score": 0.6881487399999999
+          },
+          {
+            "chunk_id": "608a0397e8-00186-0cc3d4444840c759",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "8.10 Falsifying, or attempting to falsify attendance records, graded",
+            "page": 34,
+            "score": 0.6699506
+          },
+          {
+            "chunk_id": "608a0397e8-00036-9935834006da3d1f",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.21 Students are required to maintain 100% attendance in",
+            "page": 10,
+            "score": 0.6645869
+          },
+          {
+            "chunk_id": "608a0397e8-00035-d96bdd5faf752c52",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "1.20 A student can only register for courses for which he/she has",
+            "page": 9,
+            "score": 0.6625308400000001
+          },
+          {
+            "chunk_id": "6f60611cc3-00063-89eed961567703f6",
+            "source": "student-handbook-2026.pdf",
+            "section": "2. If you find anything except answer book on your",
+            "page": 26,
+            "score": 0.66058034
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 39.12,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0
+    }
+  ]
+}

@@ -3,24 +3,34 @@
 These actions require your GitHub/Classroom account or your personal experience. Do not
 replace them with fabricated screenshots, links, or reflections.
 
-## Restore local cluster access before live demonstrations
+## Restore Docker/Minikube space before the final live evaluation
 
-Docker Desktop's named pipe stopped responding, and `minikube status` timed out while
-inspecting the existing `minikube` container. To resume live tuning and Kubernetes evidence:
+The C: drive has 0 bytes free. Minikube reported that it could not write its API image cache,
+Docker container inspection took about 19 seconds and timed out, and the API's request-time
+Ollama embedding call returned a timeout. The Kubernetes API still answered some commands,
+but q09 could not reach generation. Do these steps before asking for the final live rerun:
 
-1. Open Docker Desktop and wait until its bottom-left status says **Engine running**.
-2. In a PowerShell terminal at the repository root, run:
+1. Open **Windows Settings → System → Storage → Temporary files**.
+2. Review the categories. Select temporary files you recognize and can remove; leave
+   **Downloads** unchecked unless you personally reviewed its contents. Click **Remove files**.
+   Free several GB so Docker/Minikube can write their image cache.
+3. Close Docker Desktop from its tray menu, reopen it, and wait until the bottom-left says
+   **Engine running**.
+4. In a new PowerShell terminal at the repository root, run:
 
    ```powershell
+   Get-PSDrive C | Select-Object Name,Free
    docker info --format '{{.OSType}}'
    minikube status
+   kubectl get nodes
+   kubectl get pods -n rahbar
    ```
 
-3. The first command should print `linux`. If `minikube status` says the profile is stopped,
-   run `minikube start --driver=docker --cni=calico --memory=6144 --cpus=4`, then enable
-   `metrics-server` and `ingress` addons if they are not enabled.
-4. Leave Docker Desktop running and tell Codex the two command outputs. Do not delete the
-   Docker volumes or the repository; the existing Chroma index and evidence depend on them.
+   Confirm C: has free space, Docker prints `linux`, Minikube reports host/kubelet/apiserver
+   Running, and the node is Ready. Do not delete the Minikube profile or Docker volumes.
+5. Tell Codex the outputs. We will recheck the current Minikube-to-Ollama route, verify a
+   768-dimensional embedding from inside the cluster, run q09 against the updated API, and
+   rerun the full evaluation before accepting a new baseline.
 
 ## GitHub repository secrets
 

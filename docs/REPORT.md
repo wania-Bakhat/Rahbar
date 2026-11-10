@@ -19,63 +19,77 @@ The fee-information PDF uses a page-specific left/right extraction split to keep
 Rs. 12,000 tuition-per-credit-hour statement separate from the right-column miscellaneous
 fee table. A regression test checks the extracted order. General PDF extraction clips text
 to the visible page bounds: the audit found out-of-page text on 29 Academic Rules Handbook
-pages and 58 Student Handbook pages. The corrected full-corpus Job `indexer-clipped2`
-published 1,029 chunks in 839.7 seconds; its output is in
-`docs/evidence/20261108-indexer-clipped2.txt`. The API reports the active collection as
-ready with 1,029 chunks and the expected embedding-model pin.
+pages and 58 Student Handbook pages. The final corrected full-corpus Job published 1,029
+chunks in 857.5 seconds; its output is in `docs/evidence/20261110-indexer-final.txt`. The
+earlier 839.7-second run remains in `docs/evidence/20261108-indexer-clipped2.txt`. The API
+reports the active collection as ready with 1,029 chunks and the expected embedding-model
+pin.
 
 ## Live evaluation
 
-The corrected 18-question run is in `eval/results.json`. It uses the corrected q12 relevance
-section, `6. Generative AI and Assessments`. The evaluator preserves each full answer,
-retrieved evidence, citation, per-question timing, and aggregate metric. Manual review found
-q08 and q15 returned Rs. 12,000 per credit hour, q09 identified a Careem recruitment drive,
-and q11 returned Rule 1 from the superseded prospectus, all with citations matching retrieved
-passages. q10 failed twice, including after an API rebuild and fresh cache namespace: it
-returned a table-of-contents answer and cited section 1.20 even though clause 1.21 was
-retrieved at rank 2. The expected value 1.21 is supported by the corpus and was not changed.
-q07 retrieved a footer/table-of-contents chunk rather than Training and Support; a local
-source/section filter and regression test have since been added but are not live-verified.
-The injection probe safely abstained but missed its annotated relevant chunk.
+The latest completed 18-question run is in `eval/results.json`; its metrics are also in
+`eval/baseline.json`, but that baseline is provisional pending a live answer fix and rerun.
+It uses the corrected q12 relevance section, `6. Generative AI and
+Assessments`. The evaluator preserves each full answer, retrieved evidence, citation,
+per-question timing, and aggregate metric. q07 now retrieves “10. Training and Support” on
+page 60. q08 and q15 return Rs. 12,000 per credit hour; q11 returns Rule 1 from the
+superseded prospectus. The initial q10 defect occurred when citation validation fell back
+to a nearby table-of-contents passage. A source-and-section filter for that clause-number
+question now yields 1.21 from current rule 1.21, both in a focused live check and the final
+full run. The injection probe safely abstained but still missed its annotated relevant chunk.
+Manual review also found q09 falsely abstained: the API retrieved the exact
+`3. Recruitment Drives` passage on page 79 (similarity 0.711), whose text names multiple
+2023-24 drives, but returned the no-evidence response. A narrow verbatim-evidence recovery
+and regression tests are in the working tree. The live request did not reach that code path:
+the API returned an Ollama embedding timeout, and Minikube inspection failed while C: had
+zero free bytes. The previous run and baseline remain the latest complete measurements,
+but are not accepted as final until q09 and the full set are rerun.
 
 | Metric | Final value | Status |
 | --- | ---: | --- |
-| Recall@3 | 0.875 | Corrected-golden full run |
-| Recall@5 | 0.875 | Corrected-golden full run |
-| Citation validity | 100% (15/15) | Corrected-golden full run |
-| Must-abstain correctness | 100% (2/2) | Corrected-golden full run |
-| Expected-value accuracy | 85.7% (6/7) | Gate fails on q10 |
+| Recall@3 | 0.9375 | Latest complete run before q09 repair |
+| Recall@5 | 0.9375 | Latest complete run before q09 repair |
+| Citation validity | 100% (14/14) | Of citations emitted; q09 had no citation because it falsely abstained |
+| Must-abstain correctness | 100% (2/2) | Latest complete run; q16 and q17 |
+| Expected-value accuracy | 100% (7/7) | Latest complete run before q09 repair |
 
-The PDF does not set an absolute minimum recall, but it does require the expected-value
-checks, at least 95% citation validity, and 100% must-abstain correctness. Citation and
-abstention checks pass; the q10 expected-value gate fails. No `eval/baseline.json` is
-accepted or created.
+The previous run met the numeric gates: expected-value checks, at least 95% citation
+validity, and 100% must-abstain correctness. Qualitative review found one false abstention
+among the 15 answerable non-injection questions (q09), so the baseline is provisional rather
+than final. q18 safely abstained but injection retrieval recall was 0.00; that remains a
+known retrieval limitation.
 
 ## Measured configuration experiments
 
 The real cache-threshold run is in `eval/cache-threshold-results.json`: 0.85 and 0.90 each
 had the regular/summer attendance false hit; 0.95 had zero false hits and was the lowest
 tested threshold with zero false hits, but it also missed both same-answer paraphrases.
-Three chunk configurations remain unmeasured. The Windows run lacked Tesseract; an
-OCR-capable temporary container was started, but Docker became unavailable before a result
-could be captured. No chunk-tuning measurements are claimed.
+The full-corpus three-configuration run measured recall@3/5 of 0.875 for 200:25, 400:50,
+and 600:75, with 1,172, 1,029, and 998 chunks respectively. No configuration improved
+retrieval in this run. We retained 400:50 as the middle-size setting. The Job printed all
+metrics but failed at its final JSON path serialization (`/corpus` was outside `/workspace`);
+the captured stdout is in `docs/evidence/chunk-tuning-job-stdout.txt`, and the results artifact
+marks that provenance. A regression test now covers external mounted paths.
 
 ## Failure analysis and Kubernetes demonstrations
 
-Record at least four isolated failure-mode runs in `docs/FAILURE-ANALYSIS.md` with their
-saved evaluator JSON, observed symptom, diagnostic metric/log, and remedy. The NetworkPolicy
-script has already been run against the live cluster, including the UI DNS case; its output
-is in `docs/evidence/20261108-network-policy.txt`. The rollout-undo, pod-recovery, and
-embedding-pin-mismatch demonstrations still need fresh captured output.
+Four isolated API failure modes were run on the same five-question subset, with successful
+rollout and restoration to `off` after each. All four preserved recall@5 0.75, citations
+3/3, abstention 1/1 and expected values 2/2; this small sample did not expose a regression.
+The raw per-question results and observed interpretation are in `docs/FAILURE-ANALYSIS.md`
+and `docs/evidence/20261111-failure-mode-runs.txt`. The NetworkPolicy script passed all checks, including UI DNS;
+output is in `docs/evidence/20261110-network-policy.txt`. Rollout undo, pod recovery, and
+embedding-pin mismatch demonstrations are captured in the dated 20261110 evidence files.
+These failure-mode runs predate the q09 recovery change; their five-question subset does
+not include q09.
 
 ## CI/CD and submission state
 
 CI and CD workflow definitions, dev/prod/CI/CD Kustomize overlays, and Makefile targets are
-present. Every test invocation uses `python -m pytest`. Run the local checks and submission
-checker after the remaining changes; a local pass does not imply a successful GitHub Actions
-run. Git identity is `fahima <fahimasohail@gmail.com>`. `gh auth status` reported that the
-existing GitHub token is invalid; under the user's instruction not to try another auth
-route, changes will be committed locally but not pushed, and a PR cannot be opened here.
+present. Every test invocation uses `python -m pytest`. Targeted tests and Kustomize builds
+pass; the latest submission checker reported 166 passes, 4 warnings, and 0 failures. Git
+identity is `fahima <fahimasohail@gmail.com>`. GitHub authentication failed earlier, so no
+credential workaround was attempted; only `dev` may be pushed.
 
 ## Student-owned work
 

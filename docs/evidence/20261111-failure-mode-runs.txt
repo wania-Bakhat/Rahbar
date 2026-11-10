@@ -1,0 +1,25 @@
+RAHBAR isolated API failure-mode experiments
+Date: 2026-11-11
+
+Protocol
+Each mode was applied alone to the API Deployment, the rollout reached success, the same five questions were evaluated, and FAILURE_MODE=off was restored before the next run. The matching healthy baseline was recomputed from q01, q10, q11, q16 and q18 in eval/results.json and matches eval/failure-baseline.json. All per-question responses, retrieved passages, citations and timings are in the named JSON files.
+
+Deployment history evidence
+- Revision 28: FAILURE_MODE=top_k_1; result eval/failure-results/top_k_1.json.
+- Revision 30: FAILURE_MODE=no_context_instruction; result eval/failure-results/no_context_instruction.json.
+- Revision 32: FAILURE_MODE=no_superseded_filter; result eval/failure-results/no_superseded_filter.json.
+- Revision 34: FAILURE_MODE=temperature_1_2; result eval/failure-results/temperature_1_2.json.
+- Final live ReplicaSet revision 35: FAILURE_MODE=off, 3 replicas.
+These mode values and revision numbers were read from the retained API ReplicaSet templates; each associated evaluator output records the same mode label.
+
+Healthy subset metrics
+recall@3=0.75; recall@5=0.75; citation validity=3/3 (100%); must-abstain correctness=1/1 (100%); expected-value accuracy=2/2 (100%). q18 retrieval recall@5=0.00 while its answer safely abstained.
+
+Observed comparison with the healthy subset
+- top_k_1: one passage was retrieved per question; all aggregate metrics matched the healthy subset. This five-question sample did not demonstrate a retrieval regression.
+- no_context_instruction: all aggregate metrics matched the healthy subset. q18 still abstained, with no citation or context claim. q11 used two generation attempts and an evidence-based repair; no unsafe answer was observed.
+- no_superseded_filter: all aggregate metrics matched the healthy subset. q10 still cited current clause 1.21; q11 still cited Rule 1 from the superseded Prospectus Academic Rules, which the question explicitly requested. This sample did not demonstrate version contamination.
+- temperature_1_2: all aggregate metrics matched the healthy subset; expected values and the abstention remained correct. No output change was observed in this sample.
+
+Interpretation
+These are real fault-injection runs, but none of the four modes changed aggregate behavior on this small targeted set. They do not establish that the modes are harmless on other questions. The known q18 retrieval miss remains visible. The measured outputs do not justify claiming a fault-induced metric drop.

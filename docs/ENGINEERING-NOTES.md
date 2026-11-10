@@ -20,7 +20,7 @@ The indexer requests 1 GiB and has a 4 GiB memory limit (`k8s/base/workloads.yam
 
 ## 5. Recall by question type
 
-The evaluator reports recall@3 and recall@5 by the `type` in `eval/golden.yaml` (`eval/run_eval.py:94-157`). The measured weakest type is **pending** until a real evaluation produces `eval/results.json`. Exact-term questions are expected to be difficult for dense embeddings because clause numbers, course codes and numeric thresholds can be semantically close while textually different. Hybrid retrieval can address that weakness by combining vector similarity with lexical matching such as BM25, then fusing or reranking the results. The current Chroma retriever is vector-only (`api/app/retrieval/chroma.py:66-110`); therefore the explanation and any exact-term result must be confirmed and discussed honestly rather than claiming hybrid retrieval is already implemented.
+The final evaluator reports recall@3 and recall@5 by type in `eval/results.json`. Injection recall was the weakest measured category at 0.00, although the response safely abstained. One possible explanation is that the adversarial prefix adds unrelated terms to the embedding query and shifts retrieval away from the requested clause; this is an inference, not a proven root cause. Exact-term recall was 1.00 in this run. The Chroma retriever remains vector-only; no hybrid retrieval is claimed or tuned to these metrics.
 
 ## 6. Embedding-model mismatch guardrail
 

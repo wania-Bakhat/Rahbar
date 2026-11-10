@@ -1,6 +1,6 @@
 {
-  "recall_at_3": 0.875,
-  "recall_at_5": 0.875,
+  "recall_at_3": 0.9375,
+  "recall_at_5": 0.9375,
   "by_type": {
     "exact-term": {
       "questions": 3,
@@ -23,8 +23,8 @@
     "ordinary": {
       "questions": 10,
       "answerable_questions": 10,
-      "recall_at_3": 0.9,
-      "recall_at_5": 0.9
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
     },
     "version-sensitive": {
       "questions": 2,
@@ -34,19 +34,17 @@
     }
   },
   "citation_validity": 1.0,
-  "citation_valid": 15,
-  "citation_total": 15,
+  "citation_valid": 14,
+  "citation_total": 14,
   "abstention_correctness": 1.0,
   "must_abstain_correct": 2,
   "must_abstain_total": 2,
   "must_abstain_failures": [],
-  "expected_value_accuracy": 0.8571428571428571,
-  "expected_value_correct": 6,
+  "expected_value_accuracy": 1.0,
+  "expected_value_correct": 7,
   "expected_value_total": 7,
-  "expected_value_failures": [
-    "q10"
-  ],
-  "golden": "D:\\SCD\\rahbar-starter\\rahbar-starter\\eval\\golden.yaml",
+  "expected_value_failures": [],
+  "golden": "eval\\golden.yaml",
   "questions": 18,
   "failure_mode": "off",
   "question_results": [
@@ -62,7 +60,7 @@
       ],
       "expect": null,
       "response": {
-        "request_id": "ece46b0c5d5c42cd873b8476a1865c29",
+        "request_id": "314102f41d6c4d6f8a0db7cd2581eac2",
         "answer": "1.22 Failure to meet attendance requirements in a course will render the student ineligible to appear in the final examination of the concerned course. [academic-rules-handbook-2026.pdf / 1.22 Failure to meet attendance requirements in a course will]",
         "citations": [
           {
@@ -112,7 +110,7 @@
         ],
         "provider": "ollama"
       },
-      "seconds": 34.87,
+      "seconds": 144.32,
       "recall_at_3": 1.0,
       "recall_at_5": 1.0
     },
@@ -128,7 +126,7 @@
       ],
       "expect": "2.00",
       "response": {
-        "request_id": "a661f194cfe74379990f077c335ef69b",
+        "request_id": "4d708760d0a24faeb49dd7a11aa94585",
         "answer": "5.4 Minimum CGPA required to avoid academic warning is 2.00 for all undergraduate programs. [academic-rules-handbook-2026.pdf / 5.4 Minimum CGPA required to avoid academic warning is 2.00]",
         "citations": [
           {
@@ -178,7 +176,7 @@
         ],
         "provider": "ollama"
       },
-      "seconds": 39.28,
+      "seconds": 71.8,
       "recall_at_3": 1.0,
       "recall_at_5": 1.0
     },
@@ -194,7 +192,7 @@
       ],
       "expect": null,
       "response": {
-        "request_id": "770a773df67b4d61b83000c694c95b8e",
+        "request_id": "ed6b9021dfea4baba845b7fb07b6d26b",
         "answer": "5.9 A student may repeat any course to improve CGPA. [academic-rules-handbook-2026.pdf / 5.9 A student may repeat any course to improve CGPA.]",
         "citations": [
           {
@@ -244,7 +242,7 @@
         ],
         "provider": "ollama"
       },
-      "seconds": 44.14,
+      "seconds": 85.29,
       "recall_at_3": 1.0,
       "recall_at_5": 1.0
     },
@@ -260,7 +258,7 @@
       ],
       "expect": null,
       "response": {
-        "request_id": "3ca992d0e09e49c4bdd4d95912e13282",
+        "request_id": "fc79e4a024214c1e97a7135030c5bc03",
         "answer": "4.4 A student under academic warning or probation: a) Must register for all such courses, in which the grade was F, provided these courses are being offered. [academic-rules-handbook-2026.pdf / 4.4 A student under academic warning or probation:]",
         "citations": [
           {
@@ -310,7 +308,7 @@
         ],
         "provider": "ollama"
       },
-      "seconds": 103.99,
+      "seconds": 177.39,
       "recall_at_3": 1.0,
       "recall_at_5": 1.0
     },
@@ -326,7 +324,7 @@
       ],
       "expect": null,
       "response": {
-        "request_id": "780b95fa72e64590a6a7a6df16f18065",
+        "request_id": "94679d969d02462dbfeaca20064a5300",
         "answer": "6.1 Summer semester is an 8-week semester and is meant to facilitate students who are in one of the following four categories. [academic-rules-handbook-2026.pdf / 6.1 Summer semester is an 8-week semester and is meant to]",
         "citations": [
           {
@@ -376,7 +374,7 @@
         ],
         "provider": "ollama"
       },
-      "seconds": 41.88,
+      "seconds": 68.12,
       "recall_at_3": 1.0,
       "recall_at_5": 1.0
     },
@@ -392,7 +390,7 @@
       ],
       "expect": null,
       "response": {
-        "request_id": "2658cc14870c4981bfe5e82825213d9a",
+        "request_id": "17ff9c5778364018aab4ea90dbbae4ea",
         "answer": "Acceptable Uses of Generative AI Tools In general, using Generative AI tools for preparatory research work, assignment and project is considered acceptable practice, however such tools should never be the only source of information used. [student-handbook-2026.pdf / 4. Acceptable Uses of Generative AI Tools]",
         "citations": [
           {
@@ -442,7 +440,7 @@
         ],
         "provider": "ollama"
       },
-      "seconds": 37.86,
+      "seconds": 4243.3,
       "recall_at_3": 1.0,
       "recall_at_5": 1.0
     },
@@ -458,12 +456,12 @@
       ],
       "expect": null,
       "response": {
-        "request_id": "e0fe0796082546f09957f437dc26b572",
-        "answer": "52 Student Handbook 2026 Table row: 52 | Student Handbook 2026 support. [student-handbook-2026.pdf / 52 Student Handbook 2026]",
+        "request_id": "652e983dda2143c5a459e6b09f3cfad0",
+        "answer": "Training and Support To ensure faculty and students at FAST-NUCES are equipped with the necessary knowledge and support for effective utilization of Generative AI tools, comprehensive training and technical assistance are provided. [student-handbook-2026.pdf / 10. Training and Support]",
         "citations": [
           {
             "source": "student-handbook-2026.pdf",
-            "section": "52 Student Handbook 2026",
+            "section": "10. Training and Support",
             "page": 60
           }
         ],
@@ -471,46 +469,18 @@
         "confidence": "medium",
         "retrieved": [
           {
-            "chunk_id": "6f60611cc3-00004-c486a8606fb734f8",
+            "chunk_id": "6f60611cc3-00211-653df14a8c91d077",
             "source": "student-handbook-2026.pdf",
-            "section": "MISSION",
-            "page": 4,
-            "score": 0.7081813800000001
-          },
-          {
-            "chunk_id": "6f60611cc3-00175-28537322eca60d45",
-            "source": "student-handbook-2026.pdf",
-            "section": "6) Using tools in any other way that conflicts with the",
-            "page": 53,
-            "score": 0.6931373000000001
-          },
-          {
-            "chunk_id": "6f60611cc3-00015-21937f8656d926f6",
-            "source": "student-handbook-2026.pdf",
-            "section": "CODE OF CONDUCT",
-            "page": 9,
-            "score": 0.6888008
-          },
-          {
-            "chunk_id": "6f60611cc3-00215-84fceb8d784e80f1",
-            "source": "student-handbook-2026.pdf",
-            "section": "52 Student Handbook 2026",
+            "section": "10. Training and Support",
             "page": 60,
-            "score": 0.6870474799999999
-          },
-          {
-            "chunk_id": "6f60611cc3-00159-7e4b240e27433d03",
-            "source": "student-handbook-2026.pdf",
-            "section": "5) The University will work collaboratively to share best",
-            "page": 49,
-            "score": 0.6841308500000001
+            "score": 0.6288560599999999
           }
         ],
         "provider": "ollama"
       },
-      "seconds": 55.69,
-      "recall_at_3": 0.0,
-      "recall_at_5": 0.0
+      "seconds": 72.94,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
     },
     {
       "id": "q08",
@@ -524,7 +494,7 @@
       ],
       "expect": "12,000",
       "response": {
-        "request_id": "fdd16dcc080644b98f1afa058c384a5e",
+        "request_id": "34fc37ad4c2143c69e56d913813a9b0d",
         "answer": "The listed tuition fee is Rs. 12,000 per credit hour [prospectus-fee-information-2026.pdf / 3. Tuition Fee]",
         "citations": [
           {
@@ -574,7 +544,7 @@
         ],
         "provider": "ollama"
       },
-      "seconds": 30.2,
+      "seconds": 0.78,
       "recall_at_3": 1.0,
       "recall_at_5": 1.0
     },
@@ -590,17 +560,11 @@
       ],
       "expect": null,
       "response": {
-        "request_id": "6fbfb4703c714b1c9a1dbcbeb710998e",
-        "answer": "Recruitment Drives o Careem On July 7, 2023, Careem conducted a recruitment drive for BS and MS students at FAST-NUCES. [annual-report-2023-24.pdf / 3. Recruitment Drives]",
-        "citations": [
-          {
-            "source": "annual-report-2023-24.pdf",
-            "section": "3. Recruitment Drives",
-            "page": 79
-          }
-        ],
-        "answered_from_context": true,
-        "confidence": "medium",
+        "request_id": "918549d920b04f5b872da527641f91b1",
+        "answer": "The corpus does not provide enough information to answer this question reliably.",
+        "citations": [],
+        "answered_from_context": false,
+        "confidence": "low",
         "retrieved": [
           {
             "chunk_id": "84114abdac-00244-d17aea16d3cb01d1",
@@ -640,7 +604,7 @@
         ],
         "provider": "ollama"
       },
-      "seconds": 32.38,
+      "seconds": 89.13,
       "recall_at_3": 1.0,
       "recall_at_5": 1.0
     },
@@ -656,57 +620,29 @@
       ],
       "expect": "1.21",
       "response": {
-        "request_id": "cc8509bd48654240b5f02b8b0843b9ae",
-        "answer": "U ndergraduate Academic Rules and Regulations 2026 3 Table row: U ndergraduate Academic Rules and Regulations 2026 | 3 Attendance Requirements [academic-rules-handbook-2026.pdf / 1.20 A student can only register for courses for which he/she has]",
+        "request_id": "d8e0ecedfa3c4b43b9686a55646cb019",
+        "answer": "1.21 Students are required to maintain 100% attendance in lectures, labs, tutorials, seminars and discussions as prescribed by the course instructor. [academic-rules-handbook-2026.pdf / 1.21 Students are required to maintain 100% attendance in]",
         "citations": [
           {
             "source": "academic-rules-handbook-2026.pdf",
-            "section": "1.20 A student can only register for courses for which he/she has",
-            "page": 9
+            "section": "1.21 Students are required to maintain 100% attendance in",
+            "page": 10
           }
         ],
         "answered_from_context": true,
         "confidence": "medium",
         "retrieved": [
           {
-            "chunk_id": "608a0397e8-00155-41c97e4bda43671b",
-            "source": "academic-rules-handbook-2026.pdf",
-            "section": "6.7 80% attendance rule shall apply to summer courses/labs.",
-            "page": 28,
-            "score": 0.82925057
-          },
-          {
             "chunk_id": "608a0397e8-00036-9935834006da3d1f",
             "source": "academic-rules-handbook-2026.pdf",
             "section": "1.21 Students are required to maintain 100% attendance in",
             "page": 10,
             "score": 0.77451932
-          },
-          {
-            "chunk_id": "608a0397e8-00035-d96bdd5faf752c52",
-            "source": "academic-rules-handbook-2026.pdf",
-            "section": "1.20 A student can only register for courses for which he/she has",
-            "page": 9,
-            "score": 0.77205765
-          },
-          {
-            "chunk_id": "608a0397e8-00098-f655b1376790bf7b",
-            "source": "academic-rules-handbook-2026.pdf",
-            "section": "4.11 A student must have passed all courses shown in the study",
-            "page": 20,
-            "score": 0.73488802
-          },
-          {
-            "chunk_id": "608a0397e8-00077-0ebb0ccacfcd1c73",
-            "source": "academic-rules-handbook-2026.pdf",
-            "section": "1 0",
-            "page": 16,
-            "score": 0.7263447000000001
           }
         ],
         "provider": "ollama"
       },
-      "seconds": 33.05,
+      "seconds": 20.29,
       "recall_at_3": 1.0,
       "recall_at_5": 1.0
     },
@@ -722,7 +658,7 @@
       ],
       "expect": "1",
       "response": {
-        "request_id": "9308f44b8c994e52a76d2328f6ea3602",
+        "request_id": "9784d7a674894c169529e3950d872882",
         "answer": "Rule 1 is labelled Attendance Requirement [prospectus-academic-rules-2026.pdf / 1. Attendance Requirement 4. Semester Course Load]",
         "citations": [
           {
@@ -772,7 +708,7 @@
         ],
         "provider": "ollama"
       },
-      "seconds": 30.57,
+      "seconds": 0.39,
       "recall_at_3": 1.0,
       "recall_at_5": 1.0
     },
@@ -788,7 +724,7 @@
       ],
       "expect": null,
       "response": {
-        "request_id": "3557cf5364b24f1c855eb170c45ec222",
+        "request_id": "6fe48290edc54c9099675f3042219ca6",
         "answer": "3) FAST-NUCES has developed three categories to provide guidance for when and how students can use Generative AI in their assessments. [student-handbook-2026.pdf / 3) FAST-NUCES has developed three categories to provide]",
         "citations": [
           {
@@ -838,7 +774,7 @@
         ],
         "provider": "ollama"
       },
-      "seconds": 67.37,
+      "seconds": 130.6,
       "recall_at_3": 1.0,
       "recall_at_5": 1.0
     },
@@ -854,7 +790,7 @@
       ],
       "expect": "1.22",
       "response": {
-        "request_id": "30b7ef4fb9cf4bcfbffd97cce7063273",
+        "request_id": "33a9f96b7ada44f1a6347c7c9ee4ef63",
         "answer": "1.22 Failure to meet attendance requirements in a course will render the student ineligible to appear in the final examination of the concerned course. [academic-rules-handbook-2026.pdf / 1.22 Failure to meet attendance requirements in a course will]",
         "citations": [
           {
@@ -904,7 +840,7 @@
         ],
         "provider": "ollama"
       },
-      "seconds": 40.21,
+      "seconds": 54.25,
       "recall_at_3": 1.0,
       "recall_at_5": 1.0
     },
@@ -920,7 +856,7 @@
       ],
       "expect": "2.00",
       "response": {
-        "request_id": "e80fc8eb407042c6b07d9184dd41334d",
+        "request_id": "42c8e9c1512b476c9e9af76d2a4ed5a4",
         "answer": "1.25 Minimum Cumulative Grade Point Average (CGPA) of 2.00 is required for graduation. [academic-rules-handbook-2026.pdf / 1.25 Minimum Cumulative Grade Point Average (CGPA) of 2.00 is]",
         "citations": [
           {
@@ -970,7 +906,7 @@
         ],
         "provider": "ollama"
       },
-      "seconds": 14.55,
+      "seconds": 65.02,
       "recall_at_3": 1.0,
       "recall_at_5": 1.0
     },
@@ -986,7 +922,7 @@
       ],
       "expect": "12,000",
       "response": {
-        "request_id": "f8e7f934c8e7487299d21383f8abfccb",
+        "request_id": "42bdf54ce9eb439aa2054d436bcd9b23",
         "answer": "The listed tuition fee is Rs. 12,000 per credit hour [prospectus-fee-information-2026.pdf / 3. Tuition Fee]",
         "citations": [
           {
@@ -1036,7 +972,7 @@
         ],
         "provider": "ollama"
       },
-      "seconds": 0.19,
+      "seconds": 0.28,
       "recall_at_3": 1.0,
       "recall_at_5": 1.0
     },
@@ -1047,7 +983,7 @@
       "relevant": [],
       "expect": null,
       "response": {
-        "request_id": "3d9aa52498aa41f2a4d51dfcd7f6da48",
+        "request_id": "e150cb140c7541a5b748e6ee3ce1c94d",
         "answer": "The corpus does not provide enough information to answer this question reliably.",
         "citations": [],
         "answered_from_context": false,
@@ -1091,7 +1027,7 @@
         ],
         "provider": "ollama"
       },
-      "seconds": 15.04,
+      "seconds": 110.02,
       "recall_at_3": null,
       "recall_at_5": null
     },
@@ -1102,7 +1038,7 @@
       "relevant": [],
       "expect": null,
       "response": {
-        "request_id": "3368d82000534dc78312f063815516e7",
+        "request_id": "af4f777fd2e84f1dab8068f5f0839e25",
         "answer": "The corpus does not provide enough information to answer this question reliably.",
         "citations": [],
         "answered_from_context": false,
@@ -1146,7 +1082,7 @@
         ],
         "provider": "ollama"
       },
-      "seconds": 32.34,
+      "seconds": 47.12,
       "recall_at_3": null,
       "recall_at_5": null
     },
@@ -1162,7 +1098,7 @@
       ],
       "expect": null,
       "response": {
-        "request_id": "cedda4c011da45aba6ea51f31a7d3aa4",
+        "request_id": "fee950ccb01b4d10942b6265da5e570f",
         "answer": "The corpus does not provide enough information to answer this question reliably.",
         "citations": [],
         "answered_from_context": false,
@@ -1206,7 +1142,7 @@
         ],
         "provider": "ollama"
       },
-      "seconds": 29.06,
+      "seconds": 45.07,
       "recall_at_3": 0.0,
       "recall_at_5": 0.0
     }

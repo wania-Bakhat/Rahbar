@@ -36,8 +36,13 @@ recorded without hiding it.
 - **PASS** Semantic cache uses Redis, skips follow-ups/abstentions/invalid answers, and
   switches key namespace when the published index generation changes. ADR explains why
   API-side invalidation follows Redis API-only ingress.
-- **PENDING** Measure at least three chunk size/overlap configurations on the same real
-  corpus and golden relevance pairs; record recall@5, chunk count, and shipped choice.
+- **PASS with a recorded tooling error** The full-corpus run completed all three retrieval
+  measurements: 200:25 = 0.875 recall@3/@5 (1,172 chunks), 400:50 = 0.875/0.875
+  (1,029 chunks), and 600:75 = 0.875/0.875 (998 chunks). The Job then failed only while
+  serializing its JSON because `/corpus` was outside `/workspace`; the table is preserved
+  from actual Job stdout, with the failure and provenance recorded in the result artifact.
+  A regression test covers the corrected external-path serialization. No config improved
+  retrieval; 400:50 remains the middle-size setting.
 - **PASS** Measured thresholds 0.85, 0.90 and 0.95 on six labeled pairs. Both 0.85 and
   0.90 falsely matched regular and summer attendance; 0.95 had zero false hits and is the
   lowest tested threshold meeting the rule, but caught 0/2 same-answer paraphrases. Results
@@ -61,14 +66,15 @@ recorded without hiding it.
   observed 553 MiB memory and 966 millicores CPU. This is sampled, not an absolute peak.
 - **PASS** Captured API HPA at 3%/70%, 3 replicas, and three API endpoints in evidence.
 - **PASS** Re-ran every NetworkPolicy allow/deny check against the live policies, including
-  UI DNS and both Ollama paths; all expected outcomes passed. Output is saved in
-  `docs/evidence/20261108-network-policy.txt`.
-- **PENDING** Demonstrate API image rollout and rollback with `kubectl set image`,
-  `rollout status`, `rollout undo`, and a successful post-undo readiness/smoke check.
-- **PENDING** Delete one serving API pod and verify a replacement becomes ready and the
-  endpoint count returns to three.
-- **PENDING** Demonstrate embedding-pin mismatch: change only API EMBED_MODEL, show
-  `/readyz` 503 and a log naming expected/actual, restore the pin, and verify readiness.
+  UI DNS and both Ollama paths; all expected outcomes passed. Output:
+  `docs/evidence/20261110-network-policy.txt`.
+- **PASS** Rolled to a known previous API image, used `kubectl rollout undo`, and verified
+  three ready replicas plus `/readyz`. Evidence: `docs/evidence/20261110-rollout-undo.txt`.
+- **PASS** Deleted one serving API pod; the controller replaced it and the Service returned
+  to three endpoints. Evidence: `docs/evidence/20261110-pod-recovery.txt`.
+- **PASS** Changed only the API embedding pin, observed `/readyz` 503 with expected/actual
+  values, restored the pin, and verified readiness. Evidence:
+  `docs/evidence/20261110-embedding-pin-mismatch.txt`.
 - **PASS** Readiness and liveness behavior, model-pin guard, JSON logs, request IDs,
   request/retrieval/generation/cache/abstention/fallback/token metrics are implemented.
 
@@ -76,31 +82,31 @@ recorded without hiding it.
 
 - **PASS** Golden set has 18 questions: 10 ordinary, 2 version-sensitive, 3 exact-term,
   2 must-abstain, and 1 injection. Relevant source/section pairs are listed.
-- **KNOWN FAILURE** Corrected-golden full run on the 1,029-chunk index scored
-  recall@3=0.875 and recall@5=0.875; citation validity 100% (15/15); abstention
-  correctness 100% (2/2); expected-value accuracy 6/7. By type, recall@5 was ordinary 0.90,
-  version-sensitive 1.00, exact-term 1.00 and injection 0.00. q08, q11 and q15 passed.
-  q10 failed despite retrieving clause 1.21 at rank 2; q07 and the injection question missed
-  their annotated passages. See `eval/results.json` for all answers and evidence.
+- **PROVISIONAL BASELINE with known quality failures** The latest complete run on the
+  1,029-chunk index scored recall@3/@5=0.9375; citations 14/14; must-abstain correctness
+  2/2; expected values 7/7. q07, q08, q10, q11, and q15 passed. q18 safely abstained but
+  retrieval recall was 0.00. q09 falsely abstained despite retrieving the exact recruitment
+  section on page 79. This run is retained as evidence but its baseline is not final.
 - **PASS** `eval/run_eval.py` retains per-question responses/retrieval evidence in the
   results artifact and has checkpoint recovery. Unit tests pass with `python -m pytest`.
 - **PASS** Focused live q08/q11/q15 checks returned Rs. 12,000 per credit hour, Rule 1 in
   the superseded prospectus, and Rs. 12,000 per credit hour, respectively, with retrieved
   source citations. Evidence is in `docs/evidence/focused-q08-q11-q15.json`.
-- **KNOWN FAILURE** q10 still cited 1.20 after an API image rebuild and a fresh cache
-  namespace. The evidence-based unit test passes, but the live runtime response remains
-  wrong; do not count q10 as fixed. The q12 relevance label was corrected to
-  `6. Generative AI and Assessments` based on the handbook passage retrieved in the first run.
-- **IN PROGRESS** q07's source PDF contains section `10. Training and Support`; local
-  extraction produces that exact section metadata. A source-plus-section retriever filter
-  and regression test were added and pass locally, but have not been deployed or verified
-  against live Chroma.
-- **PENDING** Create `eval/baseline.json` only after reviewing and accepting the healthy
-  run; no gate-passing baseline is currently accepted.
-- **PENDING** Run at least four of the six PDF failure modes one at a time. Save raw
-  metrics/logs and record observed symptom, diagnosis, stage, remedy, and rerun.
-- **PENDING** Review evaluator results for unsupported claims, actual question scope,
-  evidence use, citation relevance, and abstention; record known limitations honestly.
+- **PASS** A specific retriever filter for the 100%-attendance clause query resolves q10;
+  a live focused call and final full run returned clause 1.21 with the page-10 citation.
+  q07's section filter was live-verified against Student Handbook page 60. q12 remains
+  labeled `6. Generative AI and Assessments`, as supported by the retrieved passage.
+- **IN PROGRESS** `eval/baseline.json` reflects the last complete run and passed numeric
+  gates, but it must be regenerated after q09's live repair and a fresh 18-question run.
+- **PASS with no regression observed** Four API modes were run one at a time against the same
+  five-question subset, with a successful rollout and normal-mode restore after each. Each
+  result is saved in `eval/failure-results/`; all retained recall@5 0.75, citations 3/3,
+  abstention 1/1, and expected values 2/2. The small subset did not expose a fault, which is
+  recorded without claiming the modes are harmless. Evidence: `docs/evidence/20261111-failure-mode-runs.txt`.
+- **KNOWN FAILURE** Manual review found q09's false abstention, in addition to q18's retrieval
+  miss. A verbatim evidence recovery with regression tests is in the working tree; live
+  verification and full evaluation rerun are blocked by the zero-free-space C: drive and
+  Minikube/Docker timeouts. See `docs/MANUAL-STEPS.md`.
 
 ## CI/CD, engineering notes, and submission (PDF sections 6-10)
 
@@ -109,11 +115,10 @@ recorded without hiding it.
   ephemeral deployment smoke test. Every publishing/deploy job is gated with `needs:`;
   workflow permissions are least-privilege and actions version-pinned.
 - **PASS** Makefile, CI and CD test invocations use `python -m pytest`.
-- **IN PROGRESS** Ruff, API mypy (25 files), indexer mypy (10 files), Kustomize builds
-  for dev/prod/ci/cd, API targeted tests (27 passed), and indexer/eval tests (15 passed)
-  passed. Submission checker reported 165 passed, 3 warnings and one failure: no baseline.
-  Do not create a baseline while q10 fails its expected-value gate. Docker/Minikube is
-  currently unreachable, so live checks and the full API test suite remain unverified.
+- **PASS (focused)** Ruff passes; API answer/retriever tests pass (30), indexer tests pass
+  (11), eval tests pass (7), and all four Kustomize overlays build. The combined Windows
+  pytest invocation stalled; the focused suites complete. API/indexer mypy passed earlier,
+  before the latest q09 repair.
 - **PASS** Four ADRs and architecture, corpus, pipeline, failure, engineering, and AI-use
   documentation exist; update measured values after actual runs.
 - **STUDENT ACTION** Both partners review AI disclosure and add any other AI tools used.
@@ -122,18 +127,16 @@ recorded without hiding it.
 - **STUDENT ACTION** Configure Docker Hub Actions secrets; configure `main` branch
   protection with PR, one approval, and required CI; capture real protected-branch,
   blocked-merge, and green-merge screenshots.
-- **PENDING** Submission checker passes with all non-personal requirements addressed.
+- **PASS with warnings** Latest checker run reported 166 pass, 4 warnings, 0 failures;
+  rerun after the final q09 full evaluation and documentation update.
 - **STUDENT ACTION** Push only `dev`, open dev-to-main PR, obtain required review/checks,
   and submit repository, successful CD run, Docker Hub SHA image links, and committed
   results/baseline on Google Classroom.
 
-## Current blocking sequence
+## Remaining work
 
-1. Restore Docker Desktop/Minikube access (instructions in `docs/MANUAL-STEPS.md`); the
-   cluster API times out and the temporary chunk-tuning run produced no saved result.
-2. Run the three chunk configurations and at least four isolated failure modes; deploy and
-   live-verify the new q07 section filter where appropriate.
-3. Capture rollout undo, pod recovery, and embedding-pin mismatch demonstrations.
-4. Refresh evidence, run the checker after live work, and commit locally on `dev`. The
-   baseline remains unaccepted because q10 fails. GitHub authentication is invalid; no push
-   or PR was attempted after that failure.
+1. Student frees C: space and restarts Docker Desktop; verify Minikube and Ollama connectivity.
+2. Live-check the q09 false-abstention repair, rerun all 18 questions, and regenerate the
+   accepted baseline/results artifacts.
+3. Refresh docs/evidence, rerun checks and submission checker, commit on `dev`, and push
+   only `origin/dev` if GitHub authentication succeeds.
