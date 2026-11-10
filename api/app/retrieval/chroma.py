@@ -36,6 +36,9 @@ _SOURCE_HINTS = (
 _SECTION_HINTS = (
     (re.compile(r"\btraining\s+and\s+support\b", re.I),
      "student-handbook-2026.pdf", "10. Training and Support"),
+    (re.compile(r"\b(?:clause\s+number|which\s+clause)\b.*100%.*\battendance\b", re.I),
+     "academic-rules-handbook-2026.pdf",
+     "1.21 Students are required to maintain 100% attendance in"),
 )
 
 

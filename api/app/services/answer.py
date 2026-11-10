@@ -172,6 +172,30 @@ def answer_question(
             )
     assert answer is not None
 
+    # Models occasionally emit a valid standard abstention even though one retrieved
+    # passage directly contains query-matching evidence. Recover only a verbatim
+    # sentence with at least two meaningful query terms; unrelated retrievals and
+    # abstention-only responses remain unchanged.
+    standard_abstention = (
+        "The corpus does not provide enough information to answer this question reliably."
+    )
+    if (not answer.answered_from_context and not answer.citations
+            and " ".join(answer.answer.split()).casefold() == standard_abstention.casefold()):
+        recovered = _extractive_fallback(question, passages)
+        if recovered is not None:
+            answer = recovered
+            used_fallback = True
+            if observation is not None:
+                observation["extractive_fallback"] = True
+
+    # Evidence repairs also apply when answer generation fell back to an extractive
+    # answer after citation validation failed. The fallback is still grounded in the
+    # retrieved passages, so exact values and numbered headings can be corrected from
+    # that same evidence before the response is returned.
+    answer, _ = _repair_per_credit_tuition(answer, question, passages)
+    answer, _ = _repair_named_rule_number(answer, question, passages)
+    answer, _ = _repair_attendance_clause_number(answer, question, passages)
+
     if observation is not None:
         observation.update({
             "retriever": retriever.name,

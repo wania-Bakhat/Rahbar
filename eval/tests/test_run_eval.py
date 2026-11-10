@@ -1,6 +1,11 @@
 from __future__ import annotations
 
-from eval.run_eval import expected_value_present, gate, summarise
+import json
+from pathlib import Path
+
+import pytest
+
+from eval.run_eval import expected_value_present, gate, load_checkpoint_rows, summarise
 
 
 def test_expected_value_matches_claim_text_not_citation_metadata() -> None:
@@ -35,3 +40,15 @@ def test_summary_counts_expected_values() -> None:
     assert result["expected_value_correct"] == 1
     assert result["expected_value_total"] == 2
     assert result["expected_value_failures"] == ["q14"]
+
+
+def test_checkpoint_resume_accepts_only_a_matching_golden_prefix() -> None:
+    checkpoint = Path(__file__).with_name(".checkpoint-test.json")
+    rows = [{"id": "q01", "response": {"answer": "evidence"}}]
+    try:
+        checkpoint.write_text(json.dumps(rows), encoding="utf-8")
+        assert load_checkpoint_rows(checkpoint, [{"id": "q01"}, {"id": "q02"}]) == rows
+        with pytest.raises(ValueError, match="does not match"):
+            load_checkpoint_rows(checkpoint, [{"id": "q02"}, {"id": "q03"}])
+    finally:
+        checkpoint.unlink(missing_ok=True)

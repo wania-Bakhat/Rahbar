@@ -203,6 +203,19 @@ def corpus_fingerprint(corpus_dir: Path) -> str:
     return digest.hexdigest()
 
 
+def recorded_path(path: Path, base: Path = ROOT) -> str:
+    """Use a repository-relative path when possible, else retain the real absolute path.
+
+    Kubernetes mounts the corpus at /corpus, outside the image's /workspace repository.
+    The experiment must still be able to serialize a completed measurement in that case.
+    """
+    resolved = path.resolve()
+    try:
+        return resolved.relative_to(base.resolve()).as_posix()
+    except ValueError:
+        return resolved.as_posix()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--corpus", type=Path, default=ROOT / "corpus" / "raw",
@@ -253,9 +266,9 @@ def main() -> int:
         "measured_at_utc": datetime.now(UTC).isoformat(),
         "run_id": run_id,
         "embedding_model": indexer_settings.embed_model,
-        "corpus": args.corpus.resolve().relative_to(ROOT).as_posix(),
+        "corpus": recorded_path(args.corpus),
         "corpus_sha256": corpus_fingerprint(args.corpus),
-        "golden": args.golden.resolve().relative_to(ROOT).as_posix(),
+        "golden": recorded_path(args.golden),
         "question_count": len(questions),
         "tokenizer": "Python str.split whitespace tokens",
         "configurations": results,

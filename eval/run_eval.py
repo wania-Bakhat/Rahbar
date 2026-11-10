@@ -229,6 +229,22 @@ def gate(results: dict, baseline: dict | None) -> list[str]:
     return failures
 
 
+def load_checkpoint_rows(checkpoint_path: Path, questions: list[dict]) -> list[dict]:
+    """Load complete question rows only when a checkpoint matches this golden prefix."""
+    if not checkpoint_path.exists():
+        return []
+    rows = json.loads(checkpoint_path.read_text(encoding="utf-8"))
+    if not isinstance(rows, list) or len(rows) > len(questions):
+        raise ValueError(f"invalid evaluation checkpoint: {checkpoint_path}")
+    expected_ids = [question["id"] for question in questions[:len(rows)]]
+    actual_ids = [row.get("id") for row in rows if isinstance(row, dict)]
+    if actual_ids != expected_ids:
+        raise ValueError(
+            "evaluation checkpoint does not match the beginning of the selected golden set"
+        )
+    return rows
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Evaluate RAHBAR against a golden set.")
     parser.add_argument("--api", required=True, help="base URL, e.g. http://192.168.49.2")
@@ -246,6 +262,8 @@ def main() -> int:
                         help="label the active API failure mode and save it separately")
     parser.add_argument("--update-baseline", action="store_true",
                         help="write these results as the new baseline")
+    parser.add_argument("--resume", action="store_true",
+                        help="resume completed rows from the output's .partial checkpoint")
     args = parser.parse_args()
 
     if args.failure_mode not in FAILURE_MODES:
@@ -260,10 +278,15 @@ def main() -> int:
     )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     checkpoint_path = output_path.with_suffix(output_path.suffix + ".partial")
-    rows = []
+    try:
+        rows = load_checkpoint_rows(checkpoint_path, questions) if args.resume else []
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        parser.error(str(exc))
+    if rows:
+        print(f"resuming after {len(rows)} completed questions from {checkpoint_path}")
     headers = {"Host": args.host} if args.host else {}
     with httpx.Client(timeout=args.timeout_seconds, headers=headers) as client:
-        for q in questions:
+        for q in questions[len(rows):]:
             started = time.perf_counter()
             response = ask(client, args.api, q["question"])
             rows.append({

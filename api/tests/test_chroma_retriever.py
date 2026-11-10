@@ -186,6 +186,29 @@ def test_distinctive_student_handbook_heading_uses_exact_section_filter(monkeypa
     ]}
 
 
+def test_exact_attendance_clause_question_uses_clause_section_filter(monkeypatch) -> None:
+    retriever, collection = _retriever()
+
+    class Response:
+        def raise_for_status(self) -> None:
+            pass
+
+        def json(self) -> dict[str, Any]:
+            return {"embeddings": [[0.1, 0.2, 0.3]]}
+
+    monkeypatch.setattr("app.embeddings.httpx.post", lambda *args, **kwargs: Response())
+    retriever.retrieve(
+        "What clause number in the current 2026 Academic Rules Handbook specifies the "
+        "100% course attendance requirement?",
+        5,
+    )
+
+    assert collection.query_args["where"] == {"$and": [
+        {"source": "academic-rules-handbook-2026.pdf"},
+        {"section": "1.21 Students are required to maintain 100% attendance in"},
+    ]}
+
+
 @pytest.mark.parametrize(
     ("question", "source"),
     [
