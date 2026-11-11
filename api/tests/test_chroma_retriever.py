@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
+import pytest
+
 from app.config import Settings
 from app.retrieval.chroma import ChromaRetriever
 from app.schemas import Passage
@@ -10,6 +12,7 @@ from app.schemas import Passage
 class FakeCollection:
     def __init__(self) -> None:
         self.query_args: dict[str, Any] = {}
+        self.metadata: dict[str, Any] = {}
 
     def query(self, **kwargs: Any) -> dict[str, Any]:
         self.query_args = kwargs
@@ -42,6 +45,27 @@ def _retriever() -> tuple[ChromaRetriever, FakeCollection]:
     retriever.settings = Settings(ollama_url="http://ollama:11434", collection="rahbar")
     retriever.client = FakeClient(collection)
     return retriever, collection
+
+
+def test_retriever_resolves_published_collection_from_catalog() -> None:
+    retriever, active = _retriever()
+    catalog = FakeCollection()
+    catalog.metadata = {
+        "active_collection": "rahbar__generation-b",
+        "index_generation": "generation-b",
+    }
+    requested: list[str] = []
+
+    class CatalogClient:
+        def get_collection(self, *, name: str) -> FakeCollection:
+            requested.append(name)
+            return catalog if name == "rahbar_catalog" else active
+
+    retriever.client = CatalogClient()
+
+    assert retriever.active_collection() is active
+    assert retriever.index_generation() == "generation-b"
+    assert requested == ["rahbar_catalog", "rahbar__generation-b", "rahbar_catalog"]
 
 
 def test_retrieve_embeds_with_pinned_model_and_maps_current_passages(monkeypatch) -> None:
@@ -99,6 +123,119 @@ def test_historical_question_can_retrieve_superseded_versions(monkeypatch) -> No
 
     assert "where" not in collection.query_args
     assert [passage.chunk_id for passage in passages] == ["current", "old"]
+
+
+def test_explicitly_named_superseded_source_is_filtered_by_filename(monkeypatch) -> None:
+    retriever, collection = _retriever()
+
+    class Response:
+        def raise_for_status(self) -> None:
+            pass
+
+        def json(self) -> dict[str, Any]:
+            return {"embeddings": [[0.1, 0.2, 0.3]]}
+
+    monkeypatch.setattr("app.embeddings.httpx.post", lambda *args, **kwargs: Response())
+    retriever.retrieve(
+        "In the superseded short 2026 Prospectus Academic Rules, what numbered rule is labelled Attendance Requirement?",
+        5,
+    )
+
+    assert collection.query_args["where"] == {
+        "source": "prospectus-academic-rules-2026.pdf"
+    }
+
+
+def test_explicitly_named_student_handbook_is_filtered_by_filename(monkeypatch) -> None:
+    retriever, collection = _retriever()
+
+    class Response:
+        def raise_for_status(self) -> None:
+            pass
+
+        def json(self) -> dict[str, Any]:
+            return {"embeddings": [[0.1, 0.2, 0.3]]}
+
+    monkeypatch.setattr("app.embeddings.httpx.post", lambda *args, **kwargs: Response())
+    retriever.retrieve(
+        "According to the 2026 Student Handbook, what guidance is given about generative AI?",
+        5,
+    )
+
+    assert collection.query_args["where"] == {
+        "source": "student-handbook-2026.pdf"
+    }
+
+
+def test_distinctive_student_handbook_heading_uses_exact_section_filter(monkeypatch) -> None:
+    retriever, collection = _retriever()
+
+    class Response:
+        def raise_for_status(self) -> None:
+            pass
+
+        def json(self) -> dict[str, Any]:
+            return {"embeddings": [[0.1, 0.2, 0.3]]}
+
+    monkeypatch.setattr("app.embeddings.httpx.post", lambda *args, **kwargs: Response())
+    retriever.retrieve("What training and support does the Student Handbook describe?", 5)
+
+    assert collection.query_args["where"] == {"$and": [
+        {"source": "student-handbook-2026.pdf"},
+        {"section": "10. Training and Support"},
+    ]}
+
+
+def test_exact_attendance_clause_question_uses_clause_section_filter(monkeypatch) -> None:
+    retriever, collection = _retriever()
+
+    class Response:
+        def raise_for_status(self) -> None:
+            pass
+
+        def json(self) -> dict[str, Any]:
+            return {"embeddings": [[0.1, 0.2, 0.3]]}
+
+    monkeypatch.setattr("app.embeddings.httpx.post", lambda *args, **kwargs: Response())
+    retriever.retrieve(
+        "What clause number in the current 2026 Academic Rules Handbook specifies the "
+        "100% course attendance requirement?",
+        5,
+    )
+
+    assert collection.query_args["where"] == {"$and": [
+        {"source": "academic-rules-handbook-2026.pdf"},
+        {"section": "1.21 Students are required to maintain 100% attendance in"},
+    ]}
+
+
+@pytest.mark.parametrize(
+    ("question", "source"),
+    [
+        ("May a student repeat a course under current academic rules?",
+         "academic-rules-handbook-2026.pdf"),
+        ("What training does the Student Handbook describe?",
+         "student-handbook-2026.pdf"),
+        ("What is reported in the 2023-24 annual report?",
+         "annual-report-2023-24.pdf"),
+    ],
+)
+def test_explicit_document_scope_filters_source_filename(
+    monkeypatch, question: str, source: str,
+) -> None:
+    retriever, collection = _retriever()
+
+    class Response:
+        def raise_for_status(self) -> None:
+            pass
+
+        def json(self) -> dict[str, Any]:
+            return {"embeddings": [[0.1, 0.2, 0.3]]}
+
+    monkeypatch.setattr("app.embeddings.httpx.post", lambda *args, **kwargs: Response())
+    retriever.retrieve(question, 5)
+
+    assert collection.query_args["where"] == {"source": source}
 
 
 def test_retrieve_drops_passages_below_relevance_floor(monkeypatch) -> None:

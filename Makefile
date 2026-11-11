@@ -13,7 +13,7 @@ INGRESS_IP ?= $(shell minikube ip 2>/dev/null)
 HOST ?= rahbar.local
 
 .DEFAULT_GOAL := help
-.PHONY: help install test lint dev cluster images apply secret index ask fetch eval eval-fixtures check
+.PHONY: help install test lint dev cluster images storage load-corpus apply secret index ask fetch eval eval-fixtures network-test evidence check
 
 help: ## list the targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  make %-14s %s\n", $$1, $$2}'
@@ -24,8 +24,9 @@ install: ## create .venv and install the api, indexer and tool dependencies
 	$(BIN)/pip install -q -r api/requirements-dev.txt -r indexer/requirements-dev.txt
 
 test: ## run the api and indexer tests (stubs only: no cluster, no model, no network)
-	cd api && $(BIN)/pytest -q
-	cd indexer && $(BIN)/pytest -q
+	cd api && $(BIN)/python -m pytest -q
+	cd indexer && $(BIN)/python -m pytest -q
+	$(BIN)/python -m pytest -q eval/tests
 
 lint: ## ruff and mypy over everything in Python
 	$(BIN)/ruff check api indexer eval corpus
@@ -39,6 +40,14 @@ cluster: ## start minikube with Calico, then enable metrics-server and ingress
 	minikube start --driver=docker --cni=calico --memory=6144 --cpus=4
 	minikube addons enable metrics-server
 	minikube addons enable ingress
+
+storage: ## create namespace and corpus/Redis PVCs before loading the private local corpus
+	kubectl apply -f k8s/base/namespace.yaml
+	kubectl apply -n $(NS) -f k8s/base/storage.yaml
+	kubectl wait -n $(NS) --for=jsonpath='{.status.phase}'=Bound pvc/corpus-data --timeout=180s
+
+load-corpus: ## copy ignored corpus/raw documents into the corpus-data PVC
+	NS=$(NS) bash scripts/load_corpus.sh
 
 images: ## build the three images and load them into minikube (needs yours: Dockerfiles)
 	docker build -t rahbar-api:$(TAG) api
@@ -73,6 +82,12 @@ eval: ## score eval/golden.yaml through the Ingress and apply the CI gate
 
 eval-fixtures: ## score the CI fixture golden set against a local `make dev`
 	$(BIN)/python eval/run_eval.py --api http://localhost:8000 --golden eval/fixtures/golden.fixture.yaml --out /tmp/rahbar-fixture-results.json
+
+network-test: ## exercise the allowed and denied NetworkPolicy paths
+	NS=$(NS) bash scripts/test_network_policy.sh
+
+evidence: ## save current cluster resource and rollout evidence with UTC timestamps
+	NS=$(NS) bash scripts/capture_evidence.sh
 
 check: ## run the submission checker
 	$(PY) scripts/check_submission.py

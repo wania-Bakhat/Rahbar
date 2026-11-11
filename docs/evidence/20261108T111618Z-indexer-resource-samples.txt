@@ -1,0 +1,75 @@
+[2026-11-08T11:16:19.0194891Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   966m         535Mi           
+
+[2026-11-08T11:16:36.0623427Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   966m         535Mi           
+
+[2026-11-08T11:16:52.6022872Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   966m         535Mi           
+
+[2026-11-08T11:17:09.0220742Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   6m           535Mi           
+
+[2026-11-08T11:17:25.4036833Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   6m           535Mi           
+
+[2026-11-08T11:17:41.8012783Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   6m           535Mi           
+
+[2026-11-08T11:18:00.7793526Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   6m           535Mi           
+
+[2026-11-08T11:18:19.0022468Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   4m           540Mi           
+
+[2026-11-08T11:18:35.6104987Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   4m           540Mi           
+
+[2026-11-08T11:18:52.1237640Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   4m           540Mi           
+
+[2026-11-08T11:19:08.9156172Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   5m           543Mi           
+
+[2026-11-08T11:19:25.5365401Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   5m           543Mi           
+
+[2026-11-08T11:19:41.9614597Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   5m           543Mi           
+
+[2026-11-08T11:19:58.6348789Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   5m           543Mi           
+
+[2026-11-08T11:20:15.8936255Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   3m           546Mi           
+
+[2026-11-08T11:20:33.6045265Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   3m           546Mi           
+
+[2026-11-08T11:20:51.8410100Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   3m           546Mi           
+
+[2026-11-08T11:21:08.5468945Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   4m           549Mi           
+
+[2026-11-08T11:21:25.6064923Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   4m           549Mi           
+
+[2026-11-08T11:21:42.1707947Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   4m           549Mi           
+
+[2026-11-08T11:21:59.0512082Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   4m           549Mi           
+
+[2026-11-08T11:22:15.4980323Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   2m           550Mi           
+
+[2026-11-08T11:22:31.9781651Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   2m           550Mi           
+
+[2026-11-08T11:22:48.3552538Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   2m           550Mi           
+
+[2026-11-08T11:23:04.6268270Z]
+NAME                           CPU(cores)   MEMORY(bytes)    indexer-table-extract2-9xp2k   4m           553Mi           
+

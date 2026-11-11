@@ -1,0 +1,11 @@
+Command: kubectl logs -n rahbar job/chunk-tuning | Select-String '^\|'
+
+start=2026-11-10T19:47:47Z; succeeded=; failed=1
+
+| Size (whitespace tokens) | Overlap (whitespace tokens) | Recall@3 | Recall@5 | Chunks |
+| ---: | ---: | ---: | ---: | ---: |
+| 200 | 25 | 0.875 | 0.875 | 1172 |
+| 400 | 50 | 0.875 | 0.875 | 1029 |
+| 600 | 75 | 0.875 | 0.875 | 998 |
+
+The Job completed all three measurements and printed this table, then returned nonzero while serializing metadata because the mounted corpus path /corpus was outside /workspace. The table values above are the actual Job stdout; no values were inferred.

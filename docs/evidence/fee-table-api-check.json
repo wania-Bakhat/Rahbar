@@ -1,0 +1,51 @@
+{
+  "request_id": "10897f81c4214ad08bce90793ef27ff5",
+  "answer": "| 2,000 Table row: Semester Freeze Fee (within two weeks of start of classes) | Rs. [prospectus-fee-information-2026.pdf / 5. Miscellaneous Fees]",
+  "citations": [
+    {
+      "source": "prospectus-fee-information-2026.pdf",
+      "section": "5. Miscellaneous Fees",
+      "page": 1
+    }
+  ],
+  "answered_from_context": true,
+  "confidence": "medium",
+  "retrieved": [
+    {
+      "chunk_id": "e9b380d651-00003-e884f8a07dc48a72",
+      "source": "prospectus-fee-information-2026.pdf",
+      "section": "1. Admission Fee",
+      "page": 1,
+      "score": 0.7234124
+    },
+    {
+      "chunk_id": "e9b380d651-00004-85758ad706266f75",
+      "source": "prospectus-fee-information-2026.pdf",
+      "section": "2. Security Deposit",
+      "page": 1,
+      "score": 0.70672107
+    },
+    {
+      "chunk_id": "608a0397e8-00136-fbdd6def3d3ce5ea",
+      "source": "academic-rules-handbook-2026.pdf",
+      "section": "2 semesters along with prescribed ‘Semester Freeze’ charges.",
+      "page": 22,
+      "score": 0.68636942
+    },
+    {
+      "chunk_id": "6f60611cc3-00106-194eee42a111fc83",
+      "source": "student-handbook-2026.pdf",
+      "section": "6. Students are allowed to Add/Drop a course during the",
+      "page": 29,
+      "score": 0.67635
+    },
+    {
+      "chunk_id": "e9b380d651-00012-80549ea9432f3f49",
+      "source": "prospectus-fee-information-2026.pdf",
+      "section": "5. Miscellaneous Fees",
+      "page": 1,
+      "score": 0.6741047
+    }
+  ],
+  "provider": "ollama"
+}

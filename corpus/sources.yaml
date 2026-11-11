@@ -1,9 +1,37 @@
-# Existing curated corpus plus live PDF discovery from the requested FAST-NUCES pages.
-# Every discovered PDF is downloaded to corpus/raw/ and recorded by URL and SHA-256.
-documents: []
-
-pages:
-  - https://nu.edu.pk/Downloads
-  - https://nu.edu.pk/Admissions/Prospectus
-  - https://nu.edu.pk/Oric/Policies
-  - https://nu.edu.pk/IQAE/Downloads
+# Curated public FAST-NUCES sources selected to cover all seven assignment properties.
+# The site index pages are intentionally not crawled wholesale: this stable corpus includes
+# only the named documents relevant to the rubric and does not ingest unrelated HR forms.
+documents:
+  - name: "Undergraduate Academic Rules 2023"
+    url: "https://nu.edu.pk/public/downloads/Academic-Rules-Undergrad-Aug-2023.pdf"
+    doc_version: "2023-08"
+    superseded: true
+  - name: "Academic Rules Handbook 2026"
+    url: "https://nu.edu.pk/public/downloads/Academic_Rules_Handbook_2026.pdf"
+    doc_version: "2026-06"
+    superseded: false
+  - name: "Prospectus Academic Rules 2026"
+    url: "https://nu.edu.pk/Admissions/ProspectusUpload/Academic%20Rules%20and%20Regulations.pdf"
+    doc_version: "2026-prospectus"
+    superseded: true
+  - name: "Student Handbook 2026"
+    url: "https://nu.edu.pk/public/downloads/Student_Handbook_2026.pdf"
+    doc_version: "2026-06"
+    superseded: false
+  - name: "Annual Report 2019-20"
+    url: "https://nu.edu.pk/public/downloads/AnnualReportForm/Annual%20Report%202019-20.pdf"
+    doc_version: "2019-20"
+    superseded: true
+  - name: "Annual Report 2023-24"
+    url: "https://nu.edu.pk/public/downloads/AnnualReportForm/Annual%20Report%202023-24.pdf"
+    doc_version: "2023-24"
+    superseded: false
+  - name: "Faculty Entrepreneurship and Technical Start-ups Policy"
+    url: "https://nu.edu.pk/OricResources/ResearchPolicies/27.pdf?20220530"
+    doc_version: "2022"
+    superseded: false
+  - name: "Prospectus Fee Information 2026"
+    url: "https://nu.edu.pk/Admissions/ProspectusUpload/Fee%20Information.pdf"
+    doc_version: "2026-prospectus"
+    superseded: false
+pages: []

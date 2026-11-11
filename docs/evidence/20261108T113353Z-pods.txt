@@ -1,0 +1,13 @@
+$ kubectl get pods -n rahbar -o wide
+
+NAME                           READY   STATUS      RESTARTS     AGE     IP               NODE       NOMINATED NODE   READINESS GATES
+api-7f7b875474-6thtq           1/1     Running     0            46m     10.244.120.124   minikube   <none>           <none>
+api-7f7b875474-ltcjq           1/1     Running     0            46m     10.244.120.125   minikube   <none>           <none>
+api-7f7b875474-sr58d           1/1     Running     0            46m     10.244.120.126   minikube   <none>           <none>
+chroma-0                       1/1     Running     0            3h56m   10.244.120.96    minikube   <none>           <none>
+indexer-table-extract1-lt7dx   0/1     Completed   0            37m     10.244.120.127   minikube   <none>           <none>
+indexer-table-extract2-9xp2k   0/1     Completed   0            21m     10.244.120.69    minikube   <none>           <none>
+ollama-embed-check             0/1     Completed   0            178m    10.244.120.103   minikube   <none>           <none>
+ollama-hostname-check          0/1     Completed   0            179m    10.244.120.102   minikube   <none>           <none>
+redis-787784dcd9-qx64h         1/1     Running     1 (4h ago)   4h11m   10.244.120.88    minikube   <none>           <none>
+ui-84b6d49fb6-h6s2q            1/1     Running     1 (4h ago)   4h11m   10.244.120.85    minikube   <none>           <none>

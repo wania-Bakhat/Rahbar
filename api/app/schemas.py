@@ -37,11 +37,29 @@ class Citation(BaseModel):
 class Answer(BaseModel):
     """The model's output contract. Send its JSON schema to the model, then validate."""
 
-    reasoning: str
-    answer: str
-    citations: list[Citation]
-    answered_from_context: bool
-    confidence: Literal["high", "medium", "low"]
+    reasoning: str = Field(description="Brief evidence summary; never private step-by-step reasoning.")
+    answer: str = Field(
+        description=(
+            "Direct response grounded only in retrieved evidence. Every factual answer "
+            "must include an inline citation formatted exactly [source / section]."
+        )
+    )
+    citations: list[Citation] = Field(
+        description=(
+            "Structured citations copied exactly from retrieved passages. Must be empty "
+            "when answered_from_context is false."
+        )
+    )
+    answered_from_context: bool = Field(
+        description=(
+            "True when retrieved evidence directly supports the answer. False only when "
+            "the corpus does not provide enough information; in that case use the standard "
+            "no-evidence response and no citations."
+        )
+    )
+    confidence: Literal["high", "medium", "low"] = Field(
+        description="Confidence in the evidence-grounded answer; abstentions must be low."
+    )
 
 
 class RetrievedRef(BaseModel):

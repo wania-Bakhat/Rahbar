@@ -1,0 +1,50 @@
+{
+  "recall_at_3": 0.9375,
+  "recall_at_5": 0.9375,
+  "by_type": {
+    "exact-term": {
+      "questions": 3,
+      "answerable_questions": 3,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    "injection": {
+      "questions": 1,
+      "answerable_questions": 1,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0
+    },
+    "must-abstain": {
+      "questions": 2,
+      "answerable_questions": 0,
+      "recall_at_3": null,
+      "recall_at_5": null
+    },
+    "ordinary": {
+      "questions": 10,
+      "answerable_questions": 10,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    "version-sensitive": {
+      "questions": 2,
+      "answerable_questions": 2,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    }
+  },
+  "citation_validity": 1.0,
+  "citation_valid": 14,
+  "citation_total": 14,
+  "abstention_correctness": 1.0,
+  "must_abstain_correct": 2,
+  "must_abstain_total": 2,
+  "must_abstain_failures": [],
+  "expected_value_accuracy": 1.0,
+  "expected_value_correct": 7,
+  "expected_value_total": 7,
+  "expected_value_failures": [],
+  "golden": "eval\\golden.yaml",
+  "questions": 18,
+  "failure_mode": "off"
+}

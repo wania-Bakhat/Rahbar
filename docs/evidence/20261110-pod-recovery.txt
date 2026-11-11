@@ -1,0 +1,10 @@
+Deleting serving pod: api-5b58866d87-6zzjm
+pod "api-5b58866d87-6zzjm" deleted from rahbar namespace
+--- final serving pod state and endpoints ---
+NAME                   READY   STATUS    RESTARTS   AGE   IP               NODE       NOMINATED NODE   READINESS GATES
+api-5b58866d87-7q6kf   1/1     Running   0          68s   10.244.120.118   minikube   <none>           <none>
+api-5b58866d87-c8wh9   1/1     Running   0          41s   10.244.120.122   minikube   <none>           <none>
+api-5b58866d87-trqz7   1/1     Running   0          94s   10.244.120.119   minikube   <none>           <none>
+Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+NAME   ENDPOINTS                                                     AGE
+api    10.244.120.118:8000,10.244.120.119:8000,10.244.120.122:8000   2d10h

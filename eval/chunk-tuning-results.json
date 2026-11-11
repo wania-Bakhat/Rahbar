@@ -1,0 +1,36 @@
+{
+  "measurement_source": "docs/evidence/chunk-tuning-job-stdout.txt",
+  "measurement_status": "all three configurations completed; Job failed only while serializing the output path",
+  "job": "chunk-tuning",
+  "job_started_at_utc": "2026-11-10T19:47:47Z",
+  "run_id": "6f8f9cc7",
+  "embedding_model": "nomic-embed-text",
+  "corpus": "/corpus",
+  "corpus_sha256": "f09bb37b3ac9fc6e5564dd497f742f2abea9afac1b6e096c1bd1bb5e5d844564",
+  "golden": "eval/golden.yaml",
+  "question_count": 18,
+  "tokenizer": "Python str.split whitespace tokens",
+  "configurations": [
+    {
+      "size": 200,
+      "overlap": 25,
+      "recall_at_3": 0.875,
+      "recall_at_5": 0.875,
+      "chunks": 1172
+    },
+    {
+      "size": 400,
+      "overlap": 50,
+      "recall_at_3": 0.875,
+      "recall_at_5": 0.875,
+      "chunks": 1029
+    },
+    {
+      "size": 600,
+      "overlap": 75,
+      "recall_at_3": 0.875,
+      "recall_at_5": 0.875,
+      "chunks": 998
+    }
+  ]
+}

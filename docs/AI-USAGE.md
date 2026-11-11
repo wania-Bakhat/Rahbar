@@ -1,6 +1,5 @@
-# AI usage
+# AI usage disclosure
 
-<!-- STARTER-TODO: list every AI tool you used. A specific disclosure carries no penalty. -->
+OpenAI Codex, an AI coding assistant, was used in this repository work to compare the starter kit with Assignment 02, draft and revise application/indexer changes, Dockerfiles, Kubernetes manifests, CI/CD workflows, evaluation utilities and project documentation, and run local code checks. In this session, generated changes were checked against the assignment and repository, then revised where behavior or the PDF required it. For example, Redis invalidation was changed to API-side generation-aware cache namespacing so Redis ingress remains API-only, and indexing now publishes a complete Chroma generation rather than exposing a partial rebuild.
 
-| Tool | What it wrote or shaped | What we changed afterwards, and why |
-| --- | --- | --- |
+AI assistance is not evidence that the system ran correctly. The cluster, evaluation metrics, OCR quality, resource use, failure-injection observations, screenshots and personal reflections must come from the team's own runs and records. The students must understand the implementation and be able to explain it in the viva. Both partners must review this disclosure and add any other tools they used or changes they made before submission; this file describes the Codex assistance in this work session only.

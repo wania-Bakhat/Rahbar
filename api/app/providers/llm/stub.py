@@ -25,7 +25,7 @@ class StubProvider:
         return Answer(
             reasoning="stub: cites the first retrieved passage",
             answer=f"(stub) A model would answer here from {len(passages)} passages. "
-            f"The first one says: {top.text}",
+            f"The first one says: {top.text} [{top.source} / {top.section}]",
             citations=[Citation(source=top.source, section=top.section, page=top.page)],
             answered_from_context=True,
             confidence="low",

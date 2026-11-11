@@ -2,11 +2,31 @@
 
 from __future__ import annotations
 
+import hashlib
+import math
 import os
+import re
 
 import httpx
 
 from .config import IndexerSettings
+
+_HASH_TEST_MODEL = "hash-test-v1"
+_TOKEN = re.compile(r"[a-z0-9]+", re.IGNORECASE)
+
+
+def _hash_test_embedding(text: str, dimension: int = 384) -> list[float]:
+    tokens = [token.casefold() for token in _TOKEN.findall(text)]
+    features = tokens + [f"{left}_{right}" for left, right in zip(tokens, tokens[1:])]
+    vector = [0.0] * dimension
+    for feature in features:
+        digest = hashlib.sha256(feature.encode("utf-8")).digest()
+        index = int.from_bytes(digest[:4], "big") % dimension
+        vector[index] += 1.0 if digest[4] & 1 else -1.0
+    norm = math.sqrt(sum(value * value for value in vector))
+    if norm:
+        vector = [value / norm for value in vector]
+    return vector
 
 
 def embed(texts: list[str], settings: IndexerSettings) -> list[list[float]]:
@@ -17,6 +37,8 @@ def embed(texts: list[str], settings: IndexerSettings) -> list[list[float]]:
     """
     if not texts:
         return []
+    if settings.embed_model == _HASH_TEST_MODEL:
+        return [_hash_test_embedding(text) for text in texts]
     batch_size = int(os.environ.get("EMBED_BATCH_SIZE", "64"))
     if batch_size < 1:
         raise ValueError("EMBED_BATCH_SIZE must be a positive integer")

@@ -1,0 +1,16 @@
+PASS  Ingress controller -> UI:8080 (PASS as expected)
+PASS  Ingress controller -> API:8000 (PASS as expected)
+PASS  UI -> API:8000 (PASS as expected)
+PASS  API -> kube-dns (PASS as expected)
+PASS  Indexer -> kube-dns (PASS as expected)
+10.101.213.43     api.rahbar.svc.cluster.local  api.rahbar.svc.cluster.local
+PASS  UI -> kube-dns (PASS as expected)
+PASS  API -> Chroma:8000 (PASS as expected)
+PASS  Indexer -> Chroma:8000 (PASS as expected)
+PASS  API -> Redis:6379 (PASS as expected)
+PASS  Indexer -> Redis:6379 is denied (FAIL as expected)
+wget: download timed out
+command terminated with exit code 1
+PASS  UI -> Chroma:8000 is denied (FAIL as expected)
+PASS  API -> Ollama:11434 (PASS as expected)
+PASS  Indexer -> Ollama:11434 (PASS as expected)

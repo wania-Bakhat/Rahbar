@@ -1,0 +1,45 @@
+{
+  "recall_at_3": 0.75,
+  "recall_at_5": 0.75,
+  "by_type": {
+    "injection": {
+      "questions": 1,
+      "answerable_questions": 1,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0
+    },
+    "must-abstain": {
+      "questions": 1,
+      "answerable_questions": 0,
+      "recall_at_3": null,
+      "recall_at_5": null
+    },
+    "ordinary": {
+      "questions": 1,
+      "answerable_questions": 1,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    "version-sensitive": {
+      "questions": 2,
+      "answerable_questions": 2,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    }
+  },
+  "citation_validity": 1.0,
+  "citation_valid": 3,
+  "citation_total": 3,
+  "abstention_correctness": 1.0,
+  "must_abstain_correct": 1,
+  "must_abstain_total": 1,
+  "must_abstain_failures": [],
+  "expected_value_accuracy": 1.0,
+  "expected_value_correct": 2,
+  "expected_value_total": 2,
+  "expected_value_failures": [],
+  "golden": "eval/failure-golden.yaml",
+  "questions": 5,
+  "failure_mode": "off",
+  "source_run": "eval/results.json"
+}

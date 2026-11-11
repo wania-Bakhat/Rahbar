@@ -1,15 +1,21 @@
-# Corpus
+# Corpus inventory and audit
 
-<!-- STARTER-TODO(2): fill every row, then delete this comment. -->
+## Selection and provenance
 
-Source: FAST-NUCES public website / our own documents (pick one) · Documents: ? · Pages: ?
+The checked-in source list in `corpus/sources.yaml` selects eight public FAST-NUCES documents rather than crawling entire site indexes. It covers current and superseded academic rules, the student handbook, two annual reports, one research/start-up policy and prospectus fee information. Each entry records its official URL, declared `doc_version` and `superseded` status. `corpus/fetch.py` downloads the files into ignored `corpus/raw/` and writes `_index.json` with the source metadata and content hashes. Raw PDFs are not committed; a reviewer recreates them with `make fetch`.
 
-| # | Required property | Document(s) that provide it | Evidence or notes |
-| --- | --- | --- | --- |
-| 1 | At least 6 documents, 40 pages | | |
-| 2 | Two versions of one policy | | Which supersedes which, and how your metadata records it |
-| 3 | Scanned, image-only PDF | | `pdffonts` output, or how you proved it has no text layer |
-| 4 | A table with real information | | |
-| 5 | Long definitions | | |
-| 6 | A deliberately absent topic | | What you left out, and why a user would plausibly ask about it |
-| 7 | Exact-term content | | Clause numbers, codes, thresholds, fees |
+The selected inventory is: Academic Rules Handbook 2026 (58 pages); Undergraduate Academic Rules 2023 (26); Prospectus Academic Rules 2026 (5); Student Handbook 2026 (64); Annual Report 2019-20 (33); Annual Report 2023-24 (85); Faculty Entrepreneurship and Technical Start-ups Policy (8); and Prospectus Fee Information 2026 (1). These page counts were measured from the downloaded files and sum to 280 pages. Sources and versions are documented in the manifest; the distribution is deliberately limited to official institution material.
+
+The assignment's example describes the attendance requirement as clause 1 in the short prospectus and clause 1.21 in the 2026 handbook. Visual inspection of the downloaded files confirms this: the prospectus groups the requirement under rule 1, while the handbook's 1.21 specifies 100% attendance (with a permitted absence exception). The handbook's separate clause 1.22 describes the consequence of failing the requirement. The version-sensitive golden questions preserve that distinction and cite the corresponding source sections.
+
+## Extraction and quality findings
+
+The pipeline extracts PDF pages with `pdfplumber`, uses OCR only when a page has no extractable text, and preserves page numbers and an `ocr` flag. An audit with `corpus/report_pdf_text.py` found 41 of 280 pages without an embedded text layer: pages 2 and 56-58 of the 2026 Academic Rules Handbook; pages 2-26 of the 2023 undergraduate rules; all 8 pages of the start-up policy; pages 1, 2, 63 and 64 of the Student Handbook. The successful full-corpus Job `indexer-table-extract2` logged chunks from all eight PDFs and published 1,144 chunks, including 141 from the image-based 2023 rules and 13 from the image-based start-up policy. This confirms OCR yielded indexable text, but not that every OCR character or clause is accurate; manually compare the scanned pages before treating their contents as authoritative.
+
+The Student Handbook's Generative AI policy spans multiple numbered subsections and includes extended explanations of acceptable use and assessment restrictions. This gives the corpus long, structured definitions where a fixed-size splitter can separate a condition from its explanation; the structure-aware chunker retains nearby headings and page metadata. Verify OCR-dependent section text against the source pages before relying on precise wording.
+
+The fee-information index now supplements reading-order page text with bounded structured rows from `pdfplumber.extract_tables()`, preserving cell boundaries in labeled `Table row:` text. On page 1, for example, `Semester Freeze Fee (within two weeks of start of classes) | Rs. | 2,000` is retained as a row. This improves row-to-value retrieval but does not replace checking the rendered source page before quoting a value. The 2026 academic rules PDF has awkward two-column text ordering in some extracted passages. The 2023 rules and start-up policy are entirely image-based according to the local text audit, so their clauses must be checked after OCR. No values or comparisons from those scans are treated as verified here.
+
+## Coverage limits
+
+This is a focused academic corpus, not a complete university knowledge base. The deliberately absent topics include current hostel room availability and live campus shuttle schedules; it also does not promise individual student records, live fee balances, or staff contact details. Questions requiring those operational or private facts should be answered with an explicit abstention. The annual reports are historical evidence, not current policy. A future refresh must update the official source list, versions, hashes, page audit, OCR quality review and relevant golden questions together.

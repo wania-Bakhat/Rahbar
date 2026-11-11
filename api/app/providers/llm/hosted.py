@@ -10,6 +10,7 @@ import httpx
 
 from ...config import Settings
 from ...schemas import Answer, Passage
+from ...telemetry import record_token_usage
 from ._common import build_messages, effective_temperature, parse_answer
 
 
@@ -42,6 +43,9 @@ class HostedProvider:
         except (httpx.HTTPError, ValueError) as exc:
             # Do not include request headers or settings here; they may contain secrets.
             raise RuntimeError(f"Hosted chat request failed: {exc}") from exc
+
+        usage = body.get("usage") or {}
+        record_token_usage(usage.get("prompt_tokens"), usage.get("completion_tokens"))
 
         choices = body.get("choices") or []
         if not choices:

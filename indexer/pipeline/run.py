@@ -105,10 +105,8 @@ def main() -> int:
         count = write_dummy_index(settings, get_client(settings))
     else:
         count = run_pipeline(settings)
-    from .cache import flush_cache
-
-    removed = flush_cache(settings)
-    log("cache flushed", keys=removed, prefix=settings.redis_cache_prefix)
+    log("index replaced", chunks=count,
+        cache_invalidation="API observes the new Chroma index_generation and switches Redis namespace")
     log("indexer finished", chunks=count, seconds=round(time.perf_counter() - started, 1))
     return 0
 

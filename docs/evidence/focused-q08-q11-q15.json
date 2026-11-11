@@ -1,0 +1,238 @@
+{
+  "recall_at_3": 1.0,
+  "recall_at_5": 1.0,
+  "by_type": {
+    "exact-term": {
+      "questions": 1,
+      "answerable_questions": 1,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    "ordinary": {
+      "questions": 1,
+      "answerable_questions": 1,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    "version-sensitive": {
+      "questions": 1,
+      "answerable_questions": 1,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    }
+  },
+  "citation_validity": 1.0,
+  "citation_valid": 3,
+  "citation_total": 3,
+  "abstention_correctness": null,
+  "must_abstain_correct": 0,
+  "must_abstain_total": 0,
+  "must_abstain_failures": [],
+  "expected_value_accuracy": 1.0,
+  "expected_value_correct": 3,
+  "expected_value_total": 3,
+  "expected_value_failures": [],
+  "golden": "tmp\\focused-golden.yaml",
+  "questions": 3,
+  "failure_mode": "off",
+  "question_results": [
+    {
+      "id": "q08",
+      "type": "ordinary",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "prospectus-fee-information-2026.pdf",
+          "section": "3. Tuition Fee"
+        }
+      ],
+      "expect": "12,000",
+      "response": {
+        "request_id": "ac78ac075d6f4e51ad910f93215dca6d",
+        "answer": "The listed tuition fee is Rs. 12,000 per credit hour [prospectus-fee-information-2026.pdf / 3. Tuition Fee]",
+        "citations": [
+          {
+            "source": "prospectus-fee-information-2026.pdf",
+            "section": "3. Tuition Fee",
+            "page": 1
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "e9b380d651-00005-e10df4a6b25fb21b",
+            "source": "prospectus-fee-information-2026.pdf",
+            "section": "3. Tuition Fee",
+            "page": 1,
+            "score": 0.80182433
+          },
+          {
+            "chunk_id": "6f60611cc3-00062-67af29f0d9aeee3e",
+            "source": "student-handbook-2026.pdf",
+            "section": "10 Student Handbook 2026",
+            "page": 18,
+            "score": 0.71394998
+          },
+          {
+            "chunk_id": "608a0397e8-00211-bc9d5762be01f9fe",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "7.3 Students earning an SGPA of 4.00 with at least 30 credit hours",
+            "page": 30,
+            "score": 0.67297244
+          },
+          {
+            "chunk_id": "6f60611cc3-00060-c4297406a3b0a9f4",
+            "source": "student-handbook-2026.pdf",
+            "section": "8 Student Handbook 2026",
+            "page": 16,
+            "score": 0.66336298
+          },
+          {
+            "chunk_id": "608a0397e8-00206-3593e30b94fe1cf3",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "6.7 80% attendance rule shall apply to summer courses/labs.",
+            "page": 29,
+            "score": 0.6612089999999999
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 49.81,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": "q11",
+      "type": "version-sensitive",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "prospectus-academic-rules-2026.pdf",
+          "section": "1. Attendance Requirement 4. Semester Course Load"
+        }
+      ],
+      "expect": "1",
+      "response": {
+        "request_id": "80259f09de134bfeab1bc5ae9bfe4013",
+        "answer": "Rule 1 is labelled Attendance Requirement [prospectus-academic-rules-2026.pdf / 1. Attendance Requirement 4. Semester Course Load]",
+        "citations": [
+          {
+            "source": "prospectus-academic-rules-2026.pdf",
+            "section": "1. Attendance Requirement 4. Semester Course Load",
+            "page": 1
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "384b923a24-00002-088edaf890784701",
+            "source": "prospectus-academic-rules-2026.pdf",
+            "section": "1. Attendance Requirement 4. Semester Course Load",
+            "page": 1,
+            "score": 0.67535615
+          },
+          {
+            "chunk_id": "384b923a24-00020-eff93e7cfd0bb04f",
+            "source": "prospectus-academic-rules-2026.pdf",
+            "section": "220 Prospectus 2026",
+            "page": 4,
+            "score": 0.64843798
+          },
+          {
+            "chunk_id": "384b923a24-00013-055672f73fc0da49",
+            "source": "prospectus-academic-rules-2026.pdf",
+            "section": "18. Missed Examinations a regular semester). disciplinary punishment.",
+            "page": 3,
+            "score": 0.64389187
+          },
+          {
+            "chunk_id": "384b923a24-00001-729f820c34629862",
+            "source": "prospectus-academic-rules-2026.pdf",
+            "section": "FAST-NUCES",
+            "page": 1,
+            "score": 0.64372045
+          },
+          {
+            "chunk_id": "384b923a24-00022-288b67eec8ffc18f",
+            "source": "prospectus-academic-rules-2026.pdf",
+            "section": "31. Pre-Medical students a disciplinary committee. The *Further extendable for one year with",
+            "page": 5,
+            "score": 0.64089292
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 18.99,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": "q15",
+      "type": "exact-term",
+      "must_abstain": false,
+      "relevant": [
+        {
+          "source": "prospectus-fee-information-2026.pdf",
+          "section": "3. Tuition Fee"
+        }
+      ],
+      "expect": "12,000",
+      "response": {
+        "request_id": "045af42f7270438d872d1f454aef9783",
+        "answer": "The listed tuition fee is Rs. 12,000 per credit hour [prospectus-fee-information-2026.pdf / 3. Tuition Fee]",
+        "citations": [
+          {
+            "source": "prospectus-fee-information-2026.pdf",
+            "section": "3. Tuition Fee",
+            "page": 1
+          }
+        ],
+        "answered_from_context": true,
+        "confidence": "medium",
+        "retrieved": [
+          {
+            "chunk_id": "e9b380d651-00005-e10df4a6b25fb21b",
+            "source": "prospectus-fee-information-2026.pdf",
+            "section": "3. Tuition Fee",
+            "page": 1,
+            "score": 0.80182433
+          },
+          {
+            "chunk_id": "6f60611cc3-00062-67af29f0d9aeee3e",
+            "source": "student-handbook-2026.pdf",
+            "section": "10 Student Handbook 2026",
+            "page": 18,
+            "score": 0.71394998
+          },
+          {
+            "chunk_id": "608a0397e8-00211-bc9d5762be01f9fe",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "7.3 Students earning an SGPA of 4.00 with at least 30 credit hours",
+            "page": 30,
+            "score": 0.67297244
+          },
+          {
+            "chunk_id": "6f60611cc3-00060-c4297406a3b0a9f4",
+            "source": "student-handbook-2026.pdf",
+            "section": "8 Student Handbook 2026",
+            "page": 16,
+            "score": 0.66336298
+          },
+          {
+            "chunk_id": "608a0397e8-00206-3593e30b94fe1cf3",
+            "source": "academic-rules-handbook-2026.pdf",
+            "section": "6.7 80% attendance rule shall apply to summer courses/labs.",
+            "page": 29,
+            "score": 0.6612089999999999
+          }
+        ],
+        "provider": "ollama"
+      },
+      "seconds": 0.14,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    }
+  ]
+}

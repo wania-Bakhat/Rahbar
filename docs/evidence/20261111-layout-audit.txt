@@ -1,0 +1,15 @@
+RAHBAR PDF layout spot-check — 2026-11-11 (local workspace)
+
+Source and method
+- Rendered corpus/raw/prospectus-fee-information-2026.pdf PDF page 1 using Poppler at 120 dpi.
+- Rendered corpus/raw/academic-rules-handbook-2026.pdf PDF page 25 and corpus/raw/annual-report-2023-24.pdf PDF page 5 at 100 dpi.
+- Compared the visible page arrangement with pdfplumber extraction for academic-rules-handbook-2026.pdf page 25 cropped to the visible page bounds.
+- Ran the checked-in indexer/tests/test_extract.py suite: 11 tests passed (recorded in this session).
+
+Observed
+- Fee Information PDF page 1 is a genuine two-column page: fee policy prose on the left; miscellaneous fees and refund schedule tables on the right. The tuition paragraphs state Rs. 12,000 per credit hour for both Master's/PhD and Bachelor's programs. The fee extractor reads the left column before the right and retains bounded table rows. The visual and extraction regression test verify this layout/value.
+- Academic Rules Handbook PDF page 25 (printed page 19) visually shows clauses 5.7 through 5.13 in a single text column. Visible-page extraction returns those clauses and headings in the same order; it does not interleave a second column on this sampled page.
+- Annual Report 2023-24 PDF page 5 is a single text column, so the fee-specific two-column split is not applicable there.
+
+Limit
+This is a targeted layout spot-check, not a visual transcription audit of all 280 pages or all OCR-only pages. Other pages should be manually checked before relying on unreviewed OCR wording.
