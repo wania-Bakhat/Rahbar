@@ -6,6 +6,11 @@ resources:
 patches:
   - path: configmap-cd.yaml
   - path: job-fixtures.yaml
+    target:
+      group: batch
+      version: v1
+      kind: Job
+      name: indexer
 images:
   - name: rahbar-api
     newName: DOCKERHUB_USERNAME/rahbar-api

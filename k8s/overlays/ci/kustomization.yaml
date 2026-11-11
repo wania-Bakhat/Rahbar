@@ -6,3 +6,8 @@ resources:
 patches:
   - path: configmap-ci.yaml
   - path: job-fixtures.yaml
+    target:
+      group: batch
+      version: v1
+      kind: Job
+      name: indexer
