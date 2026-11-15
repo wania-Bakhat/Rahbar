@@ -17,6 +17,46 @@ spec:
       labels:
         app: api
     spec:
+      initContainers:
+        - name: wait-for-chroma
+          image: rahbar-api:dev
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: rahbar-config
+          command: ["python", "-c"]
+          args:
+            - |
+              import os
+              import time
+              import httpx
+
+              endpoint = (
+                  f"http://{os.environ.get('CHROMA_HOST', 'chroma')}:"
+                  f"{os.environ.get('CHROMA_PORT', '8000')}/api/v2/heartbeat"
+              )
+              for attempt in range(150):
+                  try:
+                      httpx.get(endpoint, timeout=2.0).raise_for_status()
+                      print("Chroma is ready", flush=True)
+                      break
+                  except httpx.HTTPError as exc:
+                      if attempt == 149:
+                          raise SystemExit(f"Chroma readiness timed out: {exc}") from exc
+                      time.sleep(2)
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
       serviceAccountName: api
       automountServiceAccountToken: false
       terminationGracePeriodSeconds: 30
@@ -308,6 +348,46 @@ spec:
         app: indexer
     spec:
       restartPolicy: OnFailure
+      initContainers:
+        - name: wait-for-chroma
+          image: rahbar-indexer:dev
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: rahbar-config
+          command: ["python", "-c"]
+          args:
+            - |
+              import os
+              import time
+              import httpx
+
+              endpoint = (
+                  f"http://{os.environ.get('CHROMA_HOST', 'chroma')}:"
+                  f"{os.environ.get('CHROMA_PORT', '8000')}/api/v2/heartbeat"
+              )
+              for attempt in range(150):
+                  try:
+                      httpx.get(endpoint, timeout=2.0).raise_for_status()
+                      print("Chroma is ready", flush=True)
+                      break
+                  except httpx.HTTPError as exc:
+                      if attempt == 149:
+                          raise SystemExit(f"Chroma readiness timed out: {exc}") from exc
+                      time.sleep(2)
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
       serviceAccountName: indexer
       automountServiceAccountToken: false
       securityContext:
@@ -368,6 +448,46 @@ spec:
             app: indexer
         spec:
           restartPolicy: OnFailure
+          initContainers:
+            - name: wait-for-chroma
+              image: rahbar-indexer:dev
+              imagePullPolicy: IfNotPresent
+              envFrom:
+                - configMapRef:
+                    name: rahbar-config
+              command: ["python", "-c"]
+              args:
+                - |
+                  import os
+                  import time
+                  import httpx
+
+                  endpoint = (
+                      f"http://{os.environ.get('CHROMA_HOST', 'chroma')}:"
+                      f"{os.environ.get('CHROMA_PORT', '8000')}/api/v2/heartbeat"
+                  )
+                  for attempt in range(150):
+                      try:
+                          httpx.get(endpoint, timeout=2.0).raise_for_status()
+                          print("Chroma is ready", flush=True)
+                          break
+                      except httpx.HTTPError as exc:
+                          if attempt == 149:
+                              raise SystemExit(f"Chroma readiness timed out: {exc}") from exc
+                          time.sleep(2)
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 64Mi
+                limits:
+                  cpu: 100m
+                  memory: 128Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop:
+                    - ALL
           serviceAccountName: indexer
           automountServiceAccountToken: false
           securityContext:
