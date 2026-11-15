@@ -4,3 +4,9 @@
     name: corpus
     configMap:
       name: rahbar-fixtures
+- op: replace
+  path: /spec/template/spec/restartPolicy
+  value: Never
+- op: replace
+  path: /spec/backoffLimit
+  value: 0

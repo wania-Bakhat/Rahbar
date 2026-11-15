@@ -135,7 +135,19 @@ jobs:
         run: |
           kubectl rollout status -n rahbar statefulset/chroma --timeout=5m
           kubectl rollout status -n rahbar deployment/redis --timeout=3m
-          if ! kubectl wait -n rahbar --for=condition=complete job/indexer --timeout=10m; then
+          indexer_complete=""
+          for attempt in $(seq 1 300); do
+            indexer_conditions="$(kubectl get -n rahbar job/indexer -o jsonpath='{range .status.conditions[*]}{.type}={.status}{"\n"}{end}')"
+            if [[ "$indexer_conditions" == *"Complete=True"* ]]; then
+              indexer_complete=true
+              break
+            fi
+            if [[ "$indexer_conditions" == *"Failed=True"* ]]; then
+              break
+            fi
+            sleep 2
+          done
+          if [[ "$indexer_complete" != true ]]; then
             echo "Indexer did not complete; collecting pod, job, PVC, event, and container logs"
             kubectl get pods,jobs,pvc -n rahbar -o wide || true
             kubectl describe job/indexer -n rahbar || true
