@@ -69,6 +69,23 @@ jobs:
           kubectl patch storageclass local-path -p '{"metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
           kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.2/deploy/static/provider/kind/deploy.yaml
           kubectl wait --namespace ingress-nginx --for=condition=Available deployment/ingress-nginx-controller --timeout=180s
+          kubectl wait --namespace ingress-nginx --for=condition=complete job/ingress-nginx-admission-create --timeout=180s
+          kubectl wait --namespace ingress-nginx --for=condition=complete job/ingress-nginx-admission-patch --timeout=180s
+          for attempt in $(seq 1 60); do
+            ADMISSION_ENDPOINTS="$(kubectl get endpoints --namespace ingress-nginx ingress-nginx-controller-admission -o jsonpath='{.subsets[*].addresses[*].ip}')"
+            if [ -n "$ADMISSION_ENDPOINTS" ]; then
+              echo "Ingress admission endpoints ready: $ADMISSION_ENDPOINTS"
+              break
+            fi
+            sleep 2
+          done
+          if [ -z "$ADMISSION_ENDPOINTS" ]; then
+            echo "Ingress admission service has no ready endpoints"
+            kubectl get pods,services,endpoints --namespace ingress-nginx
+            exit 1
+          fi
+          # The controller pod can pass its readiness probe just before its webhook listener binds.
+          sleep 10
       - name: Install kustomize
         run: |
           curl -fsSLo kustomize.tar.gz https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.6.0/kustomize_v5.6.0_linux_amd64.tar.gz
