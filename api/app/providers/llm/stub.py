@@ -33,7 +33,23 @@ def _safe_evidence(passage: Passage) -> str:
 
 
 def _tokens(text: str) -> set[str]:
-    return {token.casefold() for token in _TOKEN.findall(text)}
+    return {_normalise_token(token) for token in _TOKEN.findall(text)}
+
+
+def _normalise_token(token: str) -> str:
+    """Normalize common English suffixes for deterministic lexical matching."""
+    value = token.casefold()
+    if len(value) > 5 and value.endswith("ing"):
+        value = value[:-3]
+        if len(value) > 3 and value[-1] == value[-2]:
+            value = value[:-1]
+    elif len(value) > 4 and value.endswith("ied"):
+        value = value[:-3] + "y"
+    elif len(value) > 4 and value.endswith("ed"):
+        value = value[:-2]
+    elif len(value) > 3 and value.endswith("s") and not value.endswith("ss"):
+        value = value[:-1]
+    return value
 
 
 class StubProvider:
