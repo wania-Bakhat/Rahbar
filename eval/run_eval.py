@@ -324,6 +324,17 @@ def main() -> int:
         print("\nGATE FAILED")
         for message in failures:
             print(f"  - {message}")
+        for row in rows:
+            if str(row.get("id", "")) not in results.get("expected_value_failures", []):
+                continue
+            response = row.get("response") or {}
+            print(f"  - {row.get('id')}: expected {row.get('expect')!r}; "
+                  f"answer={response.get('answer', '')!r}")
+            retrieved = response.get("retrieved") or []
+            for item in retrieved[:5]:
+                print("      retrieved: "
+                      f"{item.get('source')} / {item.get('section')} "
+                      f"(score={item.get('score')})")
         return 1
     print("\ngate passed")
     return 0

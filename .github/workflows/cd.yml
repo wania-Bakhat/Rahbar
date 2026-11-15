@@ -62,6 +62,7 @@ jobs:
       - uses: helm/kind-action@v1.10.0
         with:
           cluster_name: rahbar-cd
+          config: .github/kind-cd.yaml
       - name: Install cluster storage and ingress
         run: |
           kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.31/deploy/local-path-storage.yaml

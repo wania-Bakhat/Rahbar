@@ -133,7 +133,32 @@ jobs:
           kubectl apply -k k8s/overlays/ci
       - name: Wait for indexing and application rollout
         run: |
-          kubectl wait -n rahbar --for=condition=complete job/indexer --timeout=10m
+          kubectl rollout status -n rahbar statefulset/chroma --timeout=5m
+          kubectl rollout status -n rahbar deployment/redis --timeout=3m
+          indexer_complete=""
+          for attempt in $(seq 1 300); do
+            indexer_conditions="$(kubectl get -n rahbar job/indexer -o jsonpath='{range .status.conditions[*]}{.type}={.status}{"\n"}{end}')"
+            if [[ "$indexer_conditions" == *"Complete=True"* ]]; then
+              indexer_complete=true
+              break
+            fi
+            if [[ "$indexer_conditions" == *"Failed=True"* ]]; then
+              break
+            fi
+            sleep 2
+          done
+          if [[ "$indexer_complete" != true ]]; then
+            echo "Indexer did not complete; collecting pod, job, PVC, event, and container logs"
+            kubectl get pods,jobs,pvc -n rahbar -o wide || true
+            kubectl describe job/indexer -n rahbar || true
+            kubectl get events -n rahbar --sort-by=.metadata.creationTimestamp || true
+            for indexer_pod in $(kubectl get pods -n rahbar -l job-name=indexer -o jsonpath='{.items[*].metadata.name}'); do
+              kubectl describe pod "$indexer_pod" -n rahbar || true
+              kubectl logs "$indexer_pod" -n rahbar -c indexer --timestamps || true
+              kubectl logs "$indexer_pod" -n rahbar -c indexer --previous --timestamps || true
+            done
+            exit 1
+          fi
           kubectl rollout status -n rahbar deployment/api --timeout=5m
           kubectl rollout status -n rahbar deployment/ui --timeout=5m
       - name: Run fixture evaluation gate

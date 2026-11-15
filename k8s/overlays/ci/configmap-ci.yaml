@@ -6,3 +6,6 @@ data:
   EMBED_MODEL: hash-test-v1
   LLM_PROVIDER: stub
   FAILURE_MODE: off
+  # Hash embeddings are intentionally lightweight for fixture CI; their cosine
+  # scores are lower than a semantic model, so admit relevant fixture passages.
+  RELEVANCE_FLOOR: "0.10"

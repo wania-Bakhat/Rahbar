@@ -1,5 +1,8 @@
 # Pinned: an unpinned dependency is the drift problem from Lecture 04.
-fastapi==0.115.12
+fastapi==0.163.0
+# Keep Starlette at the patched version instead of the vulnerable version allowed
+# by FastAPI's broad lower-bound dependency range.
+starlette==1.3.1
 uvicorn==0.34.2
 pydantic==2.11.4
 httpx==0.28.1
